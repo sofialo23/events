@@ -11,10 +11,15 @@
 
 */
   $db_link = mysqli_connect($hostname, $username, $password, $db);
+  if(!$db_link){
+    die("Unable to connect to Database" . mysqli_error($db_link));
+  }
+
+  /*
   if(mysqli_connect_error()){
   	echo "Failed to connect to MySQL: " . mysqli_connect_error();
   }
-  
+  */
 
 
 ?>
