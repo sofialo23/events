@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Now UI Dashboard by Creative Tim
+    Activities Organizer
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -28,10 +28,10 @@
     -->
       <div class="logo">
         <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
+          SA
         </a>
         <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+          Organizer APP
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
@@ -43,35 +43,36 @@
             </a>
           </li>
           <li>
-            <a href="./icons.html">
+            <a href="./allactivities.html">
               <i class="now-ui-icons education_atom"></i>
-              <p>Icons</p>
+              <p>All Activities</p>
             </a>
           </li>
           <li>
-            <a href="./map.html">
+            <a href="./createActivity.html">
               <i class="now-ui-icons location_map-big"></i>
-              <p>Maps</p>
+              <p>Create Activity</p>
+            </a>
+          </li>
+          <li>
+            <a href="./createAnouns.html">
+              <i class="now-ui-icons ui-1_bell-53"></i>
+              <p>Create Announcements</p>
             </a>
           </li>
           <li>
             <a href="./notifications.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li>
-            <a href="./user.html">
               <i class="now-ui-icons users_single-02"></i>
-              <p>User Profile</p>
+              <p>Message to Admin</p>
             </a>
           </li>
           <li>
-            <a href="./tables.html">
+            <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
-              <p>Table List</p>
+              <p>Sign out</p>
             </a>
           </li>
+          <!--
           <li>
             <a href="./typography.html">
               <i class="now-ui-icons text_caps-small"></i>
@@ -84,6 +85,7 @@
               <p>Upgrade to PRO</p>
             </a>
           </li>
+        -->
         </ul>
       </div>
     </div>
@@ -153,9 +155,10 @@
       </nav>
       <!-- End Navbar -->
       <div class="panel-header panel-header-lg">
-        <canvas id="bigDashboardChart"></canvas>
+        <!-- <canvas id="bigDashboardChart"></canvas> -->
       </div>
       <div class="content">
+        <!--
         <div class="row">
           <div class="col-lg-4">
             <div class="card card-chart">
@@ -234,15 +237,17 @@
             </div>
           </div>
         </div>
+        -->
         <div class="row">
           <div class="col-md-6">
             <div class="card  card-tasks">
               <div class="card-header ">
-                <h5 class="card-category">Backend development</h5>
+                <h5 class="card-category"></h5>
                 <h4 class="card-title">Tasks</h4>
               </div>
               <div class="card-body ">
                 <div class="table-full-width table-responsive">
+                  <!--
                   <table class="table">
                     <tbody>
                       <tr>
@@ -304,13 +309,14 @@
                         </td>
                       </tr>
                     </tbody>
-                  </table>
+                  </table> -->
                 </div>
               </div>
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
+                  <!--
+                  <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago -->
                 </div>
               </div>
             </div>
@@ -318,11 +324,13 @@
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h5 class="card-category">All Persons List</h5>
-                <h4 class="card-title"> Employees Stats</h4>
+                <h5 class="card-category">List</h5>
+                
+                <h4 class="card-title"> DATA 2</h4>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
+                  <!-- 
                   <table class="table">
                     <thead class=" text-primary">
                       <th>
@@ -410,8 +418,8 @@
                         </td>
                       </tr>
                     </tbody>
-                  </table>
-                </div>
+                  </table> -->
+                </div> 
               </div>
             </div>
           </div>
@@ -423,17 +431,7 @@
             <ul>
               <li>
                 <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="http://presentation.creative-tim.com">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Blog
+                  SA ORGANIZER APP
                 </a>
               </li>
             </ul>
@@ -443,8 +441,8 @@
             <script>
               document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
             </script>, Designed by
-            <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+            <a href="https://www.invisionapp.com" target="_blank">SA Dev</a>. Coded by
+            <a href="https://www.creative-tim.com" target="_blank">SA</a>.
           </div>
         </div>
       </footer>
@@ -465,13 +463,6 @@
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
-
-    });
-  </script>
 </body>
 
 </html>
