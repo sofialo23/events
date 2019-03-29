@@ -347,6 +347,41 @@
     $(document).ready(function(){
         $('#date').datepicker();
         $('.clockpicker').clockpicker();
+        /*  
+            CLOCK PICKER GETTING VALUE INTERNET RESOURCE
+            var end = $('#end').clockpicker({
+                afterHourSelect: function() {
+                    var c = end.data();
+                    $('#end').val(c.clockpicker.hours + ':00');
+                }
+            });
+            methods FOR CLOCK PICKER 
+            https://github.com/mlitwiniuk/clockpicker-seconds
+
+            FORMAAA DOSSS
+            $('.container').clockpicker().find('input').change(function(){
+              $('#new').val(this.value);
+            });
+
+        */
+
+        /*FIRST PART OF HOW TO GET THE DATA
+          $("#datepicker").datepicker({
+             onSelect: function(dateText, inst) { 
+                var dateAsString = dateText; //the first parameter of this function
+                var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
+             }
+          });
+          SECOND PART TO PUT IT INSIDE THE METHOD
+          var jsDate = $('#your_datepicker_id').datepicker('getDate');
+          if (jsDate !== null) { // if any date selected in datepicker
+              jsDate instanceof Date; // -> true
+              jsDate.getDate();
+              jsDate.getMonth();
+              jsDate.getFullYear();
+          }
+        */
+
 
         $('#defaultChecked2').click(function(){
 
