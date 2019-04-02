@@ -71,7 +71,7 @@
               <p>All Activities</p>
             </a>
           </li>
-          <li class="active ">
+          <li >
             <a href="./createActivity.html">
               <i class="now-ui-icons location_map-big"></i>
               <p>Create Activity</p>
@@ -124,7 +124,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Create Activity</a>
+            <a class="navbar-brand" href="#pablo">SUCCEED AT CREATING NEW ACTIVITY</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -186,101 +186,7 @@
               <div class="card-header">
                 <h5 class="title">Create Activity</h5>
               </div>
-              <div class="card-body">
-                <form id="frm_createactivity">
-                  <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Activity Name</label>
-                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" >
-                      </div>
-                    </div>
-                    <div class="col-md-3 px-1">
-                      <div class="form-group">
-                        <label>Host Department</label>
-                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="">
-                      </div>
-                    </div>
-                    <!--
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Activity Place</label>
-                        <input type="text" class="form-control" placeholder="Place">
-                      </div>
-                    </div>    -->
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Date</label>
-                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" >
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-1">
-                      <div class="form-group">
-                        <label>Time</label>
-                        <div class="input-grou clockpicker">
-                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="00:00">
-                          <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Activity Place</label>
-                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4 pr-1">
-                      <div class="form-group">
-                        <!-- Default checked -->
-                        <!-- Default unchecked -->
-                        <!-- Material unchecked -->
-                        <!-- Default checked -->
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="defaultChecked2" checked>
-                        <label class="custom-control-label" for="defaultChecked2">Staff Needed</label>
-                      </div>
-                        <!--
-                        <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" value="">
-                        -->
-                      </div>
-                    </div>
-                    <div class="col-md-4 px-1">
-                      <div class="form-group">
-                        <label>Staff Number</label>
-                        <input type="text" id="staff_input" size=3 class="form-control" id="txt_staffnumber" placeholder="Staff Number: 0" value="" disabled>
-                      </div>
-                    </div>
-                    <!--
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code">
-                      </div>
-                    </div>
-                  -->
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Activity Information</label>
-                        <textarea rows="4" cols="80" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value=""></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row" >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Create Activity</button>
-                  </div>
-                </form>
-              </div>
+              
             </div>
           </div>
           <div class="col-md-4">
@@ -346,84 +252,5 @@
     </div>
   </div>
 </body>
-<script >
-    $(document).ready(function(){
-        $('#txt_date').datepicker();
-        $('.clockpicker').clockpicker();
-        /*  
-            CLOCK PICKER GETTING VALUE INTERNET RESOURCE
-            var end = $('#end').clockpicker({
-                afterHourSelect: function() {
-                    var c = end.data();
-                    $('#end').val(c.clockpicker.hours + ':00');
-                }
-            });
-            methods FOR CLOCK PICKER 
-            https://github.com/mlitwiniuk/clockpicker-seconds
 
-            FORMAAA DOSSS
-            $('.container').clockpicker().find('input').change(function(){
-              $('#new').val(this.value);
-            });
-
-        */
-
-        /*FIRST PART OF HOW TO GET THE DATA
-          $("#datepicker").datepicker({
-             onSelect: function(dateText, inst) { 
-                var dateAsString = dateText; //the first parameter of this function
-                var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
-             }
-          });
-          SECOND PART TO PUT IT INSIDE THE METHOD
-          var jsDate = $('#your_datepicker_id').datepicker('getDate');
-          if (jsDate !== null) { // if any date selected in datepicker
-              jsDate instanceof Date; // -> true
-              jsDate.getDate();
-              jsDate.getMonth();
-              jsDate.getFullYear();
-          }
-        */
-        //Event on the Submit Button.
-
-        $("#frm_createactivity").on('submit',function(e){
-          var alldate = [];
-          //add a function to check if all the inputs are filled.
-          var chckbx = ($("#defaultChecked2").is(":checked"))?$("#txt_staffnumber").val() : "0";
-          alldate[0] = $('#txt_activityname').val();
-          alldate[1] = $('#txt_hostdepartment').val();
-          alldate[2] = $('#txt_date').datepicker('getDate');
-          alldate[3] = $('#txt_time').val();
-          alldate[4] = $('#txt_activityplace').val();
-          alldate[5] = chckbx;
-          alldate[6] = $('#txt_activityinformation').val();
-          e.preventDefault();
-          $.ajax({
-            method:'POST',
-            url: 'createActivityFetchDB.php',
-            data: {alldate,alldate},
-            success:function(data){
-                window.location.href = "succeedNewActivity.html";
-              
-            }
-          });
-        });
-
-        //Event on the Checkbox to change the staff textBox disabled value.
-        $('#defaultChecked2').click(function(){
-
-          if($(this).is(":checked"))
-          {
-            
-            $("#staff_input").removeAttr('disabled');
-          }else if($(this).is(":not(:checked)") == true)
-          {
-            $("#staff_input").attr('disabled', 'disabled');
-          }
-        });
-
-
-    });
-      
-</script>
 </html>

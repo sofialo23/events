@@ -398,12 +398,13 @@
           alldate[5] = chckbx;
           alldate[6] = $('#txt_activityinformation').val();
           e.preventDefault();
+
           $.ajax({
             method:'POST',
-            url: 'createActivityFetchDB.php',
+            url: 'fetchCreateActivity.php',
             data: {alldate,alldate},
             success:function(data){
-                window.location.href = "succeedNewActivity.html";
+                window.location.href = "succeedNewActivity.php";
               
             }
           });
