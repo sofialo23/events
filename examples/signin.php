@@ -13,8 +13,9 @@
 		$available = mysqli_query($db_link,"SELECT * FROM USERS WHERE id = '$student_id'");
 
 		if ($available){
-			$error = "This student id has already been registered";
-			?> <a href="login.php"> Go to Login Page </a> <?php 
+			//$error = "This student id has already been registered";
+			?> <script> alert("This student id has already been registered! \n go to Login Page" ); </script> 
+			<a href="login.php"> Go to Login Page </a> <?php 
 		}
 
 		if($pw != $p2){
@@ -86,3 +87,4 @@
 
 </body>
 </html>
+
