@@ -12,7 +12,7 @@
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chart JS -->
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->
@@ -244,7 +244,7 @@
                         <!-- Material unchecked -->
                         <!-- Default checked -->
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="defaultChecked2" checked>
+                        <input type="checkbox" class="custom-control-input" id="defaultChecked2" >
                         <label class="custom-control-label" for="defaultChecked2">Staff Needed</label>
                       </div>
                         <!--
@@ -350,6 +350,7 @@
     $(document).ready(function(){
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
+
         /*  
             CLOCK PICKER GETTING VALUE INTERNET RESOURCE
             var end = $('#end').clockpicker({
@@ -386,25 +387,33 @@
         */
         //Event on the Submit Button.
 
-        $("#frm_createactivity").on('submit',function(e){
+       $("#frm_createactivity").on('submit',function(e){
           var alldate = [];
           //add a function to check if all the inputs are filled.
-          var chckbx = ($("#defaultChecked2").is(":checked"))?$("#txt_staffnumber").val() : "0";
+          var chckbx = "0";
+          
+          if($("#defaultChecked2").is(":checked"))
+          {
+            chckbx = $("#txt_staffnumber").val();
+          }
+          var fecha = $('#txt_date').datepicker('getDate');
+          var year = fecha.getFullYear();
+          var month = fecha.getMonth();
+          var day= fecha.getDate();
           alldate[0] = $('#txt_activityname').val();
           alldate[1] = $('#txt_hostdepartment').val();
-          alldate[2] = $('#txt_date').datepicker('getDate');
+          alldate[2] = year+"-"+month+"-"+day;
           alldate[3] = $('#txt_time').val();
           alldate[4] = $('#txt_activityplace').val();
           alldate[5] = chckbx;
           alldate[6] = $('#txt_activityinformation').val();
           e.preventDefault();
-
           $.ajax({
             method:'POST',
             url: 'fetchCreateActivity.php',
             data: {alldate,alldate},
             success:function(data){
-                window.location.href = "succeedNewActivity.php";
+                window.location.href = "succeedNewActivity.html";
               
             }
           });
