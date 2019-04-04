@@ -192,13 +192,13 @@
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
                         <label>Activity Name</label>
-                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" >
+                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required>
                       </div>
                     </div>
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label>Host Department</label>
-                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="">
+                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required>
                       </div>
                     </div>
                     <!--
@@ -213,14 +213,14 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" >
+                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required>
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Time</label>
                         <div class="input-grou clockpicker">
-                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="00:00">
+                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="" required>
                           <span class="input-group-addon">
                             <span class="glyphicon glyphicon-time"></span>
                           </span>
@@ -232,7 +232,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity Place</label>
-                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="">
+                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="" required>
                       </div>
                     </div>
                   </div>
@@ -272,7 +272,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity Information</label>
-                        <textarea rows="4" cols="80" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value=""></textarea>
+                        <textarea rows="4" cols="80" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value="" required></textarea>
                       </div>
                     </div>
                   </div>
