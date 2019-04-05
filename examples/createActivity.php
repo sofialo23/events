@@ -192,13 +192,13 @@
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
                         <label>Activity Name</label>
-                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" >
+                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required>
                       </div>
                     </div>
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label>Host Department</label>
-                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="">
+                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required>
                       </div>
                     </div>
                     <!--
@@ -213,14 +213,14 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" >
+                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required>
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Time</label>
                         <div class="input-grou clockpicker">
-                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="00:00">
+                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="" required>
                           <span class="input-group-addon">
                             <span class="glyphicon glyphicon-time"></span>
                           </span>
@@ -232,7 +232,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity Place</label>
-                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="">
+                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="" required>
                       </div>
                     </div>
                   </div>
@@ -256,7 +256,7 @@
                     <div class="col-md-4 px-1">
                       <div class="form-group">
                         <label>Staff Number</label>
-                        <input type="text" id="staff_input" size=3 class="form-control" id="txt_staffnumber" placeholder="Staff Number: 0" value="" disabled>
+                        <input type="text" id="staff_input" size=3 class="form-control"  placeholder="Staff Number: 0" value="0" disabled>
                       </div>
                     </div>
                     <!--
@@ -272,7 +272,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity Information</label>
-                        <textarea rows="4" cols="80" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value=""></textarea>
+                        <textarea rows="4" cols="80" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value="" required></textarea>
                       </div>
                     </div>
                   </div>
@@ -390,23 +390,28 @@
        $("#frm_createactivity").on('submit',function(e){
           var alldate = [];
           //add a function to check if all the inputs are filled.
-          var chckbx = "0";
+          var chckbx = $("#staff_input").val();
           
           if($("#defaultChecked2").is(":checked"))
           {
-            chckbx = $("#txt_staffnumber").val();
+            chckbx = $("#staff_input").val();
           }
           var fecha = $('#txt_date').datepicker('getDate');
           var year = fecha.getFullYear();
-          var month = fecha.getMonth();
+          var month = fecha.getMonth()+1;
+          if(month < 10)
+          {
+            month = "0"+month;
+          }
           var day= fecha.getDate();
           alldate[0] = $('#txt_activityname').val();
           alldate[1] = $('#txt_hostdepartment').val();
           alldate[2] = year+"-"+month+"-"+day;
-          alldate[3] = $('#txt_time').val();
+          alldate[3] = $('#txt_time').val() + ":00";
           alldate[4] = $('#txt_activityplace').val();
           alldate[5] = chckbx;
           alldate[6] = $('#txt_activityinformation').val();
+          alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
           e.preventDefault();
           $.ajax({
             method:'POST',
