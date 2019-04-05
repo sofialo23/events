@@ -1,12 +1,13 @@
 <?php
 	header('Content-Type: application/json');
-	if(isset($_POST["data"]))
+	if(isset($_POST["datas"]))
 	{
 		include("connectionDB.php");
-		$data = $_POST["data"];
+		$data = $_POST["datas"];
 		$activity_creator = $data[0];
 		$activity_id = $data[1];
-		$query = "Select * from activity_info where activity_creator='".$activity_creator."' and activity_id=".$activity_id.";";
+		$query = "Select * from activity_info where activity_creator='".$activity_creator."' 
+		and activity_id=".$activity_id.";";
 		$result = mysqli_query($db_link,$query);
 		if($result)
 		{
@@ -23,7 +24,7 @@
 				$array["activitystaffcounter"] = $row_col["activity_staff_counter"];
 				$array["activitycreator"] = $row_col["activity_creator"];
 				$array["activityplace"] = $row_col["activity_place"];
-
+				
 				array_push($jsonvar, $array);
 			}
 				$jsonstring = json_encode($jsonvar);

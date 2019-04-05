@@ -318,15 +318,37 @@
         //NEED TO DISABLE ALL THE INPUTS HERE 
 
         //Going to look for this activity_creator 'first' and activity_id=8
-        var data=[]; 
-        data[0]= 'first';
-        data[1] = activity_id=1;
+        var datas=[]; 
+        datas[0]= 'first';
+        datas[1] = 3;
         $.ajax({
           url:'fetchActivityInfoDB.php',
           dataType: 'json',
           method: 'POST',
-          data: {data,data},
+          data: {datas,datas},
           success: function(data){
+            $.each(data,function(index,element){
+              $("#txt_activityname").val(element.activityname);
+              $("#txt_hostdepartment").val(element.activityhostdepto);
+              var ddd = element.activityname;
+              var completedate = element.activitydate;
+              if(typeof completedate != 'undefined')
+              {
+                var fecha = (completedate).substr(0,10);
+                var time = (completedate).substr(11,16);
+                $("#txt_date").val(fecha);
+                $("#txt_time").val(time);
+              }
+              
+              
+              if(element.activitystafflimit > 0)
+              {
+                $("#defaultChecked2").prop('checked',true);
+                $("#staff_input").val(element.activitystafflimit);
+              }
+              $("#txt_activityplace").val(element.activityplace);
+              $("#txt_activityinformation").val(element.activityinfo);
+            });
             
             /*
             $("#txt_activityname").val(data.activity_name);
