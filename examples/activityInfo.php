@@ -315,6 +315,8 @@
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
         $("#btn_save").hide();
+        //NEED TO DISABLE ALL THE INPUTS HERE 
+
         //Going to look for this activity_creator 'first' and activity_id=8
         var data=[]; 
         data[0]= 'first';
@@ -325,7 +327,8 @@
           method: 'POST',
           data: {data,data},
           success: function(data){
-
+            
+            /*
             $("#txt_activityname").val(data.activity_name);
             $("#txt_hostdepartment").removeAttr('disabled');
             $("#txt_date").removeAttr('disabled');
@@ -333,7 +336,8 @@
             $("#defaultChecked2").removeAttr(
               'disabled');
             $("#txt_activityplace").removeAttr('disabled');
-            $("#txt_activityinformation").removeAttr('disabled');
+            $("#txt_activityinformation").removeAttr('disabled');*/
+
           }
         });
 
