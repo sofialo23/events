@@ -320,7 +320,7 @@
         data[0]= 'first';
         data[1] = activity_id=1;
         $.ajax({
-          url:'fetchActivityDB.php',
+          url:'fetchActivityInfoDB.php',
           dataType: 'json',
           method: 'POST',
           data: {data,data},
