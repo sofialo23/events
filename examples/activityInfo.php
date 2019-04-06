@@ -273,7 +273,7 @@
                     </div>
                   </div>
                   <div class="row " >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Create Activity</button>
+                    <button type="button" id="btn_submit" class="btn btn-primary btn-lg btn-block">Cancel, Go back to all activities</button>
                   </div>
                   <div class="row " >
                     <button type="button" class="btn btn-success" id="btn_save">Save</button>
@@ -315,12 +315,15 @@
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
         $("#btn_save").hide();
-        //NEED TO DISABLE ALL THE INPUTS HERE 
-
-        //Going to look for this activity_creator 'first' and activity_id=8
         var datas=[]; 
         datas[0]= 'first';
         datas[1] = 3;
+        //NEED TO DISABLE ALL THE INPUTS HERE 
+
+        //Going to look for this activity_creator 'first' and activity_id=8
+        //And load up the info into the inputs
+     
+        
         $.ajax({
           url:'fetchActivityInfoDB.php',
           dataType: 'json',
@@ -349,22 +352,49 @@
               $("#txt_activityplace").val(element.activityplace);
               $("#txt_activityinformation").val(element.activityinfo);
             });
-            
-            /*
-            $("#txt_activityname").val(data.activity_name);
-            $("#txt_hostdepartment").removeAttr('disabled');
-            $("#txt_date").removeAttr('disabled');
-            $("#txt_time").removeAttr('disabled');
-            $("#defaultChecked2").removeAttr(
-              'disabled');
-            $("#txt_activityplace").removeAttr('disabled');
-            $("#txt_activityinformation").removeAttr('disabled');*/
-
           }
         });
+      function loadAll()
+      {
 
-       $("#frm_createactivity").on('submit',function(e){
-          var alldate = [];
+        $.ajax({
+          url:'fetchActivityInfoDB.php',
+          dataType: 'json',
+          method: 'POST',
+          data: {datas,datas},
+          success: function(data){
+            $.each(data,function(index,element){
+              $("#txt_activityname").val(element.activityname);
+              $("#txt_hostdepartment").val(element.activityhostdepto);
+              var ddd = element.activityname;
+              var completedate = element.activitydate;
+              if(typeof completedate != 'undefined')
+              {
+                var fecha = (completedate).substr(0,10);
+                var time = (completedate).substr(11,16);
+                $("#txt_date").val(fecha);
+                $("#txt_time").val(time);
+              }
+              
+              
+              if(element.activitystafflimit > 0)
+              {
+                $("#defaultChecked2").prop('checked',true);
+                $("#staff_input").val(element.activitystafflimit);
+              }
+              $("#txt_activityplace").val(element.activityplace);
+              $("#txt_activityinformation").val(element.activityinfo);
+            });
+          }
+        });
+      }
+      //Calling initial function to load the info in the the inputs
+      $("#btn_submit").on('click',function(e){
+          window.location.href = "allactivities.php";
+      });
+      //This event is to save the data updated
+      $("#btn_save").on('click', function(e){
+        var allinfo = [];
           //add a function to check if all the inputs are filled.
           var chckbx = $("#staff_input").val();
           
@@ -380,25 +410,36 @@
             month = "0"+month;
           }
           var day= fecha.getDate();
-          alldate[0] = $('#txt_activityname').val();
-          alldate[1] = $('#txt_hostdepartment').val();
-          alldate[2] = year+"-"+month+"-"+day;
-          alldate[3] = $('#txt_time').val() + ":00";
-          alldate[4] = $('#txt_activityplace').val();
-          alldate[5] = chckbx;
-          alldate[6] = $('#txt_activityinformation').val();
-          alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
+          allinfo[0] = $('#txt_activityname').val();
+          allinfo[1] = $('#txt_hostdepartment').val();
+          allinfo[2] = year+"-"+month+"-"+day;
+          allinfo[3] = $('#txt_time').val() + ":00";
+          allinfo[4] = $('#txt_activityplace').val();
+          allinfo[5] = chckbx;
+          allinfo[6] = $('#txt_activityinformation').val();
+          allinfo[7] = year+"-"+month+"-"+day + " " + allinfo[3];
+          allinfo[8] = datas[0];
+          allinfo[9] = datas[1];
           e.preventDefault();
           $.ajax({
             method:'POST',
-            url: 'fetchCreateActivity.php',
-            data: {alldate,alldate},
+            dataType:"text",
+            url: 'fetchActivityInfoDB.php',
+            data: {allinfo,allinfo},
             success:function(data){
-                window.location.href = "succeedNewActivity.html";
-              
+              if(data == "success")
+              {
+                alert("Changes applied succesfully");
+                backLoading();
+                loadAll();
+              }
             }
           });
-        });
+      });
+        /*
+       $("#frm_createactivity").on('submit',function(e){
+          window.location.href = "allactivities.php";
+        });*/
         //Event for the 'updating activity' Checkbox
         $('#defaultUnchecked').click(function(){
 
@@ -414,6 +455,10 @@
               'disabled');
             $("#txt_activityplace").removeAttr('disabled');
             $("#txt_activityinformation").removeAttr('disabled');
+            if($("#staff_input").val() > "0")
+            {
+                $("#staff_input").removeAttr('disabled');
+            }
             //$("#staff_input").removeAttr('disabled');
           }else if($(this).is(":not(:checked)") == true)
           {
@@ -427,8 +472,23 @@
             $("#txt_activityplace").attr('disabled','disabled');
             $("#txt_activityinformation").attr('disabled','disabled');
             $("#defaultChecked2").attr('disabled','disabled');
+            $("#staff_input").attr('disabled','disabled');
           }
         });
+        function backLoading()
+        {
+            $("#btn_submit").show();
+            $("#btn_save").hide();
+            //$("#staff_input").attr('disabled', 'disabled');
+            $("#txt_activityname").attr('disabled','disabled');
+            $("#txt_hostdepartment").attr('disabled','disabled');
+            $("#txt_date").attr('disabled','disabled');
+            $("#txt_time").attr('disabled','disabled');
+            $("#txt_activityplace").attr('disabled','disabled');
+            $("#txt_activityinformation").attr('disabled','disabled');
+            $("#defaultChecked2").attr('disabled','disabled');
+            $("#staff_input").attr('disabled','disabled');
+        }
 
 
         //Event on the Checkbox to change the staff textBox disabled value.
