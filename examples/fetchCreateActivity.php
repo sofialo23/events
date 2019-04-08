@@ -3,15 +3,7 @@
 	include("connectionDB.php");
 	$alldate = $_POST["alldate"];
 	$finalTime = $alldate[2] + " " + $alldate[3] ;
-	/*
-		 alldata[0] = ("#txt_activityname").val();
-          alldate[1] = ("#txt_hostdepartment").val();
-          alldate[2] = ("#txt_date").datepicker('getDate'); ***
-          alldate[3] = ("#txt_time").val();   *****
-          alldate[4] = ("#txt_activityplace").val();
-          alldate[5] = chckbx;
-          alldate[6] = ("#txt_activityinformation").val();
-	*/
+	
     $query_insert_activity = "Insert into activity_info(activity_name, 
     	activity_host_depto, activity_date, activity_info, 
     	activity_staff_limit,activity_staff_counter,activity_creator, 

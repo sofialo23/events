@@ -71,13 +71,13 @@
               <p>All Activities</p>
             </a>
           </li>
-          <li class="active ">
+          <li >
             <a href="./createActivity.html">
               <i class="now-ui-icons location_map-big"></i>
               <p>Create Activity</p>
             </a>
           </li>
-          <li>
+          <li class="active ">
             <a href="./createAnouns.html">
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p>Create Announcements</p>
@@ -124,7 +124,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Create Activity</a>
+            <a class="navbar-brand" href="#pablo">New Announcement</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -184,106 +184,101 @@
           <div class="col-md-8">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Create Activity</h5>
+                <h5 class="title">Create Announcement</h5>
+                <h7 >(General notification)</h7>
               </div>
               <div class="card-body">
-                <form id="frm_createactivity">
-                  <div class="row">
+                <form>
+                  <!-- <div class="row">
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
-                        <label>Activity Name</label>
-                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required>
+                        <label>Company (disabled)</label>
+                        <input type="text" class="form-control"  placeholder="Company" value="Creative Code Inc.">
                       </div>
                     </div>
                     <div class="col-md-3 px-1">
                       <div class="form-group">
-                        <label>Host Department</label>
-                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required>
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Username" value="michael23">
                       </div>
                     </div>
-                    <!--
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Activity Place</label>
-                        <input type="text" class="form-control" placeholder="Place">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" placeholder="Email">
                       </div>
-                    </div>    -->
-                  </div>
-                  <div class="row">
+                    </div>
+                  </div> -->
+                  <!-- <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Date</label>
-                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required>
+                        <label>First Name</label>
+                        <input type="text" class="form-control" placeholder="Company" value="Mike">
                       </div>
                     </div>
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
-                        <label>Time</label>
-                        <div class="input-grou clockpicker">
-                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="" required>
-                          <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-time"></span>
-                          </span>
-                        </div>
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Activity Place</label>
-                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="" required>
+                        <label>Activity (Choose one)</label>
+                        <select id="slct_activities" class="selectpicker" data-live-search="true">
+                        </select>
+                        <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                         -->
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                  <!-- <div class="row">
                     <div class="col-md-4 pr-1">
                       <div class="form-group">
-                        <!-- Default checked -->
-                        <!-- Default unchecked -->
-                        <!-- Material unchecked -->
-                        <!-- Default checked -->
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="defaultChecked2" >
-                        <label class="custom-control-label" for="defaultChecked2">Staff Needed</label>
-                      </div>
-                        <!--
                         <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" value="">
-                        -->
+                        <input type="text" class="form-control" placeholder="City" value="Mike">
                       </div>
                     </div>
                     <div class="col-md-4 px-1">
                       <div class="form-group">
-                        <label>Staff Number</label>
-                        <input type="text" id="staff_input" size=3 class="form-control"  placeholder="Staff Number: 0" value="0" disabled>
+                        <label>Country</label>
+                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
                       </div>
                     </div>
-                    <!--
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
                         <label>Postal Code</label>
                         <input type="number" class="form-control" placeholder="ZIP Code">
                       </div>
                     </div>
-                  -->
-                  </div>
+                  </div> -->
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Activity Information</label>
-                        <textarea rows="4" cols="80" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value="" required></textarea>
+                        <label>Announcement Content</label>
+                        <textarea rows="4" id="txt_anouns_content" cols="80" class="form-control" placeholder="Here can be your Announcement Info" value=""></textarea>
                       </div>
                     </div>
-                  </div>
-                  <div class="row" >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Create Activity</button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
           <div class="col-md-4">
+            <div class="card card-user">
+              <div class="image">
+                
+              </div>
+              <div class="card-body">
+                
+              </div>
+              <hr>
+              <div class="button-container">
+                
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -292,7 +287,7 @@
           <nav>
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
+                  <a href="https://www.creative-tim.com">
                   SA ORGANIZER APP
                 </a>
               </li>
@@ -311,99 +306,42 @@
     </div>
   </div>
 </body>
-<script >
-    $(document).ready(function(){
-        $('#txt_date').datepicker();
-        $('.clockpicker').clockpicker();
-
-        /*  
-            CLOCK PICKER GETTING VALUE INTERNET RESOURCE
-            var end = $('#end').clockpicker({
-                afterHourSelect: function() {
-                    var c = end.data();
-                    $('#end').val(c.clockpicker.hours + ':00');
-                }
+<script>
+  $(document).ready(function(){
+    // select: id="slct_activities"
+    // txtArea: id="txt_anouns_content"
+    var info = "all";
+    var slct = $("#slct_activities");
+    //Filling in the select HTML element
+      $.ajax({
+        type:'POST',
+        url:'announcementFetchDB.php',
+        dataType:'json',
+        data: {info,info},
+        success:function(data){
+            var toAppend_col = "<option value='0'>--- Select one activity ---</option>;"
+            $("$slct_activities").append(toAppend_col);
+            $.each(data,function(index,element){
+              $("$slct_activities").append('<option></option>').attr('value',element.activityid).text(element.activityname);
             });
-            methods FOR CLOCK PICKER 
-            https://github.com/mlitwiniuk/clockpicker-seconds
+        }
+      });
+    //Finish Filling in slc_activities
 
-            FORMAAA DOSSS
-            $('.container').clockpicker().find('input').change(function(){
-              $('#new').val(this.value);
-            });
+    //When It chooses any activity in order to display all the info on the right
+    $("#slct_activities").change(function(){
+      var id = $("slct_activities").val();
+      $.ajax({
+        url:'announcementFetchDB.php',
+        dataType: 'json',
+        method:'POST',
+        data:{id,id},
+        success: function(data)
+        {
 
-        */
-
-        /*FIRST PART OF HOW TO GET THE DATA
-          $("#datepicker").datepicker({
-             onSelect: function(dateText, inst) { 
-                var dateAsString = dateText; //the first parameter of this function
-                var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
-             }
-          });
-          SECOND PART TO PUT IT INSIDE THE METHOD
-          var jsDate = $('#your_datepicker_id').datepicker('getDate');
-          if (jsDate !== null) { // if any date selected in datepicker
-              jsDate instanceof Date; // -> true
-              jsDate.getDate();
-              jsDate.getMonth();
-              jsDate.getFullYear();
-          }
-        */
-        //Event on the Submit Button.
-
-       $("#frm_createactivity").on('submit',function(e){
-          var alldate = [];
-          //add a function to check if all the inputs are filled.
-          var chckbx = $("#staff_input").val();
-          
-          if($("#defaultChecked2").is(":checked"))
-          {
-            chckbx = $("#staff_input").val();
-          }
-          var fecha = $('#txt_date').datepicker('getDate');
-          var year = fecha.getFullYear();
-          var month = fecha.getMonth()+1;
-          if(month < 10)
-          {
-            month = "0"+month;
-          }
-          var day= fecha.getDate();
-          alldate[0] = $('#txt_activityname').val();
-          alldate[1] = $('#txt_hostdepartment').val();
-          alldate[2] = year+"-"+month+"-"+day;
-          alldate[3] = $('#txt_time').val() + ":00";
-          alldate[4] = $('#txt_activityplace').val();
-          alldate[5] = chckbx;
-          alldate[6] = $('#txt_activityinformation').val();
-          alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
-          e.preventDefault();
-          $.ajax({
-            method:'POST',
-            url: 'fetchCreateActivity.php',
-            data: {alldate,alldate},
-            success:function(data){
-                window.location.href = "succeedNewActivity.html";
-              
-            }
-          });
-        });
-
-        //Event on the Checkbox to change the staff textBox disabled value.
-        $('#defaultChecked2').click(function(){
-
-          if($(this).is(":checked"))
-          {
-            
-            $("#staff_input").removeAttr('disabled');
-          }else if($(this).is(":not(:checked)") == true)
-          {
-            $("#staff_input").attr('disabled', 'disabled');
-          }
-        });
-
-
+        }
+      });
     });
-      
+  });
 </script>
 </html>
