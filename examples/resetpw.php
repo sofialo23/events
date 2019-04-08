@@ -1,37 +1,70 @@
 
 <?php
-  $error = NULL;
-  if (isset($_POST['submit'])){
-    include ('conn.php');
-    $id = $_POST['student_id'];
-    $pw = $_POST['pw'];
-   // $pw = md5($pw);
-      //query the DB
-    $query = "SELECT * FROM user_info WHERE user_name ='$id' AND pw = '$pw' LIMIT 1";
-    $resultSet = mysqli_query($db_link, $query);
-    if(mysqli_num_rows($resultSet) != 0 ){
-        //PROCESS LOGIN 
-      while($row = mysqli_fetch_assoc($resultSet)){
-          $verified = $row['verified'];
-          $email = $row['user_email'];
-          $date = $row['signup_date'];
-          $date = strtotime($date);
-          $date = date('M d Y', $date);
-          if($verified == 1){
-            //KEEP PROCESSING 
-            header('location:profile.php');
+
+function checkUser($sid){
+  include ('conn.php');
+          global $db;
+          $query = mysqli_query($db_link, "SELECT * FROM user_info WHERE user_name = '$sid'");
+          if(mysqli_num_rows($query) > 0){
+              $row = mysqli_fetch_array( $query);
+              global $uemail;
+              $uemail = $row['user_email'];       
+              return 'true';
           }
           else{
-            $error = "This account has not yet been verified. And email was sent to $email on $date";
+              return 'false';
           }
-        print "\r\n";
-      }
+}
+
+
+if(isset($_POST['submit'])) {
+  include ('conn.php');
+  $sid = $_POST['sid'];
+  /*$uemail = $_POST['uemail'];
+
+  $uemail = mysqli_real_escape_string($db_link, $uemai);*/
+ // $uemail = $sid."@gms.ndhu.edu.tw";
+  
+
+  if(checkUser($sid) == "true"){
+
+    $token = md5(time().$sid);
+
+      $finduser = mysqli_query($db_link, "SELECT * FROM recovery_keys WHERE userID = '$sid'");  
+          // check if user is in the table already
+          if(mysqli_num_rows($finduser) > 0){
+              // update  
+              $query = mysqli_query($db_link, "UPDATE recovery_keys SET token = '$token', valid = 1 WHERE userID = $sid; ");
+          }
+          else{ //create a new entry
+                $query = mysqli_query($db_link, "INSERT INTO recovery_keys (userID, token) VALUES ( $sid , '$token') ");
+          }
+  
+     
+    if($query) {
+              //SEND EMAIL with link to renew password
+          $to = $uemail;
+          $subject = "Password Recovery";
+          $message ="<a href='http://localhost/Events/examples/forget.php?id=$sid&token=$token'> Click Here to reset your password</a>";
+          $headers = "From: esofia91@gmail.com \r\n";
+          $headers .= "MIME-Version:1.0" . "\r\n";
+          $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+          mail($to, $subject, $message, $headers);
+          //header('location:login.php');//$msgclass = 'bg-danger';
+          $msg = 'A mail with recovery instruction has been sent to your email.';    
     }
-    else{
-      // INVALID CREDENTIALS
-      $error = "The username or password you entered is incorrect";
+    else{  
+      $msg = 'There is something wrong.';  
+      //$msgclass = 'bg-danger';   
     }
   }
+  else{
+    $msg = "This user ID / username doesn't exist in our database. Please check it and try again";
+    //$msgclass = 'bg-danger';
+  }             
+}
+
 ?>
 
 
@@ -48,9 +81,6 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-  <!-- Chart JS -->
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
@@ -155,38 +185,34 @@
           <div class="col-md-8">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Login to your account</h5>
+                <h5 class="title">Reset your password</h5>
               </div>
               <div class="card-body">
                 <form id="login_form" method="post">
                   <div class="row">
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
-                        <label>Student ID</label>
-                        <input type="text" class="form-control" id="student_id" name = "student_id" required = "true">
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" name = "pw"  id="pw" value="" required>
+                        <label>Student ID / username </label>
+                        <input type="text" class="form-control" id="student_id" name="sid" required = "true">
                       </div>
                     </div>
                   </div>
-             
                   <div class="row" >
-                    <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                    <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Send email</button>
                   </div>
                 </form>
               </div>
+              <?php 
+                if(isset($msg))
+                echo $msg;  
+              ?>
             </div>
-            <a href="resetpw.php"> Forgot your password? </a>
+            <a href="loginpage.php"> Go back to Login Page </a>
           </div>
-        </div> <br>Don't have an account yet?
-            <a href="signup.php"> Create a new account </a>
+          <div class="col-md-4">
+              
+          </div>
+        </div>
       </div>
     </div>
   </div>

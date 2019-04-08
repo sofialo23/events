@@ -4,12 +4,12 @@
 		include ('conn.php');
 		//PROCESS THE VERIFICATION
 		$vkey = $_GET['vkey'];
-		$query = "SELECT verified, vkey FROM users WHERE verified = 0 AND vkey = '$vkey' LIMIT 1";
+		$query = "SELECT verified, vkey FROM user_info WHERE verified = 0 AND vkey = '$vkey' LIMIT 1";
 		$result = mysqli_query($db_link,$query);
 
 		if(mysqli_num_rows($result) ==1 ){
 				// 	VALIDATE THE EMAIL
-			$updatequery = "UPDATE users SET verified = 1 WHERE vkey = '$vkey' LIMIT 1";
+			$updatequery = "UPDATE user_info SET verified = 1 WHERE vkey = '$vkey' LIMIT 1";
 			$update = mysqli_query($db_link,$updatequery);
 			if($update){
 				echo "Your account has been verified. You may now login.";
