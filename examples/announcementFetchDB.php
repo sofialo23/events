@@ -1,10 +1,10 @@
 <?php
-	
 	header('Content-Type: application/json');
+	include("connectionDB.php");
 	if(isset($_POST["all"]))
 	{
 		include("connectionDB.php");
-		$query_activities = "Select * from `activity_info`;";
+		$query_activities = "Select * from `activity_info` where 1;";
 		$result = mysqli_query($db_link,$query_activities);
 		if($result)
 		{

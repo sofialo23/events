@@ -319,7 +319,8 @@
         dataType:'json',
         data: {info,info},
         success:function(data){
-            var toAppend_col = "<option value='0'>--- Select one activity ---</option>;"
+            alert("ads;fkasdf");
+            var toAppend_col = "<option value='0'>--- Select one activity ---</option>";
             $("$slct_activities").append(toAppend_col);
             $.each(data,function(index,element){
               $("$slct_activities").append('<option></option>').attr('value',element.activityid).text(element.activityname);
