@@ -269,10 +269,19 @@
           <div class="col-md-4">
             <div class="card card-user">
               <div class="image">
-                
+                <div class="card-header">
+                  <h5 class="title">Activity Information</h5>
+                </div>
+                <div class="col-md-5 pr-1">
+                  <div class="form-group">
+                    <h8>Activity Name</h8>
+                    <label id="lbl_activityname"></label>
+                    <!-- <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required disabled> -->
+                  </div>
+                </div>
               </div>
               <div class="card-body">
-                
+
               </div>
               <hr>
               <div class="button-container">
@@ -319,11 +328,11 @@
         dataType:'json',
         data: {info,info},
         success:function(data){
-            alert("ads;fkasdf");
-            var toAppend_col = "<option value='0'>--- Select one activity ---</option>";
-            $("$slct_activities").append(toAppend_col);
+            var toAppend_col = '<option value="0">--- Select one activity ---</option>';
+            $("#slct_activities").append(toAppend_col);
             $.each(data,function(index,element){
-              $("$slct_activities").append('<option></option>').attr('value',element.activityid).text(element.activityname);
+              var dd = '<option value="'+element.activityid+'">'+element.activityname+'</option>';
+              $("#slct_activities").append(dd);
             });
         }
       });
@@ -339,7 +348,8 @@
         data:{id,id},
         success: function(data)
         {
-
+          //Fill in all the Labels into the info Card on the right
+          
         }
       });
     });

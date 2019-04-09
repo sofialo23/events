@@ -1,7 +1,6 @@
 <?php
 	header('Content-Type: application/json');
-	include("connectionDB.php");
-	if(isset($_POST["all"]))
+	if(isset($_POST["info"]))
 	{
 		include("connectionDB.php");
 		$query_activities = "Select * from `activity_info` where 1;";
@@ -11,7 +10,6 @@
 			$jsonvar = array();
 			while($row_col = mysqli_fetch_array($result))
 			{
-				echo $row_col["activity_name"];
 				$array["activityid"] = $row_col["activity_id"];
 				$array["activityname"]=$row_col["activity_name"];
 				array_push($jsonvar, $array);
