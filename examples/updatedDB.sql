@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2019 at 02:32 AM
+-- Generation Time: Apr 10, 2019 at 04:35 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -52,7 +52,7 @@ INSERT INTO `activity_atst` (`activity_atst_id`, `user_name`, `activity_id`, `ro
 CREATE TABLE `activity_info` (
   `activity_id` int(11) NOT NULL,
   `activity_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `activity_host_depto` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `activity_host_depto` int(11) NOT NULL,
   `activity_created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `activity_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `activity_info` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
@@ -67,10 +67,10 @@ CREATE TABLE `activity_info` (
 --
 
 INSERT INTO `activity_info` (`activity_id`, `activity_name`, `activity_host_depto`, `activity_created_date`, `activity_date`, `activity_info`, `activity_staff_limit`, `activity_staff_counter`, `activity_creator`, `activity_place`) VALUES
-(1, 'First Activity', 'Department of life science', '2019-03-18 08:50:11', '0000-00-00 00:00:00', 'First Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info', 10, 0, 'first', 'Social and Humanities Building 3, room D888'),
-(2, 'First Activity', 'Department of life science', '2019-03-18 08:51:50', '2019-03-27 03:30:00', 'First Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info', 10, 0, 'first', 'Social and Humanities Building 3, room R888'),
-(3, 'Activity Example', 'Department of chemistry', '2019-03-30 07:34:06', '2019-04-09 10:00:00', 'Info Random de la actividad culera para la Universidad', 10, 0, 'first', 'Social and Humanities Building 3, Room D299'),
-(4, 'one more activity', 'Department of math', '2019-03-30 07:34:06', '2019-04-17 10:00:00', 'Info Random de la actividad para la Universidad', 20, 0, 'first', 'Social and Humanities Building 3, Room C302');
+(1, 'First Activity', 5, '2019-04-10 08:33:32', '0000-00-00 00:00:00', 'First Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info', 10, 0, 'first', 'Social and Humanities Building 3, room D888'),
+(2, 'First Activity', 7, '2019-04-10 08:33:50', '2019-03-27 03:30:00', 'First Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info', 10, 0, 'first', 'Social and Humanities Building 3, room R888'),
+(3, 'Activity Example', 23, '2019-04-10 08:33:57', '2019-04-09 10:00:00', 'Info Random de la actividad culera para la Universidad', 10, 0, 'first', 'Social and Humanities Building 3, Room D299'),
+(4, 'one more activity', 23, '2019-04-10 08:34:05', '2019-04-17 10:00:00', 'Info Random de la actividad para la Universidad', 20, 0, 'first', 'Social and Humanities Building 3, Room C302');
 
 -- --------------------------------------------------------
 
@@ -244,7 +244,8 @@ ALTER TABLE `activity_atst`
 --
 ALTER TABLE `activity_info`
   ADD PRIMARY KEY (`activity_id`),
-  ADD KEY `activity_creator` (`activity_creator`);
+  ADD KEY `activity_creator` (`activity_creator`),
+  ADD KEY `activity_host_depto` (`activity_host_depto`);
 
 --
 -- Indexes for table `activity_notif`
@@ -323,7 +324,8 @@ ALTER TABLE `activity_atst`
 -- Constraints for table `activity_info`
 --
 ALTER TABLE `activity_info`
-  ADD CONSTRAINT `activity_info_ibfk_1` FOREIGN KEY (`activity_creator`) REFERENCES `user_info` (`user_name`);
+  ADD CONSTRAINT `activity_info_ibfk_1` FOREIGN KEY (`activity_creator`) REFERENCES `user_info` (`user_name`),
+  ADD CONSTRAINT `activity_info_ibfk_2` FOREIGN KEY (`activity_host_depto`) REFERENCES `departments` (`id_department`);
 
 --
 -- Constraints for table `activity_notif`
