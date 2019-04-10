@@ -46,4 +46,10 @@
 				echo $jsonstring;
 		}
 	}
+	if（isset($_POST["an"])）
+	{
+		$var = $_POST["an"];
+		//$var[0] -> activityid
+		//$var[1] -> anouns
+	}
 ?>

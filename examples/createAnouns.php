@@ -60,31 +60,31 @@
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
-            <a href="./dashboard.html">
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li>
-            <a href="./allactivities.html">
+            <a href="./allactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
           <li >
-            <a href="./createActivity.html">
+            <a href="./createActivity.php">
               <i class="now-ui-icons location_map-big"></i>
               <p>Create Activity</p>
             </a>
           </li>
           <li class="active ">
-            <a href="./createAnouns.html">
+            <a href="./createAnouns.php">
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p>Create Announcements</p>
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="./notifications.php">
               <i class="now-ui-icons users_single-02"></i>
               <p>Message to Admin</p>
             </a>
@@ -188,7 +188,7 @@
                 <h7 >(General notification)</h7>
               </div>
               <div class="card-body">
-                <form>
+                <form id="frm_createanouns">
                   <!-- <div class="row">
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
@@ -262,31 +262,81 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row" >
+                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Post Notification</button>
+                  </div>
                 </form>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card card-user">
-              <div class="image">
                 <div class="card-header">
                   <h5 class="title">Activity Information</h5>
                 </div>
-                <div class="col-md-5 pr-1">
-                  <div class="form-group">
-                    <h8>Activity Name</h8>
-                    <label id="lbl_activityname"></label>
-                    <!-- <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required disabled> -->
+                <div class="row">
+                  <div class="col-md-5 pr-1">
+                    <div class="form-group">
+                      <label>Activity Name</label>
+                      <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-5 px-1">
+                    <div class="form-group">
+                      <label>Host Department</label>
+                      <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required disabled>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 pr-1">
+                      <div class="form-group">
+                        <label>Date</label>
+                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required disabled>
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <label>Time</label>
+                        <div class="input-grou clockpicker">
+                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="" required disabled>
+                          <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Activity Place</label>
+                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="" required disabled>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 px-1">
+                    <div class="form-group">
+                      <label>Staff Number</label>
+                      <input type="text" id="staff_input" size=3 class="form-control"  placeholder="Staff Number: 0" value="0" disabled>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <div class="form-group">
+                        <label>Activity Information</label>
+                        <textarea rows="4" cols="60" class="form-control" id="txt_activityinformation" placeholder="Here can be your description" value="" required disabled></textarea>
+                      </div>
+                    </div>
+                  </div>
 
-              </div>
+              <!-- <div class="card-body">
+
+              </div> -->
               <hr>
-              <div class="button-container">
+              <!-- <div class="button-container">
                 
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -337,10 +387,25 @@
         }
       });
     //Finish Filling in slc_activities
-
+    //Event to submit the notification to the DB
+    $("#frm_createanouns").on('submit',function(e){
+      var an = [];
+      an[0] = $("#slct_activities").val();
+      an[1] = $("#txt_anouns_content").val();
+      $.ajax({
+        method:'POST',
+        url:'announcementFetchDB.php',
+        data:{an,an},
+        success:function(data){
+          window.location.href = "allactivities.php";
+        }
+      });
+    });
+    //Finishes event to submit the notification to the DB
     //When It chooses any activity in order to display all the info on the right
     $("#slct_activities").change(function(){
-      var id = $("slct_activities").val();
+      var id = $("#slct_activities").val();
+       $("#lbl_activityname").empty();
       $.ajax({
         url:'announcementFetchDB.php',
         dataType: 'json',
@@ -348,8 +413,25 @@
         data:{id,id},
         success: function(data)
         {
-          //Fill in all the Labels into the info Card on the right
-          
+          $.each(data,function(index,element){
+            //Fill in all the Labels into the info Card on the right
+            // $("#lbl_activityname").append(element.activityname);
+            $("#txt_activityname").val(element.activityname);
+            $("#txt_hostdepartment").val(element.activityhostdepto);
+            var ddd = element.activityname;
+            var completedate = element.activitydate;
+            if(typeof completedate != 'undefined')
+            {
+              var fecha = (completedate).substr(0,10);
+              var time = (completedate).substr(11,16);
+              $("#txt_date").val(fecha);
+              $("#txt_time").val(time);
+            }
+            $("#staff_input").val(element.activitystafflimit);
+            $("#txt_activityplace").val(element.activityplace);
+            $("#txt_activityinformation").val(element.activityinfo);
+          });
+            
         }
       });
     });
