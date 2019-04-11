@@ -198,7 +198,9 @@
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label>Host Department</label>
-                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required>
+                        <select id="slct_departments" class="form-control"  data-live-search="true">
+                        </select>
+                        <!-- <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required> -->
                       </div>
                     </div>
                     <!--
@@ -315,7 +317,22 @@
     $(document).ready(function(){
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
-
+        var info = "all";
+        //Filling in the select HTML element
+          $.ajax({
+            type:'POST',
+            url:'fetchCreateActivity.php',
+            dataType:'json',
+            data: {info,info},
+            success:function(data){
+                var toAppend_col = '<option value="0"> Select one department </option>';
+                $("#slct_departments").append(toAppend_col);
+                $.each(data,function(index,element){
+                  var dd = '<option value="'+element.iddepartment+'">'+element.namedepartment+'</option>';
+                  $("#slct_departments").append(dd);
+                });
+            }
+          });
         /*  
             CLOCK PICKER GETTING VALUE INTERNET RESOURCE
             var end = $('#end').clockpicker({
@@ -370,7 +387,7 @@
           }
           var day= fecha.getDate();
           alldate[0] = $('#txt_activityname').val();
-          alldate[1] = $('#txt_hostdepartment').val();
+          alldate[1] = $('#slct_departments').val();
           alldate[2] = year+"-"+month+"-"+day;
           alldate[3] = $('#txt_time').val() + ":00";
           alldate[4] = $('#txt_activityplace').val();
