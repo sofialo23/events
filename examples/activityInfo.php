@@ -202,7 +202,9 @@
                     <div class="col-md-3 px-1">
                       <div class="form-group">
                         <label>Host Department</label>
-                        <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required disabled>
+                        <select id="slct_departments" class="form-control"  data-live-search="true" required disabled >
+                        </select>
+                        <!-- <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required disabled> -->
                       </div>
                     </div>
                     <!--
@@ -330,9 +332,11 @@
           method: 'POST',
           data: {datas,datas},
           success: function(data){
+            departments();
             $.each(data,function(index,element){
+              // alert(element.activityhostdepto);
               $("#txt_activityname").val(element.activityname);
-              $("#txt_hostdepartment").val(element.activityhostdepto);
+              $("#slct_departments").val(element.activityhostid);
               var ddd = element.activityname;
               var completedate = element.activitydate;
               if(typeof completedate != 'undefined')
@@ -354,6 +358,24 @@
             });
           }
         });
+      function departments()
+      {
+        var info = "all";
+        $.ajax({
+            type:'POST',
+            url:'fetchCreateActivity.php',
+            dataType:'json',
+            data: {info,info},
+            success:function(data){
+                var toAppend_col = '<option value="0"> Select one department </option>';
+                $("#slct_departments").append(toAppend_col);
+                $.each(data,function(index,element){
+                  var dd = '<option value="'+element.iddepartment+'">'+element.namedepartment+'</option>';
+                  $("#slct_departments").append(dd);
+                });
+            }
+          });
+      }
       function loadAll()
       {
 
@@ -365,7 +387,7 @@
           success: function(data){
             $.each(data,function(index,element){
               $("#txt_activityname").val(element.activityname);
-              $("#txt_hostdepartment").val(element.activityhostdepto);
+              $("#slct_departments").val(element.activityhostdepto);
               var ddd = element.activityname;
               var completedate = element.activitydate;
               if(typeof completedate != 'undefined')
@@ -375,8 +397,6 @@
                 $("#txt_date").val(fecha);
                 $("#txt_time").val(time);
               }
-              
-              
               if(element.activitystafflimit > 0)
               {
                 $("#defaultChecked2").prop('checked',true);
@@ -411,7 +431,7 @@
           }
           var day= fecha.getDate();
           allinfo[0] = $('#txt_activityname').val();
-          allinfo[1] = $('#txt_hostdepartment').val();
+          allinfo[1] = $('#slct_departments').val();
           allinfo[2] = year+"-"+month+"-"+day;
           allinfo[3] = $('#txt_time').val() + ":00";
           allinfo[4] = $('#txt_activityplace').val();
@@ -448,7 +468,7 @@
             $("#btn_submit").hide();
             $("#btn_save").css('display','block');
             $("#txt_activityname").removeAttr('disabled');
-            $("#txt_hostdepartment").removeAttr('disabled');
+            $("#slct_departments").removeAttr('disabled');
             $("#txt_date").removeAttr('disabled');
             $("#txt_time").removeAttr('disabled');
             $("#defaultChecked2").removeAttr(
@@ -466,7 +486,7 @@
             $("#btn_save").hide();
             //$("#staff_input").attr('disabled', 'disabled');
             $("#txt_activityname").attr('disabled','disabled');
-            $("#txt_hostdepartment").attr('disabled','disabled');
+            $("#slct_departments").attr('disabled','disabled');
             $("#txt_date").attr('disabled','disabled');
             $("#txt_time").attr('disabled','disabled');
             $("#txt_activityplace").attr('disabled','disabled');
@@ -481,7 +501,7 @@
             $("#btn_save").hide();
             //$("#staff_input").attr('disabled', 'disabled');
             $("#txt_activityname").attr('disabled','disabled');
-            $("#txt_hostdepartment").attr('disabled','disabled');
+            $("#slct_departments").attr('disabled','disabled');
             $("#txt_date").attr('disabled','disabled');
             $("#txt_time").attr('disabled','disabled');
             $("#txt_activityplace").attr('disabled','disabled');

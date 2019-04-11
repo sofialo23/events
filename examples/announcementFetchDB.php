@@ -48,19 +48,17 @@
 	}
 	if(isset($_POST["an"]))
 	{
+
 		$var = $_POST["an"];
 		//$var[0] -> activityid
 		//$var[1] -> anouns
+		//$var[2] -> user that will be replaced by the user in sesion
 		include("connectionDB.php"); 
-		$query_update_activity = "Insert into  `activity_info` SET `activity_name` = '".$allinfo[0]."',
-		`activity_host_depto`='".$allinfo[1]."', `activity_date`='".$allinfo[7]."',
-		`activity_info`='".$allinfo[6]."', `activity_staff_limit`=".$allinfo[5].", `activity_place`='".$allinfo[4]."'
-		Where `activity_info`.`activity_id`=".$allinfo[9]." and 
-		`activity_info`.`activity_creator`='".$allinfo[8]."'";
+		$query_update_activity = "insert into activity_notif (activity_notif_creator,activity_notif_msg, activity_notif_activity_id) values ('".$var[2]."','".$var[1]."',".$var[0].")";
 		$result = mysqli_query($db_link,$query_update_activity);
 		if($result)
       	{	
       		echo "success";
       	}
-	}
+     }
 ?>
