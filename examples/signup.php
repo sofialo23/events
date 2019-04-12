@@ -9,31 +9,30 @@
     $department = $_POST['department'];
     $pw = $_POST['pw'];
     $p2 = $_POST['p2'];
-    
+    $date = date('Y-m-d H:i:s');
     $email = $student_id."@gms.ndhu.edu.tw";
 
 
     //CHECK IF THAT STUDENT ID HAS ALREADY BEEN REGISTERED
     $query = "SELECT * FROM user_info WHERE user_name = '$student_id'";
   
-    $available = mysqli_query($db_link,$query);
+    $used = mysqli_query($db_link,$query);
     
-      if(mysqli_num_rows($available) ==1 ){
+      if(mysqli_num_rows($used) ==1 ){
          //$error = "This student id has already been registered";
-      ?> <script> alert("This student id has already been registered! \n go to Login Page" ); </script> 
-      <a href="loginpage.php"> Go to Login Page </a> <?php 
-      $error = "This student id has already been registered!";
+    
+      $error = "This student id has already been registered! Check and try again";
       }
 
       if($college == 0){
          $error = "Select your College";
       }
 
-       if($department == 0){
+       else if($department == 0){
          $error = "Select your Department";
       }
 
-      if($pw != $p2){
+      else if($pw != $p2){
         $error = "your passwords DO NOT match";
       }
     else{
@@ -44,22 +43,14 @@
         // INSERT ACCOUNT INTO DB
       $pw = md5($pw);
       $p2 = md5($p2);
-      $sql = "INSERT INTO user_info (name, user_name, user_email, user_depto, pw, vkey) VALUES ('$name', '$student_id', '$email', '$department', '$pw', '$vkey');";
-      echo $sql ; echo"<br>";
-      echo $name ; echo"<br>";
-      echo $student_id ; echo"<br>";
-      echo $college ; echo"<br>";
-      echo $department ; echo"<br>";
-      echo $pw ; echo"<br>";
-      echo $p2 ; echo"<br>";
-      
+      $sql = "INSERT INTO user_info (name, user_name, user_email, user_depto, pw, vkey, signup_date) VALUES ('$name', '$student_id', '$email', '$department', '$pw', '$vkey', '$date');";
+
         $result = mysqli_query($db_link,$sql);
         if($result){
-          echo "is entering the if ";
                 //SEND EMAIL
           $to = $email;
           $subject = "Email Verification";
-          $message ="<a href='http://localhost/email_test/verify.php?vkey=$vkey'> Click Here to register your account</a>";
+          $message ="<a href='http://localhost/Events/examples/verify.php?vkey=$vkey'> Click Here to register your account</a>";
           $headers = "From: esofia91@gmail.com \r\n";
           $headers .= "MIME-Version:1.0" . "\r\n";
           $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -196,6 +187,7 @@
                 <h5 class="title">Create a new account</h5>
               </div>
               <div class="card-body">
+                <?php if($error!=NULL)echo "<h5 style='color:red;'> *** $error *** </h5>";?>
                 <form id="login_form" method="post">
                   <div class="row">
                     <div class="col-md-5 pr-1">
@@ -205,13 +197,14 @@
                       </div>
                     </div>
                   </div>
-                   <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
+                   <div class="row"> 
+                    <div class="col-md-5 pr-1"> 
+                      <div class="form-group"> 
                         <label>Student ID </label>
-                        <input type="text" class="form-control"  name = "student_id" required >
-                      </div>
+                        <input type="text" class="form-control" id = "student_id"  name = "student_id" required >
+                      </div> <div id="av_response" class="response"></div>
                     </div>
+                    
                   </div>
                   <div class="row">
                     <div class="col-md-3 px-1">
@@ -271,14 +264,10 @@
                   </div>
                 </form>
               </div>
+               
             </div>
              Already have an account?
             <a href="loginpage.php"> Go to Login Page </a>
-            <?php
-            if($error != NULL){
-                echo $error;
-            }
-            ?>
           </div>
         </div>
       </div>
@@ -318,4 +307,35 @@ $(document).ready(function(){
     });
 });
 
+</script>
+     
+<script>  //CHECK IF STUDENT ID IS ALREADY IN DB OR NOT
+$(document).ready(function(){
+   $("#student_id").keyup(function(){
+
+      var uname = $("#student_id").val().trim();
+
+      if(uname != ''){
+         $("#av_response").show();
+         $.ajax({
+            url: 'signupFetch.php',
+            type: 'post',
+            data: {uname:uname},
+            success: function(response){
+
+                if(response > 0){
+                    $("#av_response").html("<span style='color:red;'>* Student ID already registered</span>");
+                }else{
+                    $("#av_response").html("<span style='color:green;'>Student ID available</span>");
+                }
+
+             }
+          });
+      }else{
+         $("#av_response").hide();
+      }
+
+    });
+
+ });
 </script>

@@ -1,5 +1,8 @@
 
 <?php
+$error = NULL;
+$msg = NULL;
+
 
 function checkUser($sid){
   include ('conn.php');
@@ -55,12 +58,12 @@ if(isset($_POST['submit'])) {
           $msg = 'A mail with recovery instruction has been sent to your email.';    
     }
     else{  
-      $msg = 'There is something wrong.';  
+      $error = 'There is something wrong.';  
       //$msgclass = 'bg-danger';   
     }
   }
   else{
-    $msg = "This user ID / username doesn't exist in our database. Please check it and try again";
+    $error = "This student ID / username doesn't exist in our Website. Please check it and try again";
     //$msgclass = 'bg-danger';
   }             
 }
@@ -197,14 +200,22 @@ if(isset($_POST['submit'])) {
                       </div>
                     </div>
                   </div>
-                  <div class="row" >
-                    <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Send email</button>
+
+                   <div class="row">
+                    <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Send email</button>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
               <?php 
-                if(isset($msg))
-                echo $msg;  
+
+                if($error!=NULL)
+                 echo "<h5 style='color:red;'> *** $error *** </h5>";
+              else if($msg!=NULL)
+                 echo "<h5 style='color:green;'> *** $msg *** </h5>";
               ?>
             </div>
             <a href="loginpage.php"> Go back to Login Page </a>

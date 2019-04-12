@@ -5,7 +5,7 @@
     include ('conn.php');
     $id = $_POST['student_id'];
     $pw = $_POST['pw'];
-   // $pw = md5($pw);
+    $pw = md5($pw);
       //query the DB
     $query = "SELECT * FROM user_info WHERE user_name ='$id' AND pw = '$pw' LIMIT 1";
     $resultSet = mysqli_query($db_link, $query);
@@ -169,7 +169,7 @@
 
                   </div>
                   <div class="row">
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-5 pr-1">
                       <div class="form-group">
                         <label>Password</label>
                         <input type="password" class="form-control" name = "pw"  id="pw" value="" required>
@@ -178,10 +178,16 @@
                   </div>
              
                   <div class="row" >
-                    <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                    <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                      </div>
+                    </div>
+                    
                   </div>
                 </form>
               </div>
+              <?php if($error!=NULL)echo "<h5 style='color:red;'> *** $error *** </h5>";?>
             </div>
             <a href="resetpw.php"> Forgot your password? </a>
           </div>

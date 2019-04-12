@@ -34,6 +34,6 @@
  	<title></title>
  </head>
  <body>
- 	<a href="login.php">Go to Login Page</a>
+ 	<a href="loginpage.php">Go to Login Page</a>
  </body>
  </html>	

@@ -1,6 +1,5 @@
 <?php
-		if(isset($_POST["col"]))
-	{
+		if(isset($_POST["col"])){
 		//VARIABLE FOR THE COLLEGE DB CONSULTA.
 		include("conn.php");
 		$query_col = " SELECT * FROM  `departments` WHERE id_college=".$_POST["col"].";";
@@ -19,5 +18,18 @@
 			echo json_encode($data_col);
 		}
 	}
+
+
+
+	if(isset($_POST["uname"])){
+			// to check student id availability
+		include("conn.php");
+		$query = "select count(*) as cntUser from user_info where user_name='".$_POST["uname"]."'";
+		$result = mysqli_query($db_link,$query);
+		$row = mysqli_fetch_array($result);
+		$count = $row['cntUser'];
+		echo $count;
+	}
+
 
 ?>
