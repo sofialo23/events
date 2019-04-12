@@ -41,6 +41,12 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   
+  <!-- NEW  -->
+  <!-- NEW  -->
+  <!-- NEW  -->
+  <!-- NEW  -->
+  <!-- Latest compiled and minified CSS -->
+
 </head>
 
 <body class="">
@@ -227,7 +233,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity (Choose one)</label>
-                        <select id="slct_activities" class="selectpicker" data-live-search="true">
+                        <select id="slct_activities" class="form-control"  data-live-search="true">
                         </select>
                         <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
                          -->
@@ -263,7 +269,7 @@
                     </div>
                   </div>
                   <div class="row" >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Post Notification</button>
+                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Post Announce</button>
                   </div>
                 </form>
               </div>
@@ -378,7 +384,7 @@
         dataType:'json',
         data: {info,info},
         success:function(data){
-            var toAppend_col = '<option value="0">--- Select one activity ---</option>';
+            var toAppend_col = '<option value="0">               --- Select one activity ---          </option>';
             $("#slct_activities").append(toAppend_col);
             $.each(data,function(index,element){
               var dd = '<option value="'+element.activityid+'">'+element.activityname+'</option>';
@@ -392,12 +398,22 @@
       var an = [];
       an[0] = $("#slct_activities").val();
       an[1] = $("#txt_anouns_content").val();
+      an[2] = "first"; //user that will be replaced by the user in sesion
       $.ajax({
         method:'POST',
         url:'announcementFetchDB.php',
         data:{an,an},
         success:function(data){
-          window.location.href = "allactivities.php";
+          alert("POPO");
+          if(data=="success")
+          {
+            alert("POPO2");
+            window.location.href = "allactivities.php";  
+          }else
+          {
+            alert("POPO3");
+          }
+          
         }
       });
     });
@@ -405,35 +421,46 @@
     //When It chooses any activity in order to display all the info on the right
     $("#slct_activities").change(function(){
       var id = $("#slct_activities").val();
-       $("#lbl_activityname").empty();
-      $.ajax({
-        url:'announcementFetchDB.php',
-        dataType: 'json',
-        method:'POST',
-        data:{id,id},
-        success: function(data)
-        {
-          $.each(data,function(index,element){
-            //Fill in all the Labels into the info Card on the right
-            // $("#lbl_activityname").append(element.activityname);
-            $("#txt_activityname").val(element.activityname);
-            $("#txt_hostdepartment").val(element.activityhostdepto);
-            var ddd = element.activityname;
-            var completedate = element.activitydate;
-            if(typeof completedate != 'undefined')
-            {
-              var fecha = (completedate).substr(0,10);
-              var time = (completedate).substr(11,16);
-              $("#txt_date").val(fecha);
-              $("#txt_time").val(time);
-            }
-            $("#staff_input").val(element.activitystafflimit);
-            $("#txt_activityplace").val(element.activityplace);
-            $("#txt_activityinformation").val(element.activityinfo);
-          });
-            
-        }
-      });
+      if(id == "0")
+      {
+        $("#txt_activityname").val('');
+        $("#txt_hostdepartment").val('0');
+        $("#txt_date").val('');
+        $("#txt_time").val('');
+        $("#staff_input").val('');
+        $("#txt_activityplace").val('');
+        $("#txt_activityinformation").val('');
+      }else
+      {
+        $.ajax({
+          url:'announcementFetchDB.php',
+          dataType: 'json',
+          method:'POST',
+          data:{id,id},
+          success: function(data)
+          {
+            $.each(data,function(index,element){
+              //Fill in all the Labels into the info Card on the right
+              // $("#lbl_activityname").append(element.activityname);
+              $("#txt_activityname").val(element.activityname);
+              $("#txt_hostdepartment").val(element.activityhostdepto);
+              var ddd = element.activityname;
+              var completedate = element.activitydate;
+              if(typeof completedate != 'undefined')
+              {
+                var fecha = (completedate).substr(0,10);
+                var time = (completedate).substr(11,16);
+                $("#txt_date").val(fecha);
+                $("#txt_time").val(time);
+              }
+              $("#staff_input").val(element.activitystafflimit);
+              $("#txt_activityplace").val(element.activityplace);
+              $("#txt_activityinformation").val(element.activityinfo);
+            });
+              
+          }
+        });
+      }
     });
   });
 </script>

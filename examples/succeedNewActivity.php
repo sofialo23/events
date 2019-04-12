@@ -72,13 +72,13 @@
             </a>
           </li>
           <li >
-            <a href="./createActivity.html">
+            <a href="./createActivity.php">
               <i class="now-ui-icons location_map-big"></i>
               <p>Create Activity</p>
             </a>
           </li>
           <li>
-            <a href="./createAnouns.html">
+            <a href="./createAnouns.php">
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p>Create Announcements</p>
             </a>
