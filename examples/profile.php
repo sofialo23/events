@@ -1,3 +1,12 @@
+
+<?php
+	include("conn.php");
+	session_start();
+	$name = $_SESSION['logged_user'];
+	echo "Welcome "; echo $name;
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

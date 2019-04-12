@@ -1,5 +1,7 @@
 <?php
 include ('conn.php');
+session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +107,7 @@ include ('conn.php');
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Table List</a>
+            <h5 class="navbar-brand" href="#pablo">Welcome, <?php echo  $_SESSION['username']; ?></h5>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -165,7 +167,7 @@ include ('conn.php');
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> All coming activities</h4>
+                <h4 class="card-title"> All my activities</h4>
               </div>
               <div class="card-body">
                 <div class="table-responsive">

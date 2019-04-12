@@ -1,18 +1,27 @@
 
 <?php
   $error = NULL;
+  include ('conn.php');
+
   if (isset($_POST['submit'])){
-    include ('conn.php');
     $id = $_POST['student_id'];
     $pw = $_POST['pw'];
     $pw = md5($pw);
       //query the DB
     $query = "SELECT * FROM user_info WHERE user_name ='$id' AND pw = '$pw' LIMIT 1";
     $resultSet = mysqli_query($db_link, $query);
-    if(mysqli_num_rows($resultSet) != 0 ){
+    if(mysqli_num_rows($resultSet) == 1 ){
         //PROCESS LOGIN 
-      while($row = mysqli_fetch_assoc($resultSet)){
+      if($row = mysqli_fetch_assoc($resultSet)){
+        session_start();
           $verified = $row['verified'];
+
+         // $_SESSION['message'] = "You have successfully logged in";
+          $_SESSION['username'] = $row['name'];
+          $_SESSION['email'] = $row['user_email'];
+          $_SESSION['dept'] = $row['user_depto'];
+          $_SESSION['userID'] = $row['user_name'];
+
           $email = $row['user_email'];
           $date = $row['signup_date'];
           $date = strtotime($date);
