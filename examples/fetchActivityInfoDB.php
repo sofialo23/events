@@ -38,6 +38,7 @@
 	if(isset($_POST["allinfo"]))
 	{
 		include("connectionDB.php");
+
 		/*
 		 alldata[0] = ("#txt_activityname").val();
           alldate[1] = ("#slct_departments").val();

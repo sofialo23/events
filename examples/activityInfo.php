@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,7 +129,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Create Activity</a>
+            <a class="navbar-brand" href="#pablo">Update Activity</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -184,14 +189,14 @@
           <div class="col-md-8">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Create Activity</h5>
+                <h5 class="title">Update Activity</h5>
               </div>
               <div class="card-body">
                 <form id="frm_createactivity">
                   <div class="row">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                        <label class="custom-control-label" for="defaultUnchecked">Updating Activity</label>
+                        <label class="custom-control-label" for="defaultUnchecked">Modify Activity</label>
                     </div>
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
@@ -318,8 +323,9 @@
         $('.clockpicker').clockpicker();
         $("#btn_save").hide();
         var datas=[]; 
-        datas[0]= 'first';
-        datas[1] = 3;
+        datas[0]= "<?php echo $_SESSION['userID']; ?>";
+        datas[1] = "<?php echo $_GET['eventid']; ?>";   //Coming from the button they click on allmyactivities.php
+
         //NEED TO DISABLE ALL THE INPUTS HERE 
 
         //Going to look for this activity_creator 'first' and activity_id=8

@@ -189,14 +189,15 @@ session_start();
                     <tbody>
 
                 <?php 
-                  $query = "SELECT * FROM activity_info ORDER BY activity_created_date ASC";
+                  $user = $_SESSION['userID'];
+                  $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_created_date ASC";
 
                   $result = mysqli_query($db_link, $query); 
-
-              
+             
                   while ($row = mysqli_fetch_array( $result)) { 
                         $id = $row['activity_id'];
                         $depto = $row['activity_host_depto'];
+
                                             // GET THE DEPARTMENT NAME WITH THE NUMBER 
                         $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
                         $hostDept = mysqli_query($db_link, $getDept); 
@@ -206,7 +207,7 @@ session_start();
                         echo "<td>" . $row['activity_name'] . "</td>";
                         echo "<td>" . $deprow['name_department']. "</td>";
                         echo "<td>" . $row['activity_date'] . "</td>";
-                        echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
+                        echo "<td><a href= 'activityInfo.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> Edit Activity </a></td>";
                         echo "</tr>";
                   }
                      ?>

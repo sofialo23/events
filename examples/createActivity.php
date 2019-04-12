@@ -1,3 +1,7 @@
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -394,6 +398,7 @@
           alldate[5] = chckbx;
           alldate[6] = $('#txt_activityinformation').val();
           alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
+          alldate[8] = "<?php echo $_SESSION['userID']; ?>";
           e.preventDefault();
           $.ajax({
             method:'POST',
