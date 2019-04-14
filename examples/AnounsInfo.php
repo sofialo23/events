@@ -274,8 +274,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row" >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Post Announce</button>
+                  <div class="row " >
+                    <button type="button" id="btn_submit" class="btn btn-primary btn-lg btn-block">Cancel, Go back to list of Announcements</button>
+                  </div>
+                  <div class="row " >
+                    <button type="button" class="btn btn-success" id="btn_save">Update Announcement</button>
                   </div>
                 </form>
               </div>
@@ -381,34 +384,48 @@
   $(document).ready(function(){
     // select: id="slct_activities"
     // txtArea: id="txt_anouns_content"
-    var getting = "get";
+    var elId = 0;
+    $("#btn_save").hide();
+    var anounsId = 6;
+    loadingData();
     $.ajax({
-      url: 'anounsInfoFetchDB.php',
+      url: 'AnounsInfoFetchDB.php',
       dataType: 'json',
       method: 'POST',
-      data: {getting,getting},
+      data: {anounsId,anounsId},
       success: function(data)
       {
-        loadingData();
         
+        $.each(data,function(index,element){
+          $("#txt_anouns_content").val(element.msg);
+          $("#slct_activities").val(element.activityid);
+          slctActivity(element.activityid);
+          elId = element.activityid;
+
+          // chargeSlct(element.activityid);
+        });
       }
     });
+    chargeSlct(elId);
+    function chargeSlct(activity_id)
+    {
+      $("#slct_activities").val(activity_id);
+    }
     function loadingData()
     {
       //We load the announcement hat has been chosen in the previous webpage 
       var info = "all";
-      var slct = $("#slct_activities");
     //Filling in the select HTML element
       $.ajax({
         type:'POST',
-        url:'announcementFetchDB.php',
+        url:'AnounsInfoFetchDB.php',
         dataType:'json',
         data: {info,info},
         success:function(data){
             var toAppend_col = '<option value="0">               --- Select one activity ---          </option>';
             $("#slct_activities").append(toAppend_col);
             $.each(data,function(index,element){
-              var dd = '<option value="'+element.activityid+'">'+element.activityname+'</option>';
+              var dd = '<option value='+element.activityid+'>'+element.activityname+'</option>';
               $("#slct_activities").append(dd);
             });
         }
@@ -416,36 +433,44 @@
     }
     //Finish Filling in slc_activities
     //Event to submit the notification to the DB
-    $("#frm_createanouns").on('submit',function(e){
-      var anss = [];
-      anss[0] = $("#slct_activities").val();
-      anss[1] = $("#txt_anouns_content").val();
-      anss[2] = "first"; //user that will be replaced by the user in sesion
-      e.preventDefault();
-      $.ajax({
-        method:'POST',
-        dataType: 'text',
-        url:'announcementFetchDB.php',
-        data: {anss,anss},
-        success:function(data){
-          //alert("Announcement successfully posted!");
-          //window.location.href = "allevents.php";  
-          if(data=="success")
-          {
-            alert("Announcement successfully posted!");
-            window.location.href = "allevents.php";  
-          }else if(data=="failure")
-          {
-            alert("Failiure!");
-          }
+
+    //********************** Change the event to the button
+    // $("#frm_createanouns").on('submit',function(e){
+    //   var anss = [];
+    //   anss[0] = $("#slct_activities").val();
+    //   anss[1] = $("#txt_anouns_content").val();
+    //   anss[2] = "first"; //user that will be replaced by the user in sesion
+    //   e.preventDefault();
+    //   $.ajax({
+    //     method:'POST',
+    //     dataType: 'text',
+    //     url:'announcementFetchDB.php',
+    //     data: {anss,anss},
+    //     success:function(data){
+    //       //alert("Announcement successfully posted!");
+    //       //window.location.href = "allevents.php";  
+    //       if(data=="success")
+    //       {
+    //         alert("Announcement successfully posted!");
+    //         window.location.href = "allevents.php";  
+    //       }else if(data=="failure")
+    //       {
+    //         alert("Failiure!");
+    //       }
           
-        }
-      });
-    });
+    //     }
+    //   });
+    // });
+
     //Finishes event to submit the notification to the DB
     //When It chooses any activity in order to display all the info on the right
     $("#slct_activities").change(function(){
-      var id = $("#slct_activities").val();
+      slctActivity($(this).val());
+    });
+
+    function slctActivity(myId)
+    {
+      var id =  myId;
       if(id == "0")
       {
         $("#txt_activityname").val('');
@@ -486,7 +511,81 @@
           }
         });
       }
+    }
+
+    //When the update checkbox is selected this function comes into action
+    $("#defaultUnchecked").click(function(){
+      if($(this).is(":checked"))
+      {
+        $("#btn_submit").hide();
+        $("#btn_save").css('display','block');
+        $("#slct_activities").removeAttr('disabled');
+        $("#txt_anouns_content").removeAttr('disabled');
+      }else if($(this).is(":not(:checked)")==true)
+      {
+        $("#btn_submit").show();
+        $("#btn_save").hide();
+        $("#slct_activities").attr('disabled','disabled');;
+        $("#txt_anouns_content").attr('disabled','disabled');
+      }
     });
+
+    //Clicking on the #btn_submit that says go back to all announcements
+    $("#btn_submit").on('click',function(e){
+          window.location.href = "allevents.php";
+    });
+
+    $("#btn_save").on('click', function(e){
+        var allinfo = [];
+        allinfo[0] = $("#slct_activities").val();
+        allinfo[1] = $("#txt_anouns_content").val();
+        allinfo[2] = anounsId;
+        alert(allinfo[2]);
+        $.ajax({
+          method: 'POST',
+          dataType: "text",
+          url: 'AnounsInfoFetchDB.php',
+          data: {allinfo,allinfo},
+          success:function(data)
+          {
+            if(data=="success")
+            {
+              alert("Changes applied succesfully");
+              window.location.href = "allevents.php";
+            }else if(data=="failed")
+            {
+              alert("Was not successfully updated");
+              backLoading();
+            }
+          }
+        });
+    });
+
+    function backLoading()
+    {
+      $("#btn_submit").show();
+      $("#btn_save").hide();
+      $("#txt_anouns_content").attr('disabled','disabled');
+      $("#slct_activities").attr('disabled','disabled');
+
+      $.ajax({
+      url: 'AnounsInfoFetchDB.php',
+      dataType: 'json',
+      method: 'POST',
+      data: {anounsId,anounsId},
+      success: function(data)
+      {
+        loadingData();
+        $.each(data,function(index,element){
+          $("#slct_activities").val(element.activityid);
+          $("#txt_anouns_content").val(element.msg);
+          
+        });
+        slctActivity(element.activityid);
+      }
+    });
+    }
+
   });
 </script>
 </html>

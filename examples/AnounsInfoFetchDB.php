@@ -1,5 +1,44 @@
 <?php
 	header('Content-Type: application/json');
+	if(isset($_POST["anounsId"]))
+	{
+		include("connectionDB.php");
+		$anounsId = $_POST["anounsId"];
+		$query_activities = "Select * from `activity_notif` where activity_notif_id=".$anounsId."";
+		$result = mysqli_query($db_link,$query_activities);
+		if($result)
+		{
+			$jsonvar = array();
+			while($row_col = mysqli_fetch_array($result))
+			{
+				$array["notifid"] = $row_col["activity_notif_id"];
+				$array["creator"]=$row_col["activity_notif_creator"];
+				$array["msg"]=$row_col["activity_notif_msg"];
+				$array["activityid"]=$row_col["activity_notif_activity_id"];
+				$array["datecreated"]=$row_col["activity_notif_date_created"];
+				array_push($jsonvar, $array);
+			}
+				$jsonstring = json_encode($jsonvar);
+				echo $jsonstring;
+		}
+	}
+	if(isset($_POST["allinfo"]))
+	{
+		include("connectionDB.php");
+		$allinfo = $_POST["allinfo"];
+		// $allinfo[0] -> activityId
+		// $allinfo[1] -> anounsmsg
+		// $allinfo[2] -> anounsId
+		$query_update_anouns = "Update activity_notif SET activity_notif_activity_id =".$allinfo[0].", activity_notif_msg='".$allinfo[1]."' Where activity_notif.activity_notif_id=".$allinfo[2]."";
+		$result_update_anouns = mysqli_query($db_link,$query_update_anouns);
+		if($result_update_anouns)
+		{
+			echo "success";
+		}else
+		{
+			echo "failed";
+		}
+	}
 	if(isset($_POST["info"]))
 	{
 		include("connectionDB.php");
@@ -18,50 +57,4 @@
 				echo $jsonstring;
 		}
 	}
-	if(isset($_POST["id"]))
-	{
-		include("connectionDB.php");
-		$id = $_POST["id"];
-		$query = "Select * from activity_info where activity_id=".$id.";"; 
-		$result = mysqli_query($db_link,$query);
-		if($result)
-		{
-			$jsonvar = array();
-			while($row_col = mysqli_fetch_array($result))
-			{
-				$array["activityid"] = $row_col["activity_id"];
-				$array["activityname"]=$row_col["activity_name"];
-				$array["activityhostdepto"] = $row_col["activity_host_depto"];
-				$array["activitycreateddate"] = $row_col["activity_created_date"];
-				$array["activitydate"] = $row_col["activity_date"];
-				$array["activityinfo"] = $row_col["activity_info"];
-				$array["activitystafflimit"] = $row_col["activity_staff_limit"];
-				$array["activitystaffcounter"] = $row_col["activity_staff_counter"];
-				$array["activitycreator"] = $row_col["activity_creator"];
-				$array["activityplace"] = $row_col["activity_place"];
-				
-				array_push($jsonvar, $array);
-			}
-				$jsonstring = json_encode($jsonvar);
-				echo $jsonstring;
-		}
-	}
-	if(isset($_POST["anss"]))
-	{
-		include("connectionDB.php");
-		$var = $_POST["anss"];
-		//$var[0] -> activityid
-		//$var[1] -> anouns
-		//$var[2] -> user that will be replaced by the user in sesion
-		 
-		$query_create_anouns = "insert into activity_notif (activity_notif_creator,activity_notif_msg, activity_notif_activity_id) values ('".$var[2]."','".$var[1]."',".$var[0].")";
-		$result_anouns = mysqli_query($db_link,$query_create_anouns);
-		if($result_anouns)
-      	{	
-      		echo "success";
-      	}else
-      	{
-      		echo "failure";
-      	}
-     }
 ?>
