@@ -230,10 +230,16 @@
                     </div>
                   </div> -->
                   <div class="row">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                        <label class="custom-control-label" for="defaultUnchecked">Modify Announcement</label>
+                    </div>
+                  </div>
+                  <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity (Choose one)</label>
-                        <select id="slct_activities" class="form-control"  data-live-search="true" required>
+                        <select id="slct_activities" class="form-control"  data-live-search="true" disabled>
                         </select>
                         <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
                          -->
@@ -264,7 +270,7 @@
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Announcement Content</label>
-                        <textarea rows="4" id="txt_anouns_content" cols="80" class="form-control" placeholder="Here can be your Announcement Info" value="" required></textarea>
+                        <textarea rows="4" id="txt_anouns_content" cols="80" class="form-control" placeholder="Here can be your Announcement Info" value="" disabled required></textarea>
                       </div>
                     </div>
                   </div>
@@ -375,8 +381,23 @@
   $(document).ready(function(){
     // select: id="slct_activities"
     // txtArea: id="txt_anouns_content"
-    var info = "all";
-    var slct = $("#slct_activities");
+    var getting = "get";
+    $.ajax({
+      url: 'anounsInfoFetchDB.php',
+      dataType: 'json',
+      method: 'POST',
+      data: {getting,getting},
+      success: function(data)
+      {
+        loadingData();
+        
+      }
+    });
+    function loadingData()
+    {
+      //We load the announcement hat has been chosen in the previous webpage 
+      var info = "all";
+      var slct = $("#slct_activities");
     //Filling in the select HTML element
       $.ajax({
         type:'POST',
@@ -392,6 +413,7 @@
             });
         }
       });
+    }
     //Finish Filling in slc_activities
     //Event to submit the notification to the DB
     $("#frm_createanouns").on('submit',function(e){
