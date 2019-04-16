@@ -405,7 +405,7 @@
             url: 'fetchCreateActivity.php',
             data: {alldate,alldate},
             success:function(data){
-                window.location.href = "succeedNewActivity.html";
+              window.location.href = "allevents.php";
               
             }
           });

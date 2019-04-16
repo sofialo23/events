@@ -353,8 +353,6 @@ session_start();
                 $("#txt_date").val(fecha);
                 $("#txt_time").val(time);
               }
-              
-              
               if(element.activitystafflimit > 0)
               {
                 $("#defaultChecked2").prop('checked',true);
@@ -418,6 +416,7 @@ session_start();
       //Calling initial function to load the info in the the inputs
       $("#btn_submit").on('click',function(e){
           window.location.href = "allmyactivities.php";
+
       });
       //This event is to save the data updated
       $("#btn_save").on('click', function(e){

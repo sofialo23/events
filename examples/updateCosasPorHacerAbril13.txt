@@ -1,6 +1,6 @@
 
--Insert el announcement
--Modificar el Announcement
+-Insert el announcement    ******DONE
+-Modificar el Announcement ******DONE
 -Creador pueda ver lista de staff 
 -Creador pueda ver el total n[umero de attendants (activityInfo.php)
 -Buscador de actividades
