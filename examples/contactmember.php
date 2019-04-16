@@ -1,48 +1,29 @@
 
 <?php
-  $error = NULL;
-  include ('conn.php');
+$error = NULL;
+$msg = NULL;
+session_start();
+include ('conn.php');
 
-  if (isset($_POST['submit'])){
-    $id = $_POST['student_id'];
-    $pw = $_POST['pw'];
-    $pw = md5($pw);
-      //query the DB
-    $query = "SELECT * FROM user_info WHERE user_name ='$id' AND pw = '$pw' LIMIT 1";
-    $resultSet = mysqli_query($db_link, $query);
-    if(mysqli_num_rows($resultSet) == 1 ){
-        //PROCESS LOGIN 
-      if($row = mysqli_fetch_assoc($resultSet)){
-        session_start();
-          $verified = $row['verified'];
 
-         // $_SESSION['message'] = "You have successfully logged in";
-          $_SESSION['name'] = $row['name'];
-          $_SESSION['email'] = $row['user_email'];
-          $_SESSION['dept'] = $row['user_depto'];
-          $_SESSION['userID'] = $row['user_name'];
+if(isset($_POST['submit'])) {
+ 
+    $to = $_SESSION['emailreceiver'];
+    $sender = $_SESSION['name'];
+    $sendermail = $_SESSION['email'];
+    $subject = "This is a message from $sender : ".$_POST['subject'];
+    $message = $_POST['message'] . "\n\n  <p>If you have any questions send me a message to : $sendermail</p>";
+    $headers = "From: esofia91@gmail.com \r\n";
+    $headers .= "MIME-Version:1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-          $email = $row['user_email'];
-          $date = $row['signup_date'];
-          $date = strtotime($date);
-          $date = date('M d Y', $date);
-          if($verified == 1){
-            //KEEP PROCESSING 
-            header('location:profile.php');
-          }
-          else{
-            $error = "This account has not yet been verified. And email was sent to $email on $date";
-          }
-        print "\r\n";
-      }
-    }
-    else{
-      // INVALID CREDENTIALS
-      $error = "The username or password you entered is incorrect";
-    }
-  }
+    mail($to, $subject, $message, $headers);
+          //header('location:login.php');//$msgclass = 'bg-danger';
+    $msg = 'Email sent.';  
+           
+}
+
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,9 +38,6 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-  <!-- Chart JS -->
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
@@ -164,44 +142,53 @@
           <div class="col-md-8">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Login to your account</h5>
+                <h5 class="title">Send email to staff member</h5>
               </div>
               <div class="card-body">
                 <form id="login_form" method="post">
                   <div class="row">
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
-                        <label>Student ID</label>
-                        <input type="text" class="form-control" id="student_id" name = "student_id" required = "true">
+                        <label>Subject </label>
+                        <input type="text" class="form-control" id="subject" name="subject" required = "true">
                       </div>
                     </div>
+                  </div>
 
-                  </div>
-                  <div class="row">
-                    <div class="col-md-5 pr-1">
+                   <div class="row">
+                    <div class="col-md-10 pr-1">
                       <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" name = "pw"  id="pw" value="" required>
+                        <label>Message </label>
+                        <textarea class="form-control" id="message" name="message" required = "true" placeholder="Enter your message here"></textarea>
                       </div>
                     </div>
                   </div>
-             
-                  <div class="row" >
+
+
+                   <div class="row">
                     <div class="col-md-3 pr-1">
                       <div class="form-group">
-                        <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                        <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Send email</button>
                       </div>
                     </div>
-                    
                   </div>
                 </form>
               </div>
-              <?php if($error!=NULL)echo "<h5 style='color:red;'> *** $error *** </h5>";?>
+              <?php 
+
+                if($error!=NULL)
+                 echo "<h5 style='color:red;'> *** $error *** </h5>";
+              else if($msg!=NULL)
+                 echo "<h5 style='color:green;'> *** $msg *** </h5>";
+              ?>
             </div>
-            <a href="resetpw.php"> Forgot your password? </a>
+            <a href="contactsraff.php?"> Go back to Staff List </a>
+           
           </div>
-        </div> <br>Don't have an account yet?
-            <a href="signup.php"> Create a new account </a>
+          <div class="col-md-4">
+              
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -268,6 +268,7 @@ session_start();
                       <div class="form-group">
                         <label>Staff Number</label>
                         <input type="text" id="staff_input" size=3 class="form-control"  placeholder="Staff Number: 0" value="0" disabled>
+                        <a href="allmyactivities.php">
                       </div>
                     </div>
                   </div>
@@ -280,7 +281,7 @@ session_start();
                     </div>
                   </div>
                   <div class="row " >
-                    <button type="button" id="btn_submit" class="btn btn-primary btn-lg btn-block">Cancel, Go back to all activities</button>
+                    <button type="button" id="btn_submit" class="btn btn-primary btn-lg btn-block">Cancel, Go back to all my activities</button>
                   </div>
                   <div class="row " >
                     <button type="button" class="btn btn-success" id="btn_save">Save</button>
@@ -416,7 +417,7 @@ session_start();
       }
       //Calling initial function to load the info in the the inputs
       $("#btn_submit").on('click',function(e){
-          window.location.href = "allactivities.php";
+          window.location.href = "allmyactivities.php";
       });
       //This event is to save the data updated
       $("#btn_save").on('click', function(e){

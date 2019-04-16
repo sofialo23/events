@@ -1,7 +1,5 @@
 <?php
 include ('conn.php');
-session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +105,7 @@ session_start();
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <h5 class="navbar-brand" href="#pablo">Welcome, <?php echo  $_SESSION['username']; ?></h5>
+            <a class="navbar-brand" href="#pablo">Table List</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -167,52 +165,51 @@ session_start();
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> All my activities</h4>
+                <h4 class="card-title">Activitiy Info</h4>
               </div>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Department
-                      </th>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        More Info
-                      </th>
-                    </thead>
-                    <tbody>
-
+                  
                 <?php 
-                  $user = $_SESSION['userID'];
-                  $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_created_date ASC";
+                  $act_id = $_GET['eventid'];
+                  $query = "SELECT * FROM activity_info WHERE activity_id = '$act_id'";
 
                   $result = mysqli_query($db_link, $query); 
-             
-                  while ($row = mysqli_fetch_array( $result)) { 
+
+              
+                  if ($row = mysqli_fetch_array( $result)) { 
                         $id = $row['activity_id'];
                         $depto = $row['activity_host_depto'];
-
                                             // GET THE DEPARTMENT NAME WITH THE NUMBER 
                         $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
                         $hostDept = mysqli_query($db_link, $getDept); 
                         $deprow = mysqli_fetch_array( $hostDept);
-                    
+                        
+                        $getstaffquery = "SELECT COUNT(*) FROM activity_atst WHERE activity_id = '$id' AND rol=1";
+                        $getstaff = mysqli_query($db_link, $getstaffquery); 
+                        $staffinfo = mysqli_fetch_array( $getstaff);
+
+                        $getattquery = "SELECT COUNT(*) FROM activity_atst WHERE activity_id = '$id' AND rol=0";
+                        $getatt = mysqli_query($db_link, $getattquery); 
+                        $attinfo = mysqli_fetch_array( $getatt);
+
+                        echo " <table class='table'>";
+
+                        
+                        echo "<tr> <td class= 'text-primary'> Activity Name </td> <td >" . $row['activity_name'] . " </td><td></td> </tr>";
+                        echo "<tr> <td class= 'text-primary'> Hosting Department </td> <td>" . $deprow['name_department']. "</td> <td></td></tr>";
+                        echo "<tr> <td class= 'text-primary'> Activity Date </td> <td>" . $row['activity_date'] . " </td><td></td> </tr>";
+                        echo "<tr> <td class= 'text-primary'> Activity Information </td> <td>" . $row['activity_info'] . "</td><td></td> </tr>";
+                        echo "<tr> <td class= 'text-primary'> Activity Location </td> <td>" . $row['activity_place'] . "</td><td></td> </tr>";
+                         echo "<tr>  <td class= 'text-primary'> Activity Total Assistance (not including staff) </td> <td>" . $attinfo['COUNT(*)'] . " </td><td></td></tr>";
+                        echo "<tr>  <td class= 'text-primary'> Activity Staff Required </td> <td>" . $row['activity_staff_limit'] . " </td><td></td></tr>";
+                        echo "<tr>  <td class= 'text-primary'> Activity Staff Recruited </td> <td>" . $staffinfo['COUNT(*)'] ." <td><a href= 'contactstaff.php?eventid=$id' id=".$row['activity_id']."  class='btn btn-primary btn-lg btn-block'>See the staff list</a></td></td> </tr>";
                         echo "<tr>";
-                        echo "<td>" . $row['activity_name'] . "</td>";
-                        echo "<td>" . $deprow['name_department']. "</td>";
-                        echo "<td>" . $row['activity_date'] . "</td>";
-                        echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                        echo "</tr>";
+                        echo "<td><a href= 'activityInfo.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'>Modify this Activity</a></td> </td><td></td><td></td></tr>";
                   }
                      ?>
                   
-                    </tbody>
                   </table>
                 </div>
               </div>

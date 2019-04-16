@@ -2,7 +2,7 @@
 <?php
 	include("conn.php");
 	session_start();
-	$name = $_SESSION['logged_user'];
+	$name = $_SESSION['name'];
 	echo "Welcome "; echo $name;
 
 ?>

@@ -1,5 +1,30 @@
 <?php
 include ('conn.php');
+session_start();
+
+if(isset($_POST['singlemail'])) {
+    $_SESSION['emailreceiver'] = $_POST['sendto'];
+    header('location:contactmember.php');
+}
+
+
+if(isset($_POST['mailtoall'])) {
+
+  $_POST['sendto'];
+  $act_id = $_GET['eventid'];
+	$query = "SELECT user_email FROM user_info INNER JOIN users ON user_info.user_name = activity_atst.user_name";
+	echo $query;
+	
+    $getall = mysqli_query($db_link, "SELECT user_email FROM user_info INNER JOIN activity_atst ON user_info.user_name = activity_atst.user_name AND activity_atst.activity_id = '$act_id'");  
+    $allemails = "";
+    while($row = mysqli_fetch_assoc($getall)){
+    	$allemails .= $row['user_email'].";";
+    }
+    $allemails = rtrim($allemails,';');  //removes the last semicolon
+    $_SESSION['emailreceiver'] = $allemails;
+    header('location:contactmember.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -165,7 +190,7 @@ include ('conn.php');
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> All coming activities</h4>
+                <h4 class="card-title">Staff Members</h4> 
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -178,35 +203,42 @@ include ('conn.php');
                         Department
                       </th>
                       <th>
-                        Date
+                        Student ID
                       </th>
                       <th>
-                        More Info
+                        Email
                       </th>
                     </thead>
                     <tbody>
 
                 <?php 
-                  $query = "SELECT * FROM activity_info ORDER BY activity_created_date ASC";
+                $eventid= $_GET['eventid'];
+                  $query = "SELECT * FROM activity_atst WHERE activity_id = '$eventid' AND rol =1 "; // SELECT ONLY STAFF
 
                   $result = mysqli_query($db_link, $query); 
 
-              
                   while ($row = mysqli_fetch_array( $result)) { 
                         $id = $row['activity_id'];
-                        $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-                        $hostDept = mysqli_query($db_link, $getDept); 
-                        $deprow = mysqli_fetch_array( $hostDept);
-                    
+                        $student_id = $row['user_name'];
+
+                         $getvalues = "SELECT name, user_email,user_depto FROM user_info WHERE user_name = '$student_id'; ";
+                        $values = mysqli_query($db_link, $getvalues); 
+                        $valuesrow = mysqli_fetch_array( $values);
+
                         echo "<tr>";
-                        echo "<td>" . $row['activity_name'] . "</td>";
-                        echo "<td>" . $deprow['name_department']. "</td>";
-                        echo "<td>" . $row['activity_date'] . "</td>";
-                        echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
+                        echo "<td>" . $valuesrow['name'] . "</td>";
+                         echo "<td>" . $valuesrow['user_depto'] . "</td>";
+                        echo "<td>" . $row['user_name']. "</td>";
+
+                        $value = $valuesrow['user_email'];
+                        echo "<td><form name = 'singlemail_form' method='POST'><input type='text' name='sendto' value='$value' hidden='true'/>
+                        <button type='submit' id='singlemail' name='singlemail' class='btn btn-primary btn-lg btn-block'>Contact</button></form></td>";
                         echo "</tr>";
+                        
                   }
+
+                  echo "<td><form method='POST'><button type='submit' id='mailtoall' name='mailtoall' class='btn btn-primary btn-lg btn-block'>Send email to all</button></form></td>";
+
                      ?>
                   
                     </tbody>
