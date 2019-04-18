@@ -4,6 +4,9 @@ In order to make the search more specific,
 we need to add a table with the list of categories
 and link it with a foreign key in the activity_notif
 
+front-end part: como IG Hashtags working system. 
+when it types '#' automatically sale
+como un dropdown con opciones
 
 2.
 For the predictions on searching
