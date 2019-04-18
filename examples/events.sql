@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2019 at 03:54 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.11
+-- Generation Time: Apr 18, 2019 at 04:12 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,7 +41,8 @@ CREATE TABLE `activity_atst` (
 
 INSERT INTO `activity_atst` (`activity_atst_id`, `user_name`, `activity_id`, `rol`) VALUES
 (1, '410321166', 1, 1),
-(2, 'first', 2, 0);
+(2, 'first', 2, 0),
+(25, '410321166', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -67,10 +68,11 @@ CREATE TABLE `activity_info` (
 --
 
 INSERT INTO `activity_info` (`activity_id`, `activity_name`, `activity_host_depto`, `activity_created_date`, `activity_date`, `activity_info`, `activity_staff_limit`, `activity_staff_counter`, `activity_creator`, `activity_place`) VALUES
-(1, 'First Activity', 5, '2019-04-10 08:33:32', '0000-00-00 00:00:00', 'First Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info', 10, 0, 'first', 'Social and Humanities Building 3, room D888'),
-(2, 'First Activity', 7, '2019-04-10 08:33:50', '2019-03-27 03:30:00', 'First Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info\r\nFirst Activity Info', 10, 0, 'first', 'Social and Humanities Building 3, room R888'),
-(3, 'Activity Example', 23, '2019-04-10 08:33:57', '2019-04-09 10:00:00', 'Info Random de la actividad culera para la Universidad', 10, 0, 'first', 'Social and Humanities Building 3, Room D299'),
-(4, 'one more activity', 23, '2019-04-10 08:34:05', '2019-04-17 10:00:00', 'Info Random de la actividad para la Universidad', 20, 0, 'first', 'Social and Humanities Building 3, Room C302');
+(1, 'First Activity', 5, '2019-04-11 09:58:47', '0000-00-00 00:00:00', 'INFO 1', 10, 0, 'first', 'Social and Humanities Building 3, room D888'),
+(2, 'First Activity', 7, '2019-04-11 09:58:38', '2019-03-27 03:30:00', 'Info 2', 10, 0, 'first', 'Social and Humanities Building 3, room R888'),
+(3, 'Activity Example Update 1', 17, '2019-04-18 06:44:36', '2019-04-12 10:00:00', 'Info 3', 10, 9, 'first', 'Social and Humanities Building 3, Room D299'),
+(4, 'one more activity', 23, '2019-04-11 09:58:10', '2019-04-17 10:00:00', 'Info 4', 20, 0, 'first', 'Social and Humanities Building 3, Room C302'),
+(5, 'Activity 5', 4, '2019-04-11 10:55:32', '2019-04-19 08:25:00', 'Activity Information 3', 33, 0, 'first', 'Place 5');
 
 -- --------------------------------------------------------
 
@@ -81,18 +83,127 @@ INSERT INTO `activity_info` (`activity_id`, `activity_name`, `activity_host_dept
 CREATE TABLE `activity_notif` (
   `activity_notif_id` int(11) NOT NULL,
   `activity_notif_creator` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `activity_notif_msg` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
+  `activity_notif_msg` varchar(720) COLLATE utf8_unicode_ci NOT NULL,
   `activity_notif_activity_id` int(11) NOT NULL,
-  `activity_notif_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `activity_notif_date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `activity_notif`
 --
 
-INSERT INTO `activity_notif` (`activity_notif_id`, `activity_notif_creator`, `activity_notif_msg`, `activity_notif_activity_id`, `activity_notif_date`) VALUES
-(1, 'first', 'Vayan a la puta actividad no sean culeros!', 1, '2019-04-12 06:59:54'),
-(2, 'first', 'Ya les dije que vayan y no van que mulas!', 1, '2019-04-12 06:59:54');
+INSERT INTO `activity_notif` (`activity_notif_id`, `activity_notif_creator`, `activity_notif_msg`, `activity_notif_activity_id`, `activity_notif_date_created`) VALUES
+(1, 'first', 'Vayan a la puta actividad no sean culeros!', 1, '2019-04-10 08:47:39'),
+(2, 'first', 'Ya les dije que vayan y no van que mulas!', 1, '2019-04-10 08:47:39'),
+(3, 'first', '88888888888', 3, '2019-04-11 18:14:16'),
+(4, 'first', 'sssss', 3, '2019-04-11 18:20:33'),
+(5, 'first', 'qrfdfasdfasdfs', 5, '2019-04-14 07:18:03'),
+(6, 'first', 'CACAS PUTOS 2 MIAOMIAO 30197438910274309127430912743921384', 4, '2019-04-14 11:58:13'),
+(7, 'first', 'adfasdfasdf', 4, '2019-04-14 08:05:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id_category` int(3) NOT NULL,
+  `name_category` varchar(150) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id_category`, `name_category`) VALUES
+(1, 'Sports'),
+(2, 'Recreation'),
+(3, 'Art'),
+(4, 'Music'),
+(5, 'Performing Arts'),
+(6, 'Politics'),
+(7, 'Speech'),
+(8, 'Social Studies'),
+(9, 'Volunteering'),
+(10, 'Activism'),
+(11, 'Extracurricular Activities'),
+(12, 'Biology'),
+(13, 'Chemistry'),
+(14, 'Economics'),
+(15, 'Electronics'),
+(16, 'Engineering'),
+(17, 'Languages'),
+(18, 'English'),
+(19, 'Education'),
+(20, 'History'),
+(21, 'Science'),
+(22, 'Literary'),
+(23, 'Math'),
+(24, 'Physics'),
+(25, 'Robotics'),
+(26, 'Web Design'),
+(27, 'Coding'),
+(28, 'Software'),
+(29, 'Writing'),
+(30, 'Tech'),
+(31, 'Animation'),
+(32, 'Graphic Design'),
+(33, 'Photography'),
+(34, 'Video Game'),
+(35, 'Video'),
+(36, 'Chinese'),
+(37, 'French'),
+(38, 'Food'),
+(39, 'International'),
+(40, 'Latin'),
+(41, 'Europe'),
+(42, 'America'),
+(43, 'Spanish'),
+(44, 'Knowledge'),
+(45, 'Community'),
+(46, 'Radio'),
+(47, 'Television'),
+(48, 'Web Site'),
+(49, 'Jazz'),
+(50, 'Music Band'),
+(51, 'Orchestra'),
+(52, 'Film'),
+(53, 'Theater'),
+(54, 'Religion'),
+(55, 'Health'),
+(56, 'Chess'),
+(57, 'Board Games'),
+(58, 'Guitar'),
+(59, 'Debate'),
+(60, 'Basketball'),
+(61, 'Baseball'),
+(62, 'Hiking'),
+(63, 'Martial Arts'),
+(64, 'Social Media'),
+(65, 'Church'),
+(66, 'Animal Rescue'),
+(67, 'Culture'),
+(68, 'Indoor Activity'),
+(69, 'Outdoor Activity'),
+(70, 'Climbing'),
+(71, 'Nature'),
+(72, 'Photography'),
+(73, 'Electrical Engineering'),
+(74, 'Applied Science'),
+(75, 'Teaching'),
+(76, 'Finance'),
+(77, 'Business'),
+(78, 'Psychology'),
+(79, 'Information'),
+(80, 'Management'),
+(81, 'Logistics'),
+(82, 'Literature'),
+(83, 'Sociology'),
+(84, 'Law'),
+(85, 'Accounting'),
+(86, 'Material Science'),
+(87, 'Natural Resources');
 
 -- --------------------------------------------------------
 
@@ -160,7 +271,7 @@ INSERT INTO `departments` (`id_department`, `name_department`, `id_college`) VAL
 (21, 'Department of Sinophone Literatures', 5),
 (22, 'Department of Chinese Language and Literature', 5),
 (23, 'Department of English', 5),
-(24, 'Department of Taiwan and Reional Studies', 5),
+(24, 'Department of Taiwan and Regional Studies', 5),
 (25, 'Department of Sociology', 5),
 (26, 'Institute of Financial and Economic Law', 5),
 (27, 'Department of Public Administration', 5),
@@ -200,13 +311,6 @@ CREATE TABLE `recovery_keys` (
   `valid` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `recovery_keys`
---
-
-INSERT INTO `recovery_keys` (`userID`, `token`, `valid`) VALUES
-(410321161, '6050e3f81351029170f420d6b26d8253', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -222,7 +326,7 @@ CREATE TABLE `user_info` (
   `pw` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `vkey` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `signup_date` timestamp NULL DEFAULT NULL
+  `signup_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -230,7 +334,7 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`name`, `user_name`, `user_email`, `user_depto`, `user_rol`, `pw`, `vkey`, `verified`, `signup_date`) VALUES
-('SOFIA', '410321161', '410321161@gms.ndhu.edu.tw', 2, 0, '202cb962ac59075b964b07152d234b70', 'f184cdaa85f3b50cc17b70a10669f0e8', 1, '2019-04-11 08:42:12'),
+('Sofia', '410321161', '410321161@gms.ndhu.edu.tw', 17, 0, '202cb962ac59075b964b07152d234b', '62d3d68e868ffda19d9a5c744e9b73', 0, '0000-00-00 00:00:00'),
 ('', '410321166', '410321166@gms.ndhu.edu.tw', 17, 0, '', '', 0, '2019-04-08 18:26:21'),
 ('', 'first', 'first@gms.ndhu.edu.tw', 17, 1, '', '', 0, '2019-04-08 18:26:29'),
 ('', 'second', 'second@gms.ndhu.edu.tw', 40, 2, '', '', 0, '2019-04-08 18:26:43');
@@ -244,6 +348,7 @@ INSERT INTO `user_info` (`name`, `user_name`, `user_email`, `user_depto`, `user_
 --
 ALTER TABLE `activity_atst`
   ADD PRIMARY KEY (`activity_atst_id`),
+  ADD UNIQUE KEY `user_name_2` (`user_name`,`activity_id`),
   ADD KEY `user_name` (`user_name`),
   ADD KEY `activity_id` (`activity_id`);
 
@@ -262,6 +367,12 @@ ALTER TABLE `activity_notif`
   ADD PRIMARY KEY (`activity_notif_id`),
   ADD KEY `activity_notif_creator` (`activity_notif_creator`),
   ADD KEY `activity_notif_activity_id` (`activity_notif_activity_id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id_category`);
 
 --
 -- Indexes for table `colleges`
@@ -291,19 +402,25 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `activity_atst`
 --
 ALTER TABLE `activity_atst`
-  MODIFY `activity_atst_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `activity_atst_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `activity_info`
 --
 ALTER TABLE `activity_info`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `activity_notif`
 --
 ALTER TABLE `activity_notif`
-  MODIFY `activity_notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `activity_notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id_category` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `colleges`
