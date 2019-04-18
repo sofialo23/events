@@ -371,7 +371,8 @@ session_start();
             url:'fetchCreateActivity.php',
             dataType:'json',
             data: {info,info},
-            success:function(data){
+            success:function(data)
+            {
                 var toAppend_col = '<option value="0"> Select one department </option>';
                 $("#slct_departments").append(toAppend_col);
                 $.each(data,function(index,element){

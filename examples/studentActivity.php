@@ -388,13 +388,6 @@ session_start();
               // alert(element.activityhostdepto);
               $("#lbl_activityName").text(element.activityname);
               $("#lbl_hostDepartment").text(element.activityhostdepto);
-
-              // $("#lbl_activityDate").text(element.activitydate);
-              // $("#lbl_activityTime").text(element.activityhostdepto);
-
-              
-              // $("#slct_departments").val(element.activityhostid);
-              // var ddd = element.activityname;
               var completedate = element.activitydate;
               if(typeof completedate != 'undefined')
               {
@@ -415,17 +408,82 @@ session_start();
               {
                   $("#btn_join").attr('disabled','disabled');
               }
-
-              // if(element.activitystafflimit > 0)
-              // {
-              //   $("#defaultChecked2").prop('checked',true);
-              //   $("#staff_input").val(element.activitystafflimit);
-              // }
-              // $("#txt_activityplace").val(element.activityplace);
-              // $("#txt_activityinformation").val(element.activityinfo);
+              atst();
+              
             });
           }
         });
+
+        $("#btn_back").on('click',function(e){
+            window.location.href = "allactivities.php";
+
+        });
+        $("#btn_join").on('click',function(e)
+        {
+            saveIntoDB(1);
+
+        });
+        $("#btn_attend").on('click',function(e)
+        {
+            saveIntoDB(0);
+
+        });
+        function saveIntoDB(rod)
+        {
+            var go = [];
+            go[0] = datas[0];
+            go[1] = datas[1];
+            go[2] = rod;
+            $.ajax({
+              type:'POST',
+              url:'fetchStudentActivityDB.php',
+              dataType:'json',
+              data: {go,go},
+              success:function(data)
+              {
+                if(data=="success")
+
+                {
+                  if(rod==1)
+                  {
+                    alert("You have joined this activity succesfully!");
+                  }else if(rod == 0)
+                  {
+                    alert("Congrats! We looking forward to have you with us little piece of shit!");
+                  }
+                }
+                  
+                  atst();
+              }
+            });
+        }
+        
+        //Function to check if the user (student)
+        //is already attending or staff y desabilitar los 
+        //botones no matter which one he chosed.
+      function atst()
+      {
+        // datas[0] -> ID del student para insert into notif_atst
+        var chck = [];
+        chck[0] = datas[0];
+        chck[1] = datas[1];
+        var flag = false;
+        $.ajax({
+          type:'POST',
+          url:'fetchStudentActivityDB.php',
+          dataType:'text',
+          data: {chck,chck},
+          success:function(data)
+          {
+              if(data=="success")//means it is in the DB already
+              {
+                $("#btn_join").attr('disabled','disabled');
+                $("#btn_attend").attr('disabled','disabled');
+              }
+          }
+        });
+      }
+
       function departments()
       {
         var info = "all";

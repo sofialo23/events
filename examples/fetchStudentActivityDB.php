@@ -34,6 +34,36 @@
 				echo $jsonstring;
 		}
 	}
+	if(isset($_POST["go"]))
+	{	
+		//Process to join as a staff
+		include("connectionDB.php");
+		$go = $_POST["go"];
+		$query_activity_atst = "Insert into activity_atst (user_name,activity_id,rol) VALUES('".$go[0]."',".$go[1].",".$go[2].")";
+		$result = mysqli_query($db_link,$query_activity_atst);
+		if($result)
+		{
+			echo "success";
+		}else
+		{
+			echo "caca2";
+		}
+	}
+	if(isset($_POST["chck"]))
+	{	
+		//Process to join as a staff
+		include("connectionDB.php");
+		$go = $_POST["chck"];
+		$query_chck = "Select * from activity_atst where activity_atst.user_name='".$go[0]."' and activity_atst.activity_id=".$go[1]."";
+		$result = mysqli_query($db_link,$query_chck);
+		if(mysqli_num_rows($result)==1)
+		{
+			echo "success";
+		}else
+		{
+			echo "caca";
+		}
+	}
 	// if(isset($_POST["allinfo"]))
 	// {
 	// 	include("connectionDB.php");
