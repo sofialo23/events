@@ -1,0 +1,17 @@
+
+1. 
+In order to make the search more specific,
+we need to add a table with the list of categories
+and link it with a foreign key in the activity_notif
+
+
+2.
+For the predictions on searching
+we need one more table in DB that will save:
+user_name, department_id, category_id
+
+3.
+we will not make suggestions based on the date
+selected on the search.
+We will always recommend the soon coming activities,
+separately we also show based on recent searches (by category or by department)
