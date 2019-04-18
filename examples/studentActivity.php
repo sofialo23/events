@@ -437,7 +437,7 @@ session_start();
             $.ajax({
               type:'POST',
               url:'fetchStudentActivityDB.php',
-              dataType:'json',
+              dataType:'text',
               data: {go,go},
               success:function(data)
               {
