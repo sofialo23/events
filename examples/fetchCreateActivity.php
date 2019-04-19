@@ -1,8 +1,12 @@
 <?php
 
-	include("connectionDB.php");
+	
   if(isset($_POST["alldate"]))
   {
+    //I WILL RECEIVE THE ARRAY FROM THE CREATEACTIVITY.PHP OF THE CATEGORIES
+    //WILL SEND IT INTO A STORED PROCEDURE SO I GET AUTOMATICALLY THE ID OF THE DATA INSERTED IN 
+    //ACTIVITY_INFO AND WILL BE ABLE TO INSERT IT INTO THE CATEGORY_ACTIVITY TABLE
+    include("connectionDB.php");
     $alldate = $_POST["alldate"];
     $finalTime = $alldate[2] + " " + $alldate[3] ;
 
@@ -19,6 +23,7 @@
   }
   if(isset($_POST["info"]))
   {
+    include("connectionDB.php");
     $query_departments = "Select * from departments;";
     $result_query_departments = mysqli_query($db_link,$query_departments);
     if($result_query_departments)
@@ -35,4 +40,23 @@
         echo $jsonstring;
     }
   }
+  if(isset($_POST["categories"]))
+  {
+    include("connectionDB.php");
+    $query_categories = "Select * from categories;";
+    $result_categories = mysqli_query($db_link,$query_categories);
+    if($result_categories)
+    {
+      $jsonvar = array();
+      while($row_col = mysqli_fetch_array($result_categories))
+      {
+        $array["idcategory"] = $row_col["id_category"];
+        $array["namecategory"]=$row_col["name_category"];
+        array_push($jsonvar, $array);
+      }
+        $jsonstring = json_encode($jsonvar);
+        echo $jsonstring;
+    }
+  }
+
 ?>

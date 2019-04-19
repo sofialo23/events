@@ -6,21 +6,27 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
    <!--   Core JS Files   -->
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="../assets/js/core/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="jquery-ui.css">
-  <script src="jquery-ui.js"></script>
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <!-- <script src="../assets/js/core/popper.min.js"></script> THIS IS THE ONE ************************* -->
+  <!-- <script src="../assets/js/core/bootstrap.min.js"></script>  THIS IS THE ONE ************************* -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!--  Google Maps Plugin    -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
   <!-- Chart JS -->
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <!--  Notifications Plugin    -->
-  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script> <!-- THIS IS THE ONE ************************* -->
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
@@ -28,6 +34,24 @@
   <!-- END OF ALL THE SCRIPTS AND LINKS ORIGINALLY AT THE END OF THIS-->
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  
+  <!-- Links and Scripts for the fucking MULTISELECT SEARCH DROPDOWN:  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+ 
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+  <!--  ******************************************************************************   -->
+  <!--  *****************************DATEPICKER*******************   -->
+
+  
+ <!--  
+  <script language="javascript" src="https://momentjs.com/downloads/moment.js"></script>
+  <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
+  
+ -->
+
   <title>
     Activities Organizer
   </title>
@@ -36,7 +60,9 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- CSS Files -->
-  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />  THIS IS THE ONE ************************* -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
   <link href="../assets/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
   
   <script type="text/javascript" src="clockpicker.js"></script>
@@ -193,13 +219,13 @@
               <div class="card-body">
                 <form id="frm_createactivity">
                   <div class="row">
-                    <div class="col-md-5 pr-1">
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Activity Name</label>
                         <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required>
                       </div>
                     </div>
-                    <div class="col-md-3 px-1">
+                    <div class="col-md-6 px-1">
                       <div class="form-group">
                         <label>Host Department</label>
                         <select id="slct_departments" class="form-control"  data-live-search="true">
@@ -207,21 +233,17 @@
                         <!-- <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required> -->
                       </div>
                     </div>
-                    <!--
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Activity Place</label>
-                        <input type="text" class="form-control" placeholder="Place">
-                      </div>
-                    </div>    -->
+
                   </div>
                   <div class="row">
+
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Date</label>
                         <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required>
                       </div>
                     </div>
+
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Time</label>
@@ -234,6 +256,7 @@
                       </div>
                     </div>
                   </div>
+
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -265,14 +288,16 @@
                         <input type="text" id="staff_input" size=3 class="form-control"  placeholder="Staff Number: 0" value="0" disabled>
                       </div>
                     </div>
-                    <!--
                     <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code">
+                      <div class="form-group" >
+                        <label>Category</label>
+                        <select class="selectpicker" id="slct_category" multiple data-live-search="true" style="color:white;">
+                          <!-- <option>Mustard</option>
+                          <option>Ketchup</option>
+                          <option>Relish</option> -->
+                        </select>
                       </div>
                     </div>
-                  -->
                   </div>
                   <div class="row">
                     <div class="col-md-12">
@@ -319,9 +344,14 @@
 </body>
 <script >
     $(document).ready(function(){
+        // $('#txt_date').datetimepicker();
+     
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
+        $('#slct_category').selectpicker();
+        $('#slct_category').css("background-color","white");
         var info = "all";
+        loadingCategories();
         //Filling in the select HTML element
           $.ajax({
             type:'POST',
@@ -329,14 +359,37 @@
             dataType:'json',
             data: {info,info},
             success:function(data){
-                var toAppend_col = '<option value="0"> Select one department </option>';
+                var toAppend_col = '<option value="0"> ------------------- </option>';
                 $("#slct_departments").append(toAppend_col);
                 $.each(data,function(index,element){
                   var dd = '<option value="'+element.iddepartment+'">'+element.namedepartment+'</option>';
                   $("#slct_departments").append(dd);
                 });
+                
             }
           });
+          //FUNCTION TO FILLL UP THE CATEGORIES DROPDOWN
+          function loadingCategories()
+          {
+            
+              var categories = "pop";
+              $.ajax({
+                type:'POST',
+                url:'fetchCreateActivity.php',
+                dataType:'json',
+                data: {categories,categories},
+                success:function(data){
+                    var toAppend_col = '<option value="0"> --------------- </option>';
+                    $("#slct_category").append(toAppend_col);
+                    $.each(data,function(index,element){
+                      var dd = '<option value="'+element.idcategory+'">'+element.namecategory+'</option>';
+                      $("#slct_category").append(dd);
+                    });
+                    $('#slct_category').selectpicker('refresh');
+                }
+              });
+          }
+
         /*  
             CLOCK PICKER GETTING VALUE INTERNET RESOURCE
             var end = $('#end').clockpicker({
