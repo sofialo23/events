@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2019 at 04:12 PM
+-- Generation Time: Apr 19, 2019 at 07:41 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -43,6 +43,18 @@ INSERT INTO `activity_atst` (`activity_atst_id`, `user_name`, `activity_id`, `ro
 (1, '410321166', 1, 1),
 (2, 'first', 2, 0),
 (25, '410321166', 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_category`
+--
+
+CREATE TABLE `activity_category` (
+  `id` int(11) NOT NULL,
+  `activity_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -353,6 +365,14 @@ ALTER TABLE `activity_atst`
   ADD KEY `activity_id` (`activity_id`);
 
 --
+-- Indexes for table `activity_category`
+--
+ALTER TABLE `activity_category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activity_id` (`activity_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
 -- Indexes for table `activity_info`
 --
 ALTER TABLE `activity_info`
@@ -405,6 +425,12 @@ ALTER TABLE `activity_atst`
   MODIFY `activity_atst_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
+-- AUTO_INCREMENT for table `activity_category`
+--
+ALTER TABLE `activity_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `activity_info`
 --
 ALTER TABLE `activity_info`
@@ -444,6 +470,13 @@ ALTER TABLE `departments`
 ALTER TABLE `activity_atst`
   ADD CONSTRAINT `activity_atst_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `user_info` (`user_name`),
   ADD CONSTRAINT `activity_atst_ibfk_2` FOREIGN KEY (`activity_id`) REFERENCES `activity_info` (`activity_id`);
+
+--
+-- Constraints for table `activity_category`
+--
+ALTER TABLE `activity_category`
+  ADD CONSTRAINT `activity_category_ibfk_1` FOREIGN KEY (`activity_id`) REFERENCES `activity_info` (`activity_id`),
+  ADD CONSTRAINT `activity_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id_category`);
 
 --
 -- Constraints for table `activity_info`
