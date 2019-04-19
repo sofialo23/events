@@ -443,6 +443,10 @@
             month = "0"+month;
           }
           var day= fecha.getDate();
+          var categg = [];
+          categg = $("#slct_category").val();
+
+          // alert(categg.length);
           alldate[0] = $('#txt_activityname').val();
           alldate[1] = $('#slct_departments').val();
           alldate[2] = year+"-"+month+"-"+day;
@@ -452,13 +456,16 @@
           alldate[6] = $('#txt_activityinformation').val();
           alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
           alldate[8] = "<?php echo $_SESSION['userID']; ?>";
+          alldate[9] = $("#slct_category").val();
+          alldate[10] = categg.length;
           e.preventDefault();
           $.ajax({
+            dataType:'text',
             method:'POST',
             url: 'fetchCreateActivity.php',
             data: {alldate,alldate},
             success:function(data){
-              window.location.href = "allevents.php";
+              window.location.href = "allmyactivities.php";
               
             }
           });
