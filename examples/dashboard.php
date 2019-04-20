@@ -1,7 +1,56 @@
 <?php
-include ('conn.php');
-session_start();
+  include("conn.php");
+  session_start();
+ /*
+  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
 
+$result = mysqli_query($db_link, $query); 
+$actname =[];
+$actdep = [];
+$actdate = [];
+$actinfo = [];
+
+   $counter = 0;
+while ($row = mysqli_fetch_array( $result)) { 
+   $id = $row['activity_id'];
+     //stores the d
+
+  $depto = $row['activity_host_depto'];
+                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                        $hostDept = mysqli_query($db_link, $getDept); 
+                        $deprow = mysqli_fetch_array( $hostDept);
+
+                        $actname[$counter] = $row['activity_name'];
+                        $actdep[$counter] = $deprow['name_department'];
+                        $actinfo[$counter] = $row['activity_info'];
+                         $date =$row['activity_date'];
+                        $date = strtotime($date);
+                        $actdate[$counter] = date('M d, Y', $date);
+
+                        $counter++;
+       }
+
+      
+               <!-- start of individual event for dashboard 1 -->
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category"><?php echo $actdep['0']; ?> </h5>
+                <h5 class="card-category"><?php echo $actdate['0']; ?> </h5>
+                <h4 class="card-title"><?php echo $actname['0']; ?></h4>
+                <p> <?php echo $actinfo['0']; ?> </p>
+                <div class="dropdown">
+                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
+                    <i class="now-ui-icons loader_gear"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- end of individual event for dashboard 1-->
+        */
+                
 ?>
 
 <!DOCTYPE html>
@@ -167,56 +216,57 @@ session_start();
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> All my activities</h4>
+                <h4 class="card-title"> All coming activities</h4>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Department
-                      </th>
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        More Info
-                      </th>
-                    </thead>
-                    <tbody>
-
-                <?php 
-                  $user = $_SESSION['userID'];
-                  $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_created_date ASC";
-
-                  $result = mysqli_query($db_link, $query); 
              
-                  while ($row = mysqli_fetch_array( $result)) { 
-                        $id = $row['activity_id'];
-                        $depto = $row['activity_host_depto'];
-
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-                        $hostDept = mysqli_query($db_link, $getDept); 
-                        $deprow = mysqli_fetch_array( $hostDept);
-                    
-                        echo "<tr>";
-                        echo "<td>" . $row['activity_name'] . "</td>";
-                        echo "<td>" . $deprow['name_department']. "</td>";
-                        echo "<td>" . $row['activity_date'] . "</td>";
-                        echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                        echo "</tr>";
-                  }
-                     ?>
                   
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+
+                <?php
+
+
+  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
+
+    $result = mysqli_query($db_link, $query); 
+    $actname =[];
+    $actdep = [];
+    $actdate = [];
+    $actinfo = [];
+    $counter = 0;
+    while ($row = mysqli_fetch_array( $result)) { 
+      $id = $row['activity_id'];
+     //stores the d
+      $depto = $row['activity_host_depto'];
+                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
+          $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+          $hostDept = mysqli_query($db_link, $getDept); 
+          $deprow = mysqli_fetch_array( $hostDept);
+
+          $actname[$counter] = $row['activity_name'];
+          $actdep[$counter] = $deprow['name_department'];
+          $actinfo[$counter] = $row['activity_info'];
+          $date =$row['activity_date'];
+          $date = strtotime($date);
+          $actdate[$counter] = date('M d, Y', $date);
+          
+              echo "<div class='card'> ";
+              echo "<div class='card-header'>";
+                echo "<h4 class='card-title'>name : " .$counter. "</h4>";
+                echo "<h4 class=card-category>department</h4>";
+              echo "</div>";
+              echo "<div class='card-body'>";
+                    echo "<p> date</p>";
+              echo "</div>";     //<!-- end of card body-->
+            echo "</div>"; // <!-- End of card -->";
+
+                        $counter++;
+       }
+                
+?>
+      
+              </div>     <!-- end of card body-->
+            </div> <!-- End of card -->
+
           </div>
         </div>
       </div>

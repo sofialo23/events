@@ -186,12 +186,12 @@ include ('conn.php');
                     </thead>
                     <tbody>
 
-                <?php 
-                  $query = "SELECT * FROM activity_info ORDER BY activity_created_date ASC";
+                <?php // WHERE activity_date >= NOW()
+                  $query = "SELECT * FROM activity_info  ORDER BY activity_date DESC ";
 
                   $result = mysqli_query($db_link, $query); 
 
-              
+                  $now = date("Y-m-d H:i:s");
                   while ($row = mysqli_fetch_array( $result)) { 
                         $id = $row['activity_id'];
                         $depto = $row['activity_host_depto'];
@@ -199,8 +199,13 @@ include ('conn.php');
                         $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
                         $hostDept = mysqli_query($db_link, $getDept); 
                         $deprow = mysqli_fetch_array( $hostDept);
-                    
-                        echo "<tr>";
+                        if($row['activity_date']< $now){
+                            echo "<tr style='color:red;'>";
+                        }
+                        else{
+                            echo "<tr>";
+                        }
+                        
                         echo "<td>" . $row['activity_name'] . "</td>";
                         echo "<td>" . $deprow['name_department']. "</td>";
                         echo "<td>" . $row['activity_date'] . "</td>";
