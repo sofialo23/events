@@ -358,14 +358,14 @@
             url:'fetchCreateActivity.php',
             dataType:'json',
             data: {info,info},
-            success:function(data){
+            success:function(data)
+            {
                 var toAppend_col = '<option value="0"> ------------------- </option>';
                 $("#slct_departments").append(toAppend_col);
                 $.each(data,function(index,element){
                   var dd = '<option value="'+element.iddepartment+'">'+element.namedepartment+'</option>';
                   $("#slct_departments").append(dd);
                 });
-                
             }
           });
           //FUNCTION TO FILLL UP THE CATEGORIES DROPDOWN
@@ -378,7 +378,8 @@
                 url:'fetchCreateActivity.php',
                 dataType:'json',
                 data: {categories,categories},
-                success:function(data){
+                success:function(data)
+                {
                     var toAppend_col = '<option value="0"> --------------- </option>';
                     $("#slct_category").append(toAppend_col);
                     $.each(data,function(index,element){

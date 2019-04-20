@@ -2,17 +2,18 @@
 session_start();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
    <!--   Core JS Files   -->
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="../assets/js/core/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="jquery-ui.css">
-  <script src="jquery-ui.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
   <!-- <script src="../assets/js/core/popper.min.js"></script> THIS IS THE ONE ************************* -->
   <!-- <script src="../assets/js/core/bootstrap.min.js"></script>  THIS IS THE ONE ************************* -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -36,10 +37,20 @@ session_start();
   
   <!-- Links and Scripts for the fucking MULTISELECT SEARCH DROPDOWN:  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
+  <!--  ******************************************************************************   -->
+  <!--  *****************************DATEPICKER*******************   -->
+
+  
+ <!--  
+  <script language="javascript" src="https://momentjs.com/downloads/moment.js"></script>
+  <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
+  
+ -->
 
   <title>
     Activities Organizer
@@ -208,39 +219,37 @@ session_start();
               <div class="card-body">
                 <form id="frm_createactivity">
                   <div class="row">
-                    <div class="custom-control custom-checkbox">
+                      <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
                         <label class="custom-control-label" for="defaultUnchecked">Modify Activity</label>
                     </div>
-                    <div class="col-md-5 pr-1">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Activity Name</label>
                         <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required disabled>
                       </div>
                     </div>
-                    <div class="col-md-3 px-1">
+                    <div class="col-md-6 px-1">
                       <div class="form-group">
                         <label>Host Department</label>
-                        <select id="slct_departments" class="form-control"  data-live-search="true" required disabled >
+                        <select id="slct_departments" class="form-control"  data-live-search="true" required disabled>
                         </select>
-                        <!-- <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required disabled> -->
+                        <!-- <input type="text" class="form-control" placeholder="Department Name" id="txt_hostdepartment" value="" required> -->
                       </div>
                     </div>
-                    <!--
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Activity Place</label>
-                        <input type="text" class="form-control" placeholder="Place">
-                      </div>
-                    </div>    -->
+
                   </div>
                   <div class="row">
+
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Date</label>
                         <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required disabled>
                       </div>
                     </div>
+
                     <div class="col-md-6 pl-1">
                       <div class="form-group">
                         <label>Time</label>
@@ -253,6 +262,7 @@ session_start();
                       </div>
                     </div>
                   </div>
+
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -282,7 +292,16 @@ session_start();
                       <div class="form-group">
                         <label>Staff Number</label>
                         <input type="text" id="staff_input" size=3 class="form-control"  placeholder="Staff Number: 0" value="0" disabled>
-                        <a href="allmyactivities.php">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group" >
+                        <label>Category</label>
+                        <select class="selectpicker" id="slct_category" multiple data-live-search="true" style="font-color:white;" requried disabled>
+                          <!-- <option>Mustard</option>
+                          <option>Ketchup</option>
+                          <option>Relish</option> -->
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -345,15 +364,15 @@ session_start();
 
         //Going to look for this activity_creator 'first' and activity_id=8
         //And load up the info into the inputs
-     
-        
+        departments();
+        loadTheCat(datas[1]);
         $.ajax({
           url:'fetchActivityInfoDB.php',
           dataType: 'json',
           method: 'POST',
           data: {datas,datas},
           success: function(data){
-            departments();
+            
             $.each(data,function(index,element){
               // alert(element.activityhostdepto);
               $("#txt_activityname").val(element.activityname);
@@ -379,6 +398,7 @@ session_start();
         });
       function departments()
       {
+        loadCategories();
         var info = "all";
         $.ajax({
             type:'POST',
@@ -398,7 +418,7 @@ session_start();
       }
       function loadAll()
       {
-
+        departments();
         $.ajax({
           url:'fetchActivityInfoDB.php',
           dataType: 'json',
@@ -428,6 +448,49 @@ session_start();
           }
         });
       }
+      function loadCategories(activityId)
+      {
+        var loadThem = "CACA";
+        // slct_category; fetchCategoriesDB.php
+        $.ajax({
+          url:'fetchCategoriesDB.php',
+          dataType: 'json',
+          method: 'POST',
+          data: {loadThem,loadThem},
+          success: function(data)
+          {
+            var toAppend_col = '<option value="0"> --------------- </option>';
+            $("#slct_category").append(toAppend_col);
+            $.each(data,function(index,element){
+              var dd = '<option value="'+element.idcategory+'">'+element.namecategory+'</option>';
+              $("#slct_category").append(dd);
+            });
+            $('#slct_category').selectpicker('refresh');
+          }
+        });
+      }
+      function loadTheCat(activityId)
+      {
+          var actId = activityId;
+          $.ajax({
+            url:'fetchCategoriesDB.php',
+            dataType: 'json',
+            method: 'POST',
+            data: {actId, actId},
+            success: function(data)
+            {
+              var catsAct = [];
+              var count = 0;
+              $.each(data,function(index,element)
+              {
+                  catsAct[count++] = element.idcategory;
+
+              });
+              $('#slct_category').selectpicker('val',catsAct);
+              // $('#slct_category').selectpicker('refresh');
+            }
+          });
+      }
       //Calling initial function to load the info in the the inputs
       $("#btn_submit").on('click',function(e){
           window.location.href = "allmyactivities.php";
@@ -435,7 +498,7 @@ session_start();
       });
       //This event is to save the data updated
       $("#btn_save").on('click', function(e){
-        var allinfo = [];
+          var allinfo = [];
           //add a function to check if all the inputs are filled.
           var chckbx = $("#staff_input").val();
           
@@ -470,7 +533,9 @@ session_start();
             success:function(data){
               if(data == "success")
               {
+                updatingCategories();
                 alert("Changes applied succesfully");
+                window.location.href = "allmyactivities.php";
                 backLoading();
                 loadAll();
               }
@@ -496,6 +561,8 @@ session_start();
               'disabled');
             $("#txt_activityplace").removeAttr('disabled');
             $("#txt_activityinformation").removeAttr('disabled');
+            $("#slct_category").attr('disabled', false);
+            $("#slct_category").selectpicker('refresh');
             if($("#staff_input").val() > "0")
             {
                 $("#staff_input").removeAttr('disabled');
@@ -514,6 +581,8 @@ session_start();
             $("#txt_activityinformation").attr('disabled','disabled');
             $("#defaultChecked2").attr('disabled','disabled');
             $("#staff_input").attr('disabled','disabled');
+            $("#slct_category").attr('disabled', true);
+            $("#slct_category").selectpicker('refresh');
           }
         });
         function backLoading()
@@ -529,8 +598,27 @@ session_start();
             $("#txt_activityinformation").attr('disabled','disabled');
             $("#defaultChecked2").attr('disabled','disabled');
             $("#staff_input").attr('disabled','disabled');
+            $("#slct_category").attr('disabled', true);
+            $("#slct_category").selectpicker('refresh');
         }
-
+        function updatingCategories()
+        {
+          // datas[1] = "<?php echo $_GET['eventid']; ?>";
+          var delet = [];
+          delet [0] = datas[1];
+          delet[1] = $("#slct_category").val();
+          delet[2] = delet[1].length;
+          //delet[1] is the list of all the categories and delet[2] the length
+          $.ajax({
+            method:'POST',
+            url: 'fetchCategoriesDB.php',
+            data: {delet,delet},
+            success:function(data)
+            {
+                  alert("Categories Changed successfully! ")
+            }
+          });
+        }
 
         //Event on the Checkbox to change the staff textBox disabled value.
         $('#defaultChecked2').click(function(){
