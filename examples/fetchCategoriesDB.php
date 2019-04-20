@@ -49,7 +49,6 @@
 		$result_delete = mysqli_query($db_link,$query_delete);
 		if($result_delete)
 		{
-			
 		  categoriesInAgain($actId[0],$actId[1],$actId[2]);
 		}
 	}
