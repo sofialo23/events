@@ -1,56 +1,27 @@
 <?php
   include("conn.php");
   session_start();
- /*
-  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
+  $error = NULL;
+  $query =NULL;
 
-$result = mysqli_query($db_link, $query); 
-$actname =[];
-$actdep = [];
-$actdate = [];
-$actinfo = [];
+  if(isset($_POST["search"])){
 
-   $counter = 0;
-while ($row = mysqli_fetch_array( $result)) { 
-   $id = $row['activity_id'];
-     //stores the d
+      $college = $_POST['college'];
+      $dept = $_POST['department'];
 
-  $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-                        $hostDept = mysqli_query($db_link, $getDept); 
-                        $deprow = mysqli_fetch_array( $hostDept);
+      if($college==0){        // AT LEAST COLLEGE NEEDS TO BE CHOSEN
+          $error = "Please select a college";
+      }
+      else {
+          if ($dept == 0){  //    //  NO DEPARTMENT WAS CHOSEN SEARCH BY COLLEGE
+              $query = "Select * from activity_info where activity_host_depto in (select id_department from departments where id_college = $college)";
+          }
 
-                        $actname[$counter] = $row['activity_name'];
-                        $actdep[$counter] = $deprow['name_department'];
-                        $actinfo[$counter] = $row['activity_info'];
-                         $date =$row['activity_date'];
-                        $date = strtotime($date);
-                        $actdate[$counter] = date('M d, Y', $date);
-
-                        $counter++;
-       }
-
-      
-               <!-- start of individual event for dashboard 1 -->
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category"><?php echo $actdep['0']; ?> </h5>
-                <h5 class="card-category"><?php echo $actdate['0']; ?> </h5>
-                <h4 class="card-title"><?php echo $actname['0']; ?></h4>
-                <p> <?php echo $actinfo['0']; ?> </p>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                    <i class="now-ui-icons loader_gear"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        <!-- end of individual event for dashboard 1-->
-        */
-                
+          else {   //DEPT WAS CHOSEN SO SEARCH BY DEPARTMENT
+              $query = "SELECT * FROM activity_info WHERE activity_host_depto = $dept";
+          }
+      }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -127,25 +98,12 @@ while ($row = mysqli_fetch_array( $result)) {
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
+          
         </ul>
       </div>
     </div>
     <div class="main-panel" id="main-panel">
-      <!-- Navbar -->
+            <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -216,86 +174,114 @@ while ($row = mysqli_fetch_array( $result)) {
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Upcoming activities</h4>
+                <h4 class="card-title"> Search by Activities by College/Department</h4>
               </div>
               <div class="card-body">
+                <form id="searchform" method="post"> <!-- start of form body for search by department-->
+                  <div class="row">
+                    <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>College</label>
+                        <select class = "form-control" id="college" name="college" required >
+                          <option value="0">Select your College</option>
+                            <?php
+                            include("conn.php");
+                            $sql_getCollege = "Select * from colleges;";
+                            $result_getCollege = mysqli_query($db_link, $sql_getCollege);
+                            if($result_getCollege)
+                            {
+                              while($row_gtCol = mysqli_fetch_assoc($result_getCollege))
+                              {
+                                echo "<option name='optCol' value='".$row_gtCol["id_college"]."' id='".$row_gtCol["id_college"]."' >".$row_gtCol["name"]."</option>";
+                              }
+                            }else
+                            {
+                              do_alert("Error Loading the Colleges from the DB");
+                            }
+                            ?>
+                        </select>
+                      </div>
+                    </div>
+                     <div class="col-md-3 px-1">
+                      <div class="form-group">
+                        <label>Department</label>
+                        <select class = "form-control" id="department" name="department" required >
+                    <option value = 0>Select your department</option>
+                   </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <button type="submit" name="search" class="btn btn-primary btn-lg btn-block">Search</button>
+                      </div>
+                    </div>
+                  </div>
+                </form> 
 
-                <?php
 
-  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
+                  <?php
+          if($query!=NULL){
+            $result = mysqli_query($db_link, $query);
+            $actname =[];
+            $actdep = [];
+            $actdate = [];
+            $actinfo = [];
+            $counter = 0;
 
-    $result = mysqli_query($db_link, $query); 
-    $actname =[];
-    $actdep = [];
-    $actdate = [];
-    $actinfo = [];
-    $counter = 0;
-    while ($row = mysqli_fetch_array( $result)) { 
-      $id = $row['activity_id'];
-     //stores the d
-      $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-          $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-          $hostDept = mysqli_query($db_link, $getDept); 
-          $deprow = mysqli_fetch_array( $hostDept);
+           
+              if(mysqli_num_rows($result)==0){
+                  echo "No activities found for your search";
+              }
 
-          $actname[$counter] = $row['activity_name'];
-          $actdep[$counter] = $deprow['name_department'];
-          //$actinfo[$counter] = $row['activity_info'];
-          $date =$row['activity_date'];
-          $date = strtotime($date);
-          $actdate[$counter] = date('M d, Y', $date);
-          
-              echo "<div class='card'> ";
-                echo "<div class='card-header'>";
-   
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
-                  echo "</div>";
+              else{
+                  while ($row = mysqli_fetch_array( $result)) { 
+                  $id = $row['activity_id'];
+                  $depto = $row['activity_host_depto'];
+                                                  // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                  $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                  $hostDept = mysqli_query($db_link, $getDept); 
+                  $deprow = mysqli_fetch_array( $hostDept);
 
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
-                  echo "</div>";
-
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
-                 // echo "<a class='title' href='#'> more info </a>";
-                  echo "</div>";
-                echo "</div> ";
-              echo "</div>";
-
-                        $counter++;
-       }
+                  $actname[$counter] = $row['activity_name'];
+                  $actdep[$counter] = $deprow['name_department'];
+                //$actinfo[$counter] = $row['activity_info'];
+                  $date =$row['activity_date'];
+                  $date = strtotime($date);
+                  $actdate[$counter] = date('M d, Y', $date);
                 
-?>
-      
+                    echo "<div class='card'> ";
+                      echo "<div class='card-header'>";
+         
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
+                       // echo "<a class='title' href='#'> more info </a>";
+                        echo "</div>";
+                      echo "</div> ";
+                    echo "</div>";
+                              $counter++;
+                  }
+              }
+          }
+                  ?>
+
+
               </div>     <!-- end of card body-->
             </div> <!-- End of card -->
-
+                  <?php if($error!=NULL)echo "<h5 style='color:red;'> *** $error *** </h5>";?>
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav>
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  SA ORGANIZER APP
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy;
-            <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by
-            <a href="https://www.invisionapp.com" target="_blank">SA Dev</a>. Coded by
-            <a href="https://www.creative-tim.com" target="_blank">SA</a>.
-          </div>
-        </div>
-      </footer>
+
     </div>
   </div>
   <!--   Core JS Files   -->
@@ -317,4 +303,33 @@ while ($row = mysqli_fetch_array( $result)) {
 
 </html>
 
+<script>
+$(document).ready(function(){
+    var choosedpt = "";
+    var flag=1;
+    $('#college').change(function(){
+    var col = $("#college").val();
+       $.ajax({
+          type:'POST',
+          url:'signupFetch.php',
+          dataType: "json",
+          data:{col:col},
+          success:function(datacol){
+              var toAppend_col = '';
+              $('#department').empty();
+              toAppend_col += '<option value = "0">--- Select a Department ---</option>';
+              $('#department').append(toAppend_col);
+              $.each(datacol,function(index_col, element_col){
+              if(element_col.iddepartment!=choosedpt){
+                  $('#department').append("<option value='"+element_col.iddepartment+"'  id='"+element_col.iddepartment+"' >" + element_col.namedepartment + "</option>");
+              }
+              else{
+                  $('#department').append("<option selected value='"+element_col.iddepartment+"'  id='"+element_col.iddepartment+"' >" + element_col.namedepartment + "</option>");
+              }
+              });
+          }
+      });
+    });
+});
 
+</script>
