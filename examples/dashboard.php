@@ -91,56 +91,58 @@ while ($row = mysqli_fetch_array( $result)) {
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-          <li>
-            <a href="./dashboard.html">
+          <li class="active ">
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="active ">
-            <a href="./allactivities.html">
+          <li >
+            <a href="./allactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
-          <li>
-            <a href="./createActivity.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Create Activity</p>
+          <li >
+            <a href="./allmyactivities.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>My Activities</p>
             </a>
           </li>
-          <li>
-            <a href="./createAnouns.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Create Announcements</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>Message to Admin</p>
-            </a>
-          </li>
+          <?php 
+
+            if($_SESSION["rol"] == 1)
+            {
+                echo "
+                  <li>
+                    <a href='./createActivity.php'>
+                      <i class='now-ui-icons location_map-big'></i>
+                      <p>Create Activity</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href='./createAnouns.php'>
+                      <i class='now-ui-icons ui-1_bell-53'></i>
+                      <p>Create Announcements</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href='./notifications.php'>
+                      <i class='now-ui-icons users_single-02'></i>
+                      <p>Message to Admin</p>
+                    </a>
+                  </li>
+                ";
+
+            }
+
+          ?>
           <li>
             <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
         </ul>
       </div>
     </div>
