@@ -1,4 +1,5 @@
 <?php
+include ('conn.php');
   session_start();
 ?>
 
@@ -101,6 +102,12 @@
               <p>All Activities</p>
             </a>
           </li>
+          <li >
+            <a href="./allmyactivities.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>My Activities</p>
+            </a>
+          </li>
           <li class="active ">
             <a href="./createActivity.php">
               <i class="now-ui-icons location_map-big"></i>
@@ -114,7 +121,7 @@
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="./notifications.php">
               <i class="now-ui-icons users_single-02"></i>
               <p>Message to Admin</p>
             </a>
@@ -125,20 +132,6 @@
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
         </ul>
       </div>
     </div>
@@ -349,7 +342,6 @@
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
         $('#slct_category').selectpicker();
-        $('#slct_category').css("background-color","white");
         var info = "all";
         loadingCategories();
         //Filling in the select HTML element
@@ -380,8 +372,6 @@
                 data: {categories,categories},
                 success:function(data)
                 {
-                    var toAppend_col = '<option value="0"> --------------- </option>';
-                    $("#slct_category").append(toAppend_col);
                     $.each(data,function(index,element){
                       var dd = '<option value="'+element.idcategory+'">'+element.namecategory+'</option>';
                       $("#slct_category").append(dd);
