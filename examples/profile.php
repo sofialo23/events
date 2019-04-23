@@ -13,6 +13,6 @@
 	<title></title>
 </head>
 <body>
-	You have been successfully logged in
+	You have been successfully logged in <a href="dashboard.php">Dashboard link</a>
 </body>
 </html>

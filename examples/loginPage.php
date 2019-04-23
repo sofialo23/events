@@ -21,6 +21,7 @@
           $_SESSION['email'] = $row['user_email'];
           $_SESSION['dept'] = $row['user_depto'];
           $_SESSION['userID'] = $row['user_name'];
+          $_SESSION['rol'] = $row['user_rol'];
 
           $email = $row['user_email'];
           $date = $row['signup_date'];
@@ -29,6 +30,7 @@
           if($verified == 1){
             //KEEP PROCESSING 
             header('location:profile.php');
+            
           }
           else{
             $error = "This account has not yet been verified. And email was sent to $email on $date";

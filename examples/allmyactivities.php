@@ -42,56 +42,62 @@ session_start();
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-          <li>
-            <a href="./dashboard.html">
+          <li >
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="active ">
-            <a href="./allactivities.html">
+          <li >
+            <a href="./allactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
-          <li>
-            <a href="./createActivity.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Create Activity</p>
+          <li class="active " >
+            <a href="./allmyactivities.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>My Activities</p>
             </a>
           </li>
-          <li>
-            <a href="./createAnouns.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Create Announcements</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>Message to Admin</p>
-            </a>
-          </li>
+
+
+          <?php 
+
+            if($_SESSION["rol"] == 1)
+            {
+                echo "
+                  <li>
+                    <a href='./createActivity.php'>
+                      <i class='now-ui-icons location_map-big'></i>
+                      <p>Create Activity</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href='./createAnouns.php'>
+                      <i class='now-ui-icons ui-1_bell-53'></i>
+                      <p>Create Announcements</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href='./notifications.php'>
+                      <i class='now-ui-icons users_single-02'></i>
+                      <p>Message to Admin</p>
+                    </a>
+                  </li>
+                ";
+
+            }
+
+          ?>
+
+
           <li>
             <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
         </ul>
       </div>
     </div>
@@ -188,29 +194,43 @@ session_start();
                     </thead>
                     <tbody>
 
-                <?php 
-                  $user = $_SESSION['userID'];
-                  $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_created_date ASC";
+                    <?php 
 
-                  $result = mysqli_query($db_link, $query); 
-             
-                  while ($row = mysqli_fetch_array( $result)) { 
-                        $id = $row['activity_id'];
-                        $depto = $row['activity_host_depto'];
+                      $user = $_SESSION['userID'];
 
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-                        $hostDept = mysqli_query($db_link, $getDept); 
-                        $deprow = mysqli_fetch_array( $hostDept);
-                    
-                        echo "<tr>";
-                        echo "<td>" . $row['activity_name'] . "</td>";
-                        echo "<td>" . $deprow['name_department']. "</td>";
-                        echo "<td>" . $row['activity_date'] . "</td>";
-                        echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                        echo "</tr>";
-                  }
-                     ?>
+
+                      $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_created_date ASC";
+                      if($_SESSION["rol"] == 0)
+                      {
+                        $query = "SELECT * FROM activity_info INNER JOIN activity_atst where activity_atst.activity_id= activity_info.activity_id and activity_atst.user_name='$user'";
+                      }
+
+                      $result = mysqli_query($db_link, $query); 
+                      $now = date("Y-m-d H:i:s");
+                      while ($row = mysqli_fetch_array( $result)) 
+                      { 
+                            $id = $row['activity_id'];
+                            $depto = $row['activity_host_depto'];
+
+                                                // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                            $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                            $hostDept = mysqli_query($db_link, $getDept); 
+                            $deprow = mysqli_fetch_array( $hostDept);
+                            if($row['activity_date']< $now){
+                                echo "<tr style='color:red;'>";
+                            }
+                            else{
+                                echo "<tr>";
+                            }
+
+                            echo "<td>" . $row['activity_name'] . "</td>";
+                            echo "<td>" . $deprow['name_department']. "</td>";
+                            echo "<td>" . $row['activity_date'] . "</td>";
+                            echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                            echo "</tr>";
+                      }
+
+                    ?>
                   
                     </tbody>
                   </table>
