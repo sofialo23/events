@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2019 at 07:41 AM
+-- Generation Time: Apr 23, 2019 at 08:15 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -21,6 +21,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `events`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertGetActivity` (IN `activityName` VARCHAR(100), IN `hostDepto` INT(11), IN `dateAc` TIMESTAMP, IN `info` VARCHAR(250), IN `staffLimit` INT(11), IN `staffCounter` INT(11), IN `creator` VARCHAR(50), IN `place` VARCHAR(100))  BEGIN
+Insert into activity_info (activity_name,activity_host_depto, activity_date, activity_info , activity_staff_limit, activity_staff_counter, activity_creator, activity_place) VALUES (activityName,hostDepto, dateAc, info, staffLimit, staffCounter, creator, place);
+    
+    select LAST_INSERT_ID() AS 'outId';
+    
+    END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -40,9 +53,7 @@ CREATE TABLE `activity_atst` (
 --
 
 INSERT INTO `activity_atst` (`activity_atst_id`, `user_name`, `activity_id`, `rol`) VALUES
-(1, '410321166', 1, 1),
-(2, 'first', 2, 0),
-(25, '410321166', 3, 1);
+(2, 'first', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -55,6 +66,19 @@ CREATE TABLE `activity_category` (
   `activity_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `activity_category`
+--
+
+INSERT INTO `activity_category` (`id`, `activity_id`, `category_id`) VALUES
+(3, 11, 42),
+(4, 11, 61),
+(20, 16, 57),
+(21, 17, 3),
+(22, 17, 4),
+(23, 17, 5),
+(24, 17, 6);
 
 -- --------------------------------------------------------
 
@@ -84,7 +108,19 @@ INSERT INTO `activity_info` (`activity_id`, `activity_name`, `activity_host_dept
 (2, 'First Activity', 7, '2019-04-11 09:58:38', '2019-03-27 03:30:00', 'Info 2', 10, 0, 'first', 'Social and Humanities Building 3, room R888'),
 (3, 'Activity Example Update 1', 17, '2019-04-18 06:44:36', '2019-04-12 10:00:00', 'Info 3', 10, 9, 'first', 'Social and Humanities Building 3, Room D299'),
 (4, 'one more activity', 23, '2019-04-11 09:58:10', '2019-04-17 10:00:00', 'Info 4', 20, 0, 'first', 'Social and Humanities Building 3, Room C302'),
-(5, 'Activity 5', 4, '2019-04-11 10:55:32', '2019-04-19 08:25:00', 'Activity Information 3', 33, 0, 'first', 'Place 5');
+(5, 'Activity 5', 4, '2019-04-11 10:55:32', '2019-04-19 08:25:00', 'Activity Information 3', 33, 0, 'first', 'Place 5'),
+(6, 'CategoryActivity', 9, '2019-04-19 18:20:44', '2019-04-24 22:30:00', 'adfs65fsda6adfs6556safd65asdf65asdf65afds65sa6556asfd', 0, 0, '410321166', 'asdfasdfasdf'),
+(7, 'Category 2', 6, '2019-04-19 18:24:54', '2019-04-29 22:30:00', 'vzzzzzzzzzzzzzzzzzz', 0, 0, '410321166', 'fadsfasdfasdf'),
+(8, 'asdfasdfasdf', 4, '2019-04-19 18:27:06', '2019-04-23 21:25:00', 'dsfgsdfg', 0, 0, '410321166', 'Social and Humanities Building 3, Room D299'),
+(9, 'PRUEBA DE FUEGO', 10, '2019-04-19 19:09:31', '2019-04-25 10:30:00', 'FUEGGGGOOOO PURRRO', 0, 0, '410321166', 'fuego puropu'),
+(10, 'CACA MUCHA', 8, '2019-04-19 19:11:20', '2019-04-26 10:30:00', 'ADSFASDFASDF', 0, 0, '410321166', 'FFFFFFF'),
+(11, 'demasiada caca', 5, '2019-04-19 19:15:24', '2019-04-26 12:40:00', 'gsdfgsdfgdsfgdfsdfgsdfg', 0, 0, '410321166', 'mucho caca para todo el mund333333333333333333333333333333333333333'),
+(12, 'POPOOOOOOOOOOOOOOOOO', 2, '2019-04-19 19:19:06', '2019-04-28 19:30:00', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', 0, 0, '410321166', 'Address for Activity Place Ejercicio Cuatro goes here'),
+(13, '111111111111111111111111111111111111', 5, '2019-04-19 19:20:24', '2019-06-18 10:30:00', 'llllllllllllllllllllll', 0, 0, '410321166', 'mucho caca para todo el mundo con amor'),
+(14, 'MIMIMIMIMI', 2, '2019-04-19 19:24:30', '2019-06-18 10:30:00', 'nO INFORMATION', 0, 0, '410321166', 'TUMADREEEE'),
+(15, 'KAKAKAKAKA', 2, '2019-04-19 19:28:22', '2019-06-18 10:30:00', 'nO INFORMATION HAHAHAHA', 0, 0, '410321166', 'TUMADREEEE2'),
+(16, 'PUTA PRUEBA DABIAN!!!!!! 22222 cachimba! JEJEJJE', 10, '2019-04-20 08:56:01', '2019-04-20 10:30:00', 'FAAAAAAAAAAAAAAAAAAAAAAAAAAA UPDATED 2222222 JEJEJIJIJIOJOJOJOJJJUJUJUJU', 85, 0, '410321166', 'mucho caca para todo el mundo con amor UPDATED'),
+(17, 'TUTUTUTUTUTUTUTUT', 2, '2019-04-22 08:33:54', '2019-04-30 09:25:00', 'asdfasdfasdfasdfasdfasdfsadfsadf', 56, 0, '410321166', 'tututututut place');
 
 -- --------------------------------------------------------
 
@@ -346,8 +382,9 @@ CREATE TABLE `user_info` (
 --
 
 INSERT INTO `user_info` (`name`, `user_name`, `user_email`, `user_depto`, `user_rol`, `pw`, `vkey`, `verified`, `signup_date`) VALUES
-('Sofia', '410321161', '410321161@gms.ndhu.edu.tw', 17, 0, '202cb962ac59075b964b07152d234b', '62d3d68e868ffda19d9a5c744e9b73', 0, '0000-00-00 00:00:00'),
-('', '410321166', '410321166@gms.ndhu.edu.tw', 17, 0, '', '', 0, '2019-04-08 18:26:21'),
+('Sofia', '410321161', '410321161@gms.ndhu.edu.tw', 17, 0, 'v698d51a19d8a121ce581499d7b701668', '62d3d68e868ffda19d9a5c744e9b73', 0, '2019-04-22 08:17:34'),
+('Andres', '410321166', '410321166@gms.ndhu.edu.tw', 5, 1, '4734292867042ce845ab65165a4fb9f8', '41fb09ea0a0427d14a52254a89792486', 1, '2019-04-22 13:43:10'),
+('Elaine', '410430002', '410430002@gms.ndhu.edu.tw', 31, 0, 'v698d51a19d8a121ce581499d7b701668', '02b174b7332419335c3e5ea609952c49', 0, '2019-04-22 13:32:27'),
 ('', 'first', 'first@gms.ndhu.edu.tw', 17, 1, '', '', 0, '2019-04-08 18:26:29'),
 ('', 'second', 'second@gms.ndhu.edu.tw', 40, 2, '', '', 0, '2019-04-08 18:26:43');
 
@@ -422,19 +459,19 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `activity_atst`
 --
 ALTER TABLE `activity_atst`
-  MODIFY `activity_atst_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `activity_atst_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `activity_category`
 --
 ALTER TABLE `activity_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `activity_info`
 --
 ALTER TABLE `activity_info`
-  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `activity_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `activity_notif`
