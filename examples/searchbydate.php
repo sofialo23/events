@@ -1,5 +1,24 @@
 <?php
+  include("conn.php");
   session_start();
+  $error = NULL;
+  $query =NULL;
+
+  if(isset($_POST["search"])){
+
+      $date = $_POST['daterange'];
+      $part1 = substr($date, 0,10);
+      $part2 = substr($date, 13,23);
+
+      $date1 = strtotime($part1);
+      $date1format =date('Y-m-d', $date1);
+
+      $date2 = strtotime($part2);
+      $date2format =date('Y-m-d', $date2);
+
+     $query = "SELECT * FROM activity_info WHERE activity_date BETWEEN '$date1format' and '$date2format';";
+
+  }
 ?>
 
 <!DOCTYPE html>
@@ -201,14 +220,14 @@
                 <h5 class="title">Search by Dates</h5>
               </div>
               <div class="card-body">
-                <form id="frm_createactivity">
+                <form method="post">
                 
                   <div class="row">
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="text" class="form-control" placeholder="Date (Click on)" name="daterange" value="07/01/2019 - 07/15/2019"id="txt_date" value="" required>
+                        <input type="text" class="form-control" placeholder="Date (Click on)" name="daterange" value="07/01/2019 - 07/15/2019" id="txt_date" value="" required>
                       </div>
                     </div>
  <!--time
@@ -227,9 +246,62 @@
 
           
                   <div class="row" >
-                    <button type="submit" id="search" class="btn btn-primary btn-lg btn-block">Search</button>
+                    <button type="submit" name = "search" id="search" class="btn btn-primary btn-lg btn-block">Search</button>
                   </div>
                 </form>
+
+                <?php
+          if($query!=NULL){
+            $result = mysqli_query($db_link, $query);
+            $actname =[];
+            $actdep = [];
+            $actdate = [];
+            $actinfo = [];
+            $counter = 0;
+
+           
+              if(mysqli_num_rows($result)==0){
+                  echo "<h4>We're sorry but no activities were found on those dates</h4>";
+              }
+
+              else{
+                  while ($row = mysqli_fetch_array( $result)) { 
+                  $id = $row['activity_id'];
+                  $depto = $row['activity_host_depto'];
+                                                  // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                  $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                  $hostDept = mysqli_query($db_link, $getDept); 
+                  $deprow = mysqli_fetch_array( $hostDept);
+
+                  $actname[$counter] = $row['activity_name'];
+                  $actdep[$counter] = $deprow['name_department'];
+                //$actinfo[$counter] = $row['activity_info'];
+                  $date =$row['activity_date'];
+                  $date = strtotime($date);
+                  $actdate[$counter] = date('M d, Y', $date);
+                
+                    echo "<div class='card'> ";
+                      echo "<div class='card-header'>";
+         
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
+                       // echo "<a class='title' href='#'> more info </a>";
+                        echo "</div>";
+                      echo "</div> ";
+                    echo "</div>";
+                              $counter++;
+                  }
+              }
+          }
+                  ?>
               </div>
             </div>
           </div>
@@ -267,59 +339,8 @@
       $('input[name="daterange"]').daterangepicker({
     opens: 'left'
   }, function(start, end, label) {
-    document.write("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-    
+    //document.write("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
   });
-
-        
-       
-
-
-
-       $("#frm_createactivity").on('submit',function(e){
-          var alldate = [];
-          //add a function to check if all the inputs are filled.
-          var chckbx = $("#staff_input").val();
-          
-          if($("#defaultChecked2").is(":checked"))
-          {
-            chckbx = $("#staff_input").val();
-          }
-          var fecha = $('#txt_date').datepicker('getDate');
-          var year = fecha.getFullYear();
-          var month = fecha.getMonth()+1;
-          if(month < 10)
-          {
-            month = "0"+month;
-          }
-          var day= fecha.getDate();
-          var categg = [];
-          categg = $("#slct_category").val();
-
-          // alert(categg.length);
-          alldate[0] = $('#txt_activityname').val();
-          alldate[1] = $('#slct_departments').val();
-          alldate[2] = year+"-"+month+"-"+day;
-          alldate[3] = $('#txt_time').val() + ":00";
-          alldate[4] = $('#txt_activityplace').val();
-          alldate[5] = chckbx;
-          alldate[6] = $('#txt_activityinformation').val();
-          alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
-          alldate[8] = "<?php echo $_SESSION['userID']; ?>";
-          alldate[9] = $("#slct_category").val();
-          alldate[10] = categg.length;
-          e.preventDefault();
-          $.ajax({
-            dataType:'text',
-            method:'POST',
-            url: 'fetchCreateActivity.php',
-            data: {alldate,alldate},
-            success:function(data){
-              window.location.href = "allmyactivities.php";
-              
-            }
-          });
-        });
 
     });
       

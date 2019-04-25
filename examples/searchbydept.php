@@ -174,7 +174,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Search by Activities by College/Department</h4>
+                <h4 class="card-title"> Search Activities by College/Department</h4>
               </div>
               <div class="card-body">
                 <form id="searchform" method="post"> <!-- start of form body for search by department-->
