@@ -22,7 +22,7 @@
           $_SESSION['dept'] = $row['user_depto'];
           $_SESSION['userID'] = $row['user_name'];
           $_SESSION['rol'] = $row['user_rol'];
-
+          $_SESSION['over'] = "false";
           $email = $row['user_email'];
           $date = $row['signup_date'];
           $date = strtotime($date);

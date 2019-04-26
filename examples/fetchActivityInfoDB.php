@@ -63,4 +63,19 @@
       		echo "success";
       	}
 	}
+	if(isset($_POST["status"]))
+	{
+		include("connectionDB.php");
+		$status = $_POST["status"];
+		$query_status = "Select * from activity_atst where user_name='".$status[0]."' and activity_id=".$status[1]."";
+		$result_status =  mysqli_query($db_link, $query_status);
+		if($result_status)
+		{
+			while($row = mysqli_fetch_assoc($result_status))
+			{
+				echo $row["rol"];
+				break;
+			}
+		}
+	}
 ?>

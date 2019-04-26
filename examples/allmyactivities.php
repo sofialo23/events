@@ -188,6 +188,12 @@ session_start();
                       <th>
                         Date
                       </th>
+                    <?php
+                      if($_SESSION["rol"] == 0)
+                      {
+                        echo "<th> Status </th>";
+                      }
+                    ?>
                       <th>
                         More Info
                       </th>
@@ -195,7 +201,7 @@ session_start();
                     <tbody>
 
                     <?php 
-
+                      include ('conn.php');
                       $user = $_SESSION['userID'];
 
 
@@ -211,12 +217,13 @@ session_start();
                       { 
                             $id = $row['activity_id'];
                             $depto = $row['activity_host_depto'];
-
+                            $flag = "false";
                                                 // GET THE DEPARTMENT NAME WITH THE NUMBER 
                             $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
                             $hostDept = mysqli_query($db_link, $getDept); 
                             $deprow = mysqli_fetch_array( $hostDept);
                             if($row['activity_date']< $now){
+                                $flag="true";
                                 echo "<tr style='color:red;'>";
                             }
                             else{
@@ -226,7 +233,46 @@ session_start();
                             echo "<td>" . $row['activity_name'] . "</td>";
                             echo "<td>" . $deprow['name_department']. "</td>";
                             echo "<td>" . $row['activity_date'] . "</td>";
-                            echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+
+                            if($_SESSION["rol"] == 0)
+                            {
+                              $query_checking = "Select * from activity_atst where activity_id=$id and user_name='$user'";
+                              $result_checking = mysqli_query($db_link,$query_checking);
+
+                              if(mysqli_num_rows($result_checking) == 1 )
+                              {
+                                while( $new_row = mysqli_fetch_assoc($result_checking) )
+                                {
+                                  if($new_row['rol'] == 0)
+                                  {
+                                    echo "<td> Staff </td>";
+                                  }else if($new_row['rol'] == 1)
+                                  {
+                                    echo "<td> Attend </td>";
+                                  }
+                                  break;
+                                }
+                                  // echo "<td>" . $row['activity_date'] . "</td>";
+                              }else
+                              {
+                                  echo "<td> None </td>";
+                              }
+                            }
+                             if($_SESSION["rol"] == 0)
+                            {
+                              if($row['activity_date']< $now){
+                                echo "<td><a href= 'studentActivity.php?eventid=$id&flag=0' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                              }
+                              else{
+                                  echo "<td><a href= 'studentActivity.php?eventid=$id&flag=1' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                              }
+                              
+                            }else if($_SESSION["rol"] == 1)
+                            {
+                              echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                            }
+                            
+                            
                             echo "</tr>";
                       }
 

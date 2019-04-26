@@ -66,55 +66,61 @@ session_start();
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
-            <a href="./dashboard.html">
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li>
-            <a href="./allactivities.html">
+          <li >
+            <a href="./allactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
-          <li >
-            <a href="./createActivity.html">
-              <i class="now-ui-icons location_map-big"></i>
-              <p>Create Activity</p>
+          <li class="active " >
+            <a href="./allmyactivities.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>My Activities</p>
             </a>
           </li>
-          <li>
-            <a href="./createAnouns.html">
-              <i class="now-ui-icons ui-1_bell-53"></i>
-              <p>Create Announcements</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
-              <i class="now-ui-icons users_single-02"></i>
-              <p>Message to Admin</p>
-            </a>
-          </li>
+
+
+          <?php 
+
+            if($_SESSION["rol"] == 1)
+            {
+                echo "
+                  <li>
+                    <a href='./createActivity.php'>
+                      <i class='now-ui-icons location_map-big'></i>
+                      <p>Create Activity</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href='./createAnouns.php'>
+                      <i class='now-ui-icons ui-1_bell-53'></i>
+                      <p>Create Announcements</p>
+                    </a>
+                  </li>
+                  <li>
+                    <a href='./notifications.php'>
+                      <i class='now-ui-icons users_single-02'></i>
+                      <p>Message to Admin</p>
+                    </a>
+                  </li>
+                ";
+
+            }
+
+          ?>
+
+
           <li>
             <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
         </ul>
       </div>
     </div>
@@ -271,7 +277,7 @@ session_start();
 
 
                   <div class="row">
-                    <div class="col-md-6 pr-3">
+                    <div class="col-md-4 pr-3">
                       <div class="form-group">
                         <div class="panel panel-default"> 
                           <div class="panel-heading" style="background-color:#f1f1f1;border-radius: 25px; text-align: center;">
@@ -281,13 +287,23 @@ session_start();
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6 px-3">
+                    <div class="col-md-4 px-3">
                       <div class="form-group">
                         <div class="panel panel-default"> 
                           <div class="panel-heading" style="background-color:#f1f1f1;border-radius: 25px; text-align: center;">
                             <h5 class="panel-title">Staff counter</h5>
                           </div>
                           <div class="panel-body"><h6 id="lbl_activityStaffCounter"></h6></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 px-3">
+                      <div class="form-group">
+                        <div class="panel panel-default"> 
+                          <div class="panel-heading" style="background-color:#f1f1f1;border-radius: 25px; text-align: center;">
+                            <h5 class="panel-title">Status</h5>
+                          </div>
+                          <div class="panel-body"><h6 id="lbl_activityStatus"></h6></div>
                         </div>
                       </div>
                     </div>
@@ -332,6 +348,18 @@ session_start();
                     </div>
                   </div>
 
+                  <div class="row" style="float:left;padding-right:10px; text-aling:left;" >
+                    <div class="col-md-6 pr-2">
+                      <div class="form-group">
+                        <div class="panel panel-default" style="text-aling:left;"> 
+                          <div class="panel-body"><button id="btn_cancel" type="button" class="btn btn-danger" style="width:150px;font-size:15px;text-aling:left;padding-top:25px;padding-bottom:25px;">Cancel</button></div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
                 </form>
               </div>
             </div>
@@ -364,27 +392,58 @@ session_start();
 </body>
 <script >
     $(document).ready(function(){
+
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
         $("#btn_save").hide();
+        var status = "none";
         var datas=[]; 
-        datas[0]= "410321166";
-        datas[1] = 3;
+        datas[0]= "<?php echo $_SESSION['userID']; ?>";
+        datas[1] = getQueryVariable("eventid");
+
+
+        //NOW WE ARE GOING TO COMPARE THE DATE so we can hide the cancel button
+        var date_flag = getQueryVariable("flag"); 
+        //date_fla=1 means that the activity has not passed yet.
+        alert(date_flag);
+        if(date_flag == "0")
+        {
+            $("#btn_cancel").attr('disabled','disabled');
+        }else if(date_flag == "1")
+        {
+          $("#btn_cancel").removeAttr('disabled');
+        }
+
+
+        // alert(datas[1] + " " + datas[0]);
+
+
         // datas[1] -> Id of the activity
         // datas[0] -> ID del student para insert into notif_atst
         //NEED TO DISABLE ALL THE INPUTS HERE 
 
         //Going to look for this activity_creator 'first' and activity_id=8
         //And load up the info into the inputs
-     
         
+        //The function below is to catch the value of the Get parameter in the URL
+        function getQueryVariable(variable)
+        {
+               var query = window.location.search.substring(1);
+               var vars = query.split("&");
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == variable){return pair[1];}
+               }
+               return(false);
+        }
+        checkStatus();
         $.ajax({
           url:'fetchStudentActivityDB.php',
           dataType: 'json',
           method: 'POST',
           data: {datas,datas},
           success: function(data){
-            departments();
+            
             $.each(data,function(index,element){
               // alert(element.activityhostdepto);
               $("#lbl_activityName").text(element.activityname);
@@ -398,7 +457,8 @@ session_start();
                 $("#lbl_activityDate").text(fecha);
                 $("#lbl_activityTime").text(time);
               }
-
+              // alert(element.activitydate);
+              //fecha: 2019-04-12 18:00:00
               $("#lbl_activityStaffLimit").text(element.activitystafflimit);
               $("#lbl_activityStaffCounter").text(element.activitystaffcounter);
 
@@ -414,20 +474,76 @@ session_start();
             });
           }
         });
+        function checkStatus()
+        {
+          // datas[0]= "<?php echo $_SESSION['userID']; ?>";
+          // datas[1] = getQueryVariable("eventid");
+          var status = [];
+          status = datas;
+          $.ajax({
+            url:'fetchActivityInfoDB.php',
+            dataType: 'text',
+            method: 'POST',
+            data: {status,status},
+            success:function(data){
+              // alert(data);
+              if(data == "0")
+              {
+                // alert("primer if");
+                setStatus("Attending");
+                $("#lbl_activityStatus").text(givingStatus());
 
+              }else if(data == "1")
+              {
+                  // alert("segundo if");
+                  setStatus("Staff");
+                  $("#lbl_activityStatus").text(givingStatus());
+              }
+            }
+          });
+        }
+        function setStatus(thaStatus)
+        {
+            status = thaStatus;
+        }
+        function givingStatus()
+        {
+            return status;
+        }
         $("#btn_back").on('click',function(e){
             window.location.href = "allactivities.php";
 
         });
         $("#btn_join").on('click',function(e)
         {
-            saveIntoDB(1);
+            saveIntoDB(1); //1 is value for Joinning Staff
 
         });
         $("#btn_attend").on('click',function(e)
         {
-            saveIntoDB(0);
+            saveIntoDB(0); // 0 is value for Attending the activity
 
+        });
+        $("#btn_cancel").on('click',function(e)
+        {
+            var del = [];
+            del[0] = datas[0];
+            del[1] = datas[1];
+            $.ajax({
+              type:'POST',
+              url: 'fetchStudentActivityDB.php',
+              dataType: 'text',
+              data: {del,del},
+              success:function(data)
+              {
+                if(data == "success")
+                {
+                  $("#btn_cancel").attr('disabled','disabled');
+                  $("#btn_join").removeAttr('disabled');
+                  $("#btn_attend").removeAttr('disabled');
+                }
+              }
+            });
         });
         function saveIntoDB(rod)
         {
@@ -452,9 +568,12 @@ session_start();
                   {
                     alert("Congrats! We looking forward to have you with us little piece of shit!");
                   }
+                  $("#btn_join").attr('disabled','disabled');
+                  $("#btn_attend").attr('disabled','disabled');
+                  $("#btn_cancel").removeAttr('disabled');
                 }
                   
-                  atst();
+                  // atst();
               }
             });
         }
@@ -484,176 +603,6 @@ session_start();
           }
         });
       }
-
-      function departments()
-      {
-        var info = "all";
-        $.ajax({
-            type:'POST',
-            url:'fetchCreateActivity.php',
-            dataType:'json',
-            data: {info,info},
-            success:function(data){
-                var toAppend_col = '<option value="0"> Select one department </option>';
-                $("#slct_departments").append(toAppend_col);
-                $.each(data,function(index,element){
-                  var dd = '<option value="'+element.iddepartment+'">'+element.namedepartment+'</option>';
-                  $("#slct_departments").append(dd);
-                });
-            }
-          });
-      }
-      function loadAll()
-      {
-
-        $.ajax({
-          url:'fetchActivityInfoDB.php',
-          dataType: 'json',
-          method: 'POST',
-          data: {datas,datas},
-          success: function(data){
-            $.each(data,function(index,element){
-              $("#txt_activityname").val(element.activityname);
-              $("#slct_departments").val(element.activityhostdepto);
-              var ddd = element.activityname;
-              var completedate = element.activitydate;
-              if(typeof completedate != 'undefined')
-              {
-                var fecha = (completedate).substr(0,10);
-                var time = (completedate).substr(11,16);
-                $("#txt_date").val(fecha);
-                $("#txt_time").val(time);
-              }
-              if(element.activitystafflimit > 0)
-              {
-                $("#defaultChecked2").prop('checked',true);
-                $("#staff_input").val(element.activitystafflimit);
-              }
-              $("#txt_activityplace").val(element.activityplace);
-              $("#txt_activityinformation").val(element.activityinfo);
-            });
-          }
-        });
-      }
-      //Calling initial function to load the info in the the inputs
-      // $("#btn_submit").on('click',function(e){
-      //     window.location.href = "allmyactivities.php";
-
-      // });
-      //This event is to save the data updated
-      // $("#btn_save").on('click', function(e){
-      //   var allinfo = [];
-      //     //add a function to check if all the inputs are filled.
-      //     var chckbx = $("#staff_input").val();
-          
-      //     if($("#defaultChecked2").is(":checked"))
-      //     {
-      //       chckbx = $("#staff_input").val();
-      //     }
-      //     var fecha = $('#txt_date').datepicker('getDate');
-      //     var year = fecha.getFullYear();
-      //     var month = fecha.getMonth()+1;
-      //     if(month < 10)
-      //     {
-      //       month = "0"+month;
-      //     }
-      //     var day= fecha.getDate();
-      //     allinfo[0] = $('#txt_activityname').val();
-      //     allinfo[1] = $('#slct_departments').val();
-      //     allinfo[2] = year+"-"+month+"-"+day;
-      //     allinfo[3] = $('#txt_time').val() + ":00";
-      //     allinfo[4] = $('#txt_activityplace').val();
-      //     allinfo[5] = chckbx;
-      //     allinfo[6] = $('#txt_activityinformation').val();
-      //     allinfo[7] = year+"-"+month+"-"+day + " " + allinfo[3];
-      //     allinfo[8] = datas[0];
-      //     allinfo[9] = datas[1];
-      //     e.preventDefault();
-      //     $.ajax({
-      //       method:'POST',
-      //       dataType:"text",
-      //       url: 'fetchActivityInfoDB.php',
-      //       data: {allinfo,allinfo},
-      //       success:function(data){
-      //         if(data == "success")
-      //         {
-      //           alert("Changes applied succesfully");
-      //           backLoading();
-      //           loadAll();
-      //         }
-      //       }
-      //     });
-      // });
-        /*
-       $("#frm_createactivity").on('submit',function(e){
-          window.location.href = "allactivities.php";
-        });*/
-        //Event for the 'updating activity' Checkbox
-        // $('#defaultUnchecked').click(function(){
-
-        //   if($(this).is(":checked"))
-        //   {
-        //     $("#btn_submit").hide();
-        //     $("#btn_save").css('display','block');
-        //     $("#txt_activityname").removeAttr('disabled');
-        //     $("#slct_departments").removeAttr('disabled');
-        //     $("#txt_date").removeAttr('disabled');
-        //     $("#txt_time").removeAttr('disabled');
-        //     $("#defaultChecked2").removeAttr(
-        //       'disabled');
-        //     $("#txt_activityplace").removeAttr('disabled');
-        //     $("#txt_activityinformation").removeAttr('disabled');
-        //     if($("#staff_input").val() > "0")
-        //     {
-        //         $("#staff_input").removeAttr('disabled');
-        //     }
-        //     //$("#staff_input").removeAttr('disabled');
-        //   }else if($(this).is(":not(:checked)") == true)
-        //   {
-        //     $("#btn_submit").show();
-        //     $("#btn_save").hide();
-        //     //$("#staff_input").attr('disabled', 'disabled');
-        //     $("#txt_activityname").attr('disabled','disabled');
-        //     $("#slct_departments").attr('disabled','disabled');
-        //     $("#txt_date").attr('disabled','disabled');
-        //     $("#txt_time").attr('disabled','disabled');
-        //     $("#txt_activityplace").attr('disabled','disabled');
-        //     $("#txt_activityinformation").attr('disabled','disabled');
-        //     $("#defaultChecked2").attr('disabled','disabled');
-        //     $("#staff_input").attr('disabled','disabled');
-        //   }
-        // });
-        // function backLoading()
-        // {
-        //     $("#btn_submit").show();
-        //     $("#btn_save").hide();
-        //     //$("#staff_input").attr('disabled', 'disabled');
-        //     $("#txt_activityname").attr('disabled','disabled');
-        //     $("#slct_departments").attr('disabled','disabled');
-        //     $("#txt_date").attr('disabled','disabled');
-        //     $("#txt_time").attr('disabled','disabled');
-        //     $("#txt_activityplace").attr('disabled','disabled');
-        //     $("#txt_activityinformation").attr('disabled','disabled');
-        //     $("#defaultChecked2").attr('disabled','disabled');
-        //     $("#staff_input").attr('disabled','disabled');
-        // }
-
-
-        //Event on the Checkbox to change the staff textBox disabled value.
-        // $('#defaultChecked2').click(function(){
-
-        //   if($(this).is(":checked"))
-        //   {
-            
-        //     $("#staff_input").removeAttr('disabled');
-        //   }else if($(this).is(":not(:checked)") == true)
-        //   {
-        //     $("#staff_input").attr('disabled', 'disabled');
-        //   }
-        // });
-
-
-    });
-      
+  });
 </script>
 </html>

@@ -43,11 +43,12 @@
 		$result = mysqli_query($db_link,$query_activity_atst);
 		if($result)
 		{
-			echo "success";
+			alterStaff($go[1]);
 		}else
 		{
 			echo "caca2";
 		}
+
 	}
 	if(isset($_POST["chck"]))
 	{	
@@ -64,32 +65,32 @@
 			echo "caca";
 		}
 	}
-	// if(isset($_POST["allinfo"]))
-	// {
-	// 	include("connectionDB.php");
-
-		
-	// 	 alldata[0] = ("#txt_activityname").val();
- //          alldate[1] = ("#slct_departments").val();
- //          alldate[2] = ("#txt_date").datepicker('getDate'); ***
- //          alldate[3] = ("#txt_time").val();   *****
- //          alldate[4] = ("#txt_activityplace").val();
- //          alldate[5] = chckbx;
- //          alldate[6] = ("#txt_activityinformation").val();
- //          alldate[7] = it is the whole time already put together in a variable
- //          alldate[8]= user who created the activity
- //          alldate[9] = id of the activity
-	
-	// 	$allinfo = $_POST["allinfo"]; 	 
-	// 	$query_update_activity = "Update `activity_info` SET `activity_name` = '".$allinfo[0]."',
-	// 	`activity_host_depto`=".$allinfo[1].", `activity_date`='".$allinfo[7]."',
-	// 	`activity_info`='".$allinfo[6]."', `activity_staff_limit`=".$allinfo[5].", `activity_place`='".$allinfo[4]."'
-	// 	Where `activity_info`.`activity_id`=".$allinfo[9]." and 
-	// 	`activity_info`.`activity_creator`='".$allinfo[8]."'";
-	// 	$result = mysqli_query($db_link,$query_update_activity);
-	// 	if($result)
- //      	{	
- //      		echo "success";
- //      	}
-	// }
+	if(isset($_POST["del"]))
+	{	
+		//Process to join as a staff
+		include("connectionDB.php");
+		$del = $_POST["del"];
+		$query_del = "Delete from activity_atst where user_name='".$del[0]."' and activity_id=".$del[1]."";
+		$result_del = mysqli_query($db_link,$query_del);
+		if($result_del)
+		{
+			echo "success";
+		}else
+		{
+			echo "popo";
+		}
+	}
+	function alterStaff($activityId)
+	{
+		include("connectionDB.php");
+		$query_alter = "update activity_info set activity_staff_counter = activity_staff_counter + 1 where activity_id =".$activityId."";
+		$result_alter = mysqli_query($db_link,$query_alter);
+		if($result_alter)
+		{
+			echo "success";
+		}else
+		{
+			echo "cacaAlter";
+		}
+	}
 ?>
