@@ -599,6 +599,9 @@ session_start();
               {
                 $("#btn_join").attr('disabled','disabled');
                 $("#btn_attend").attr('disabled','disabled');
+              }else(data=="caca")
+              {
+                $("#btn_cancel").attr('disabled','disabled');
               }
           }
         });

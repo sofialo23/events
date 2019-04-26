@@ -215,7 +215,21 @@ session_start();
                         echo "<td>" . $row['activity_name'] . "</td>";
                         echo "<td>" . $deprow['name_department']. "</td>";
                         echo "<td>" . $row['activity_date'] . "</td>";
-                        echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
+
+                        if($_SESSION["rol"] == 0)
+                        {
+                          if($row['activity_date']< $now){
+                            echo "<td><a href= 'studentActivity.php?eventid=$id&flag=0' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                          }
+                          else{
+                              echo "<td><a href= 'studentActivity.php?eventid=$id&flag=1' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                          }
+                          
+                        }else if($_SESSION["rol"] == 1)
+                        {
+                          echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                        }
+                        // echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
                         echo "</tr>";
                   }
                      ?>
