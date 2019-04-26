@@ -1,6 +1,32 @@
 <?php
+  include("conn.php");
   session_start();
+  $error = NULL;
+  $query =NULL;
+
+  if(isset($_POST["search"])){
+     
+
+    foreach ($_POST['slct_category'] as $selectedOption)
+    echo $selectedOption."\n";
+/*
+  $query = "SELECT * FROM `` WHERE `$column` IN(".implode(',',$array).")";
+
+  $matches = implode(',', $galleries);
+  SELECT *
+FROM galleries
+WHERE id IN ( $matches ) 
+
+$ids = join("','",$galleries);   
+$sql = "SELECT * FROM galleries WHERE id IN ('$ids')";
+
+*/
+  
+      $query = "SELECT * FROM activity_info INNER JOIN activity_category WHERE activity_category.activity_id = activity_info.activity_id AND activity_category.category_id IN(".implode(',',$_POST['slct_category']).") GROUP BY activity_info.activity_id;";
+      echo $query;
+  }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -217,24 +243,77 @@
                 <h5 class="title">Search by Category</h5>
               </div>
               <div class="card-body">
-                <form id="frm_createactivity">
+                <form id="catsearch" method="post">
           
                   <div class="row">
                     <div class="col-md-4 pl-1">
                       <div class="form-group" >
                         <label>Category</label>
-                        <select class="selectpicker" id="slct_category" multiple data-live-search="true" style="color:white;">
-                          <!-- <option>Mustard</option>
-                          <option>Ketchup</option>
-                          <option>Relish</option> -->
+                        <select class="selectpicker" name = "slct_category[]" id="slct_category" multiple data-live-search="true" style="color:white;" required="true">
+                     
                         </select>
                       </div>
                     </div>
                   </div>
                   <div class="row" >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Search</button>
+                    <button type="submit" id="btn_submit" name = "search" class="btn btn-primary btn-lg btn-block">Search</button>
                   </div>
                 </form>
+          <?php
+          if($query!=NULL){
+            $result = mysqli_query($db_link, $query);
+            $actname =[];
+            $actdep = [];
+            $actdate = [];
+            $actinfo = [];
+            $counter = 0;
+
+           
+              if(mysqli_num_rows($result)==0){
+                  echo "No activities found for the category you searched";
+              }
+
+              else{
+                  while ($row = mysqli_fetch_array( $result)) { 
+                  $id = $row['activity_id'];
+                  $depto = $row['activity_host_depto'];
+                                                  // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                  $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                  $hostDept = mysqli_query($db_link, $getDept); 
+                  $deprow = mysqli_fetch_array( $hostDept);
+
+                  $actname[$counter] = $row['activity_name'];
+                  $actdep[$counter] = $deprow['name_department'];
+                //$actinfo[$counter] = $row['activity_info'];
+                  $date =$row['activity_date'];
+                  $date = strtotime($date);
+                  $actdate[$counter] = date('M d, Y', $date);
+                
+                    echo "<div class='card'> ";
+                      echo "<div class='card-header'>";
+         
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
+                       // echo "<a class='title' href='#'> more info </a>";
+                        echo "</div>";
+                      echo "</div> ";
+                    echo "</div>";
+                              $counter++;
+                  }
+              }
+          }
+                  ?>
+
+
+
               </div>
             </div>
           </div>
@@ -295,67 +374,8 @@
                 }
               });
           }
-
-       $("#frm_createactivity").on('submit',function(e){
-          var alldate = [];
-          //add a function to check if all the inputs are filled.
-          var chckbx = $("#staff_input").val();
-          
-          if($("#defaultChecked2").is(":checked"))
-          {
-            chckbx = $("#staff_input").val();
-          }
-          var fecha = $('#txt_date').datepicker('getDate');
-          var year = fecha.getFullYear();
-          var month = fecha.getMonth()+1;
-          if(month < 10)
-          {
-            month = "0"+month;
-          }
-          var day= fecha.getDate();
-          var categg = [];
-          categg = $("#slct_category").val();
-
-          // alert(categg.length);
-          alldate[0] = $('#txt_activityname').val();
-          alldate[1] = $('#slct_departments').val();
-          alldate[2] = year+"-"+month+"-"+day;
-          alldate[3] = $('#txt_time').val() + ":00";
-          alldate[4] = $('#txt_activityplace').val();
-          alldate[5] = chckbx;
-          alldate[6] = $('#txt_activityinformation').val();
-          alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
-          alldate[8] = "<?php echo $_SESSION['userID']; ?>";
-          alldate[9] = $("#slct_category").val();
-          alldate[10] = categg.length;
-          e.preventDefault();
-          $.ajax({
-            dataType:'text',
-            method:'POST',
-            url: 'fetchCreateActivity.php',
-            data: {alldate,alldate},
-            success:function(data){
-              window.location.href = "allmyactivities.php";
-              
-            }
-          });
-        });
-
-        //Event on the Checkbox to change the staff textBox disabled value.
-        $('#defaultChecked2').click(function(){
-
-          if($(this).is(":checked"))
-          {
-            
-            $("#staff_input").removeAttr('disabled');
-          }else if($(this).is(":not(:checked)") == true)
-          {
-            $("#staff_input").attr('disabled', 'disabled');
-          }
-        });
-
-
+        
+     
     });
-      
 </script>
 </html>
