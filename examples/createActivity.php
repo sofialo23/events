@@ -120,6 +120,12 @@ include ('conn.php');
               <p>Create Announcements</p>
             </a>
           </li>
+          <li  >
+            <a href="./announcement.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Announcements</p>
+            </a>
+          </li>
           <li>
             <a href="./notifications.php">
               <i class="now-ui-icons users_single-02"></i>

@@ -114,7 +114,12 @@ session_start();
 
           ?>
 
-
+          <li  >
+            <a href="./announcement.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Announcements</p>
+            </a>
+          </li>
           <li>
             <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
@@ -400,7 +405,7 @@ session_start();
         var datas=[]; 
         datas[0]= "<?php echo $_SESSION['userID']; ?>";
         datas[1] = getQueryVariable("eventid");
-
+        var elId = datas[1];
 
         //NOW WE ARE GOING TO COMPARE THE DATE so we can hide the cancel button
         var date_flag = getQueryVariable("flag"); 
@@ -441,7 +446,7 @@ session_start();
           url:'fetchStudentActivityDB.php',
           dataType: 'json',
           method: 'POST',
-          data: {datas,datas},
+          data: {elId,elId},
           success: function(data){
             
             $.each(data,function(index,element){
@@ -599,7 +604,7 @@ session_start();
               {
                 $("#btn_join").attr('disabled','disabled');
                 $("#btn_attend").attr('disabled','disabled');
-              }else(data=="caca")
+              }else if (data=="caca")
               {
                 $("#btn_cancel").attr('disabled','disabled');
               }

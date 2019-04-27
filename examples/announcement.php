@@ -1,56 +1,7 @@
 <?php
-  include("conn.php");
-  session_start();
- /*
-  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
+include ('conn.php');
+session_start();
 
-$result = mysqli_query($db_link, $query); 
-$actname =[];
-$actdep = [];
-$actdate = [];
-$actinfo = [];
-
-   $counter = 0;
-while ($row = mysqli_fetch_array( $result)) { 
-   $id = $row['activity_id'];
-     //stores the d
-
-  $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-                        $hostDept = mysqli_query($db_link, $getDept); 
-                        $deprow = mysqli_fetch_array( $hostDept);
-
-                        $actname[$counter] = $row['activity_name'];
-                        $actdep[$counter] = $deprow['name_department'];
-                        $actinfo[$counter] = $row['activity_info'];
-                         $date =$row['activity_date'];
-                        $date = strtotime($date);
-                        $actdate[$counter] = date('M d, Y', $date);
-
-                        $counter++;
-       }
-
-      
-               <!-- start of individual event for dashboard 1 -->
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category"><?php echo $actdep['0']; ?> </h5>
-                <h5 class="card-category"><?php echo $actdate['0']; ?> </h5>
-                <h4 class="card-title"><?php echo $actname['0']; ?></h4>
-                <p> <?php echo $actinfo['0']; ?> </p>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                    <i class="now-ui-icons loader_gear"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        <!-- end of individual event for dashboard 1-->
-        */
-                
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +42,7 @@ while ($row = mysqli_fetch_array( $result)) {
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          <li >
             <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
@@ -109,6 +60,8 @@ while ($row = mysqli_fetch_array( $result)) {
               <p>My Activities</p>
             </a>
           </li>
+
+
           <?php 
 
             if($_SESSION["rol"] == 1)
@@ -137,12 +90,13 @@ while ($row = mysqli_fetch_array( $result)) {
             }
 
           ?>
-          <li  >
+          <li class="active " >
             <a href="./announcement.php">
               <i class="now-ui-icons education_atom"></i>
               <p>Announcements</p>
             </a>
           </li>
+
           <li>
             <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
@@ -193,15 +147,15 @@ while ($row = mysqli_fetch_array( $result)) {
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Search by
+                  <i class="now-ui-icons location_world"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="searchby.php?search=Department"> Department</a>
-                  <a class="dropdown-item" href="searchby.php?search=Category">Category</a>
-                  <a class="dropdown-item" href="searchby.php?search=Dates">Date</a>
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -224,62 +178,97 @@ while ($row = mysqli_fetch_array( $result)) {
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Upcoming activities</h4>
+                <h4 class="card-title"> Announcements </h4>
               </div>
               <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Activity Name
+                      </th>
+                      <th>
+                        Announcement Date
+                      </th>
+                      <th>
+                        More Info
+                      </th>
+                    </thead>
+                    <tbody>
 
-                <?php
+                    <?php 
+                      include ('conn.php');
+                      $user = $_SESSION['userID'];
 
-  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
 
-    $result = mysqli_query($db_link, $query); 
-    $actname =[];
-    $actdep = [];
-    $actdate = [];
-    $actinfo = [];
-    $counter = 0;
-    while ($row = mysqli_fetch_array( $result)) { 
-      $id = $row['activity_id'];
-     //stores the d
-      $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-          $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-          $hostDept = mysqli_query($db_link, $getDept); 
-          $deprow = mysqli_fetch_array( $hostDept);
+                      $query = "SELECT activity_info.activity_name, activity_notif.activity_notif_id, activity_notif.activity_notif_date_created, activity_notif.activity_notif_activity_id FROM activity_notif inner join activity_info on activity_info.activity_id=activity_notif.activity_notif_activity_id";
+                      
 
-          $actname[$counter] = $row['activity_name'];
-          $actdep[$counter] = $deprow['name_department'];
-          //$actinfo[$counter] = $row['activity_info'];
-          $date =$row['activity_date'];
-          $date = strtotime($date);
-          $actdate[$counter] = date('M d, Y', $date);
-          
-              echo "<div class='card'> ";
-                echo "<div class='card-header'>";
-   
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
-                  echo "</div>";
+                      $result = mysqli_query($db_link, $query); 
 
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
-                  echo "</div>";
+                      while ($row = mysqli_fetch_array( $result)) 
+                      { 
+                            $id = $row['activity_notif_id'];
+                            $activity_name = $row["activity_name"];
+                            $flag = "false";
+                                                // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                            // $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                            // $hostDept = mysqli_query($db_link, $getDept); 
+                            // $deprow = mysqli_fetch_array( $hostDept);
+                            // if($row['activity_date']< $now){
+                            //     $flag="true";
+                            //     echo "<tr style='color:red;'>";
+                            // }
+                            // else{
+                            //     echo "<tr>";
+                            // }
+                            echo "<tr>";
+                            echo "<td>" . $row['activity_name'] . "</td>";
+                            echo "<td>" . $row['activity_notif_date_created']. "</td>";
 
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
-                 // echo "<a class='title' href='#'> more info </a>";
-                  echo "</div>";
-                echo "</div> ";
-              echo "</div>";
+                            // if($_SESSION["rol"] == 0)
+                            // {
+                            //   $query_checking = "Select * from activity_atst where activity_id=$id and user_name='$user'";
+                            //   $result_checking = mysqli_query($db_link,$query_checking);
 
-                        $counter++;
-       }
-                
-?>
-      
-              </div>     <!-- end of card body-->
-            </div> <!-- End of card -->
+                            //   if(mysqli_num_rows($result_checking) == 1 )
+                            //   {
+                            //     while( $new_row = mysqli_fetch_assoc($result_checking) )
+                            //     {
+                            //       if($new_row['rol'] == 0)
+                            //       {
+                            //         echo "<td> Staff </td>";
+                            //       }else if($new_row['rol'] == 1)
+                            //       {
+                            //         echo "<td> Attend </td>";
+                            //       }
+                            //       break;
+                            //     }
+                            //       // echo "<td>" . $row['activity_date'] . "</td>";
+                            //   }else
+                            //   {
+                            //       echo "<td> None </td>";
+                            //   }
+                            // }
+                             if($_SESSION["rol"] == 0)
+                            {
+                              echo "<td><a href= 'anounsDetail.php?notifid=$id&activity=".$row["activity_notif_activity_id"]."' id=".$row['activity_notif_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                            }else if($_SESSION["rol"] == 1)
+                            {
+                              echo "<td><a href= 'anounsDetail.php?notifid=$id&activity=".$row["activity_notif_activity_id"]."' id=".$row['activity_notif_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                            }
+                            
+                            
+                            echo "</tr>";
+                      }
 
+                    ?>
+                  
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

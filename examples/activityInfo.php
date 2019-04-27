@@ -113,6 +113,12 @@ session_start();
               <p>Create Announcements</p>
             </a>
           </li>
+          <li >
+            <a href="./announcement.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Announcements</p>
+            </a>
+          </li>
           <li>
             <a href="./notifications.html">
               <i class="now-ui-icons users_single-02"></i>
@@ -125,20 +131,7 @@ session_start();
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
+          
         </ul>
       </div>
     </div>

@@ -1,8 +1,3 @@
-<?php
-include ('conn.php');
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,55 +37,33 @@ session_start();
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
-            <a href="./dashboard.php">
+            <a href="./dashboard.html">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li >
-            <a href="./allactivities.php">
+          <li>
+            <a href="./allactivities.html">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
-          <li >
-            <a href="./allmyactivities.php">
-              <i class="now-ui-icons education_atom"></i>
-              <p>My Activities</p>
+          <li>
+            <a href="./createActivity.html">
+              <i class="now-ui-icons location_map-big"></i>
+              <p>Create Activity</p>
             </a>
           </li>
-           <?php 
-
-            if($_SESSION["rol"] == 1)
-            {
-                echo "
-                  <li>
-                    <a href='./createActivity.html'>
-                      <i class='now-ui-icons location_map-big'></i>
-                      <p>Create Activity</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='./createAnouns.html'>
-                      <i class='now-ui-icons ui-1_bell-53'></i>
-                      <p>Create Announcements</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='./notifications.html'>
-                      <i class='now-ui-icons users_single-02'></i>
-                      <p>Message to Admin</p>
-                    </a>
-                  </li>
-                ";
-
-            }
-
-          ?>
-          <li >
-            <a href="./announcement.php">
-              <i class="now-ui-icons education_atom"></i>
-              <p>Announcements</p>
+          <li>
+            <a href="./createAnouns.html">
+              <i class="now-ui-icons ui-1_bell-53"></i>
+              <p>Create Announcements</p>
+            </a>
+          </li>
+          <li class="active ">
+            <a href="./notifications.html">
+              <i class="now-ui-icons users_single-02"></i>
+              <p>Message to Admin</p>
             </a>
           </li>
           <li>
@@ -99,6 +72,20 @@ session_start();
               <p>Sign out</p>
             </a>
           </li>
+          <!--
+          <li>
+            <a href="./typography.html">
+              <i class="now-ui-icons text_caps-small"></i>
+              <p>Typography</p>
+            </a>
+          </li>
+          <li class="active-pro">
+            <a href="./upgrade.html">
+              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
+              <p>Upgrade to PRO</p>
+            </a>
+          </li>
+        -->
         </ul>
       </div>
     </div>
@@ -114,7 +101,7 @@ session_start();
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Table List</a>
+            <a class="navbar-brand" href="#pablo">Notifications</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -167,59 +154,134 @@ session_start();
         </div>
       </nav>
       <!-- End Navbar -->
-      <div class="panel-header panel-header-sm">
+      <div class="panel-header">
+        <div class="header text-center">
+          
+          <h2 class="title">Message to Admin</h2>
+          <!--
+          <p class="category">Handcrafted by our friend
+            <a target="_blank" href="https://github.com/mouse0270">Robert McIntosh</a>. Please checkout the
+            <a href="http://bootstrap-notify.remabledesigns.com/" target="_blank">full documentation.</a>
+          </p>-->
+        </div>
       </div>
       <div class="content">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Activitiy Info</h4>
+                <h4 class="card-title">Message</h4>
+              </div>
+              <!--
+              <div class="card-body">
+                <div class="alert alert-info">
+                  <span>This is a plain notification</span>
+                </div>
+                <div class="alert alert-info">
+                  <button type="button" aria-hidden="true" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span>This is a notification with close button.</span>
+                </div>
+                <div class="alert alert-info alert-with-icon" data-notify="container">
+                  <button type="button" aria-hidden="true" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                  <span data-notify="message">This is a notification with close button and icon.</span>
+                </div>
+                <div class="alert alert-info alert-with-icon" data-notify="container">
+                  <button type="button" aria-hidden="true" class="close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+                  <span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+                  <span data-notify="message">This is a notification with close button and icon and have many lines. You can see that the icon and the close button are always vertically aligned. This is a beautiful notification. So you don't have to worry about the style.</span>
+                </div>
+              </div>
+              -->
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Options</h4>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table">
-                  
-                <?php 
-                  $act_id = $_GET['eventid'];
-                  $query = "SELECT * FROM activity_info WHERE activity_id = '$act_id'";
-
-                  $result = mysqli_query($db_link, $query); 
-
-              
-                  if ($row = mysqli_fetch_array( $result)) { 
-                        $id = $row['activity_id'];
-                        $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-                        $hostDept = mysqli_query($db_link, $getDept); 
-                        $deprow = mysqli_fetch_array( $hostDept);
-                        
-                        $getstaffquery = "SELECT COUNT(*) FROM activity_atst WHERE activity_id = '$id' AND rol=1";
-                        $getstaff = mysqli_query($db_link, $getstaffquery); 
-                        $staffinfo = mysqli_fetch_array( $getstaff);
-
-                        $getattquery = "SELECT COUNT(*) FROM activity_atst WHERE activity_id = '$id' AND rol=0";
-                        $getatt = mysqli_query($db_link, $getattquery); 
-                        $attinfo = mysqli_fetch_array( $getatt);
-
-                        echo " <table class='table'>";
-
-                        
-                        echo "<tr> <td class= 'text-primary'> Activity Name </td> <td >" . $row['activity_name'] . " </td><td></td> </tr>";
-                        echo "<tr> <td class= 'text-primary'> Hosting Department </td> <td>" . $deprow['name_department']. "</td> <td></td></tr>";
-                        echo "<tr> <td class= 'text-primary'> Activity Date </td> <td>" . $row['activity_date'] . " </td><td></td> </tr>";
-                        echo "<tr> <td class= 'text-primary'> Activity Information </td> <td>" . $row['activity_info'] . "</td><td></td> </tr>";
-                        echo "<tr> <td class= 'text-primary'> Activity Location </td> <td>" . $row['activity_place'] . "</td><td></td> </tr>";
-                         echo "<tr>  <td class= 'text-primary'> Activity Total Assistance (not including staff) </td> <td>" . $attinfo['COUNT(*)'] . " </td><td></td></tr>";
-                        echo "<tr>  <td class= 'text-primary'> Activity Staff Required </td> <td>" . $row['activity_staff_limit'] . " </td><td></td></tr>";
-                        echo "<tr>  <td class= 'text-primary'> Activity Staff Recruited </td> <td>" . $staffinfo['COUNT(*)'] ." <td><a href= 'contactstaff.php?eventid=$id' id=".$row['activity_id']."  class='btn btn-primary btn-lg btn-block'>See the staff list</a></td></td> </tr>";
-                        echo "<tr>";
-                        echo "<td><a href= 'activityInfo.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'>Modify this Activity</a></td> </td><td></td><td></td></tr>";
-                  }
-                     ?>
-                  
-                  </table>
+                <div class="alert alert-primary">
+                  <button type="button" aria-hidden="true" class="close">
+                  </button>
+                  <span>
+                    <b> Primary - </b> 
+                </div>
+                <div class="alert alert-info">
+                  <button type="button" aria-hidden="true" class="close">
+                  </button>
+                  <span>
+                    <b> Info - </b> 
+                </div>
+                <div class="alert alert-success">
+                  <button type="button" aria-hidden="true" class="close">
+                  </button>
+                  <span>
+                    <b> Success - </b>
+                </div>
+                <div class="alert alert-warning">
+                  <button type="button" aria-hidden="true" class="close">
+                  </button>
+                  <span>
+                    <b> Warning - </b> 
+                </div>
+                <div class="alert alert-danger">
+                  <button type="button" aria-hidden="true" class="close">
+                  </button>
+                  <span>
+                    <b> Danger - </b> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="places-buttons">
+                  <div class="row">
+                    <div class="col-md-6 ml-auto mr-auto text-center">
+                      <h4 class="card-title">
+                        Notifications Places
+                        <p class="category">Click to view notifications</p>
+                      </h4>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-8 ml-auto mr-auto">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <button class="btn btn-primary btn-block" onclick="nowuiDashboard.showNotification('top','left')">Top Left</button>
+                        </div>
+                        <div class="col-md-4">
+                          <button class="btn btn-primary btn-block" onclick="nowuiDashboard.showNotification('top','center')">Top Center</button>
+                        </div>
+                        <div class="col-md-4">
+                          <button class="btn btn-primary btn-block" onclick="nowuiDashboard.showNotification('top','right')">Top Right</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-8 ml-auto mr-auto">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <button class="btn btn-primary btn-block" onclick="nowuiDashboard.showNotification('bottom','left')">Bottom Left</button>
+                        </div>
+                        <div class="col-md-4">
+                          <button class="btn btn-primary btn-block" onclick="nowuiDashboard.showNotification('bottom','center')">Bottom Center</button>
+                        </div>
+                        <div class="col-md-4">
+                          <button class="btn btn-primary btn-block" onclick="nowuiDashboard.showNotification('bottom','right')">Bottom Right</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

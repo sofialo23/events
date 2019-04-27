@@ -88,7 +88,12 @@ session_start();
             }
 
           ?>
-
+          <li >
+            <a href="./announcement.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Announcements</p>
+            </a>
+          </li>
 
           <li>
             <a href="">

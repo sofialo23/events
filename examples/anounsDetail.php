@@ -1,3 +1,7 @@
+<?php
+include ('conn.php');
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -96,7 +100,7 @@
                       <p>Create Activity</p>
                     </a>
                   </li>
-                  <li class="active ">
+                  <li class='active' >
                     <a href='./createAnouns.php'>
                       <i class='now-ui-icons ui-1_bell-53'></i>
                       <p>Create Announcements</p>
@@ -200,77 +204,61 @@
         <div class="row">
           <div class="col-md-8">
             <div class="card">
-              <div class="card-header">
-                <h5 class="title">Create Announcement</h5>
-                <h7 >(General notification)</h7>
+              <div class="row">
+
+                 <div class="col-md-4 pr-1" style="float:left;" >
+                  <div class="form-group">
+                    <div class="panel panel-default" style="text-aling:left;"> 
+                      <div class="panel-body"><button id="btn_back" type="button" style="background-color:#F1EBF1;color:#4B4A4B;" class="btn btn-light" ><-Go back!</button></div>
+
+                    </div>
+                  </div>
+                </div>   
+
+                <div class="card-header">
+                  <h4 class="card-title">Announcement</h4>
+                  <h7 >(General notification)</h7>
+                </div>
+
               </div>
+
               <div class="card-body">
-                <form id="frm_createanouns">
-                  <!-- <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Company (disabled)</label>
-                        <input type="text" class="form-control"  placeholder="Company" value="Creative Code Inc.">
-                      </div>
-                    </div>
-                    <div class="col-md-3 px-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" value="michael23">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email">
-                      </div>
-                    </div>
-                  </div> -->
-                  <!-- <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-1">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
-                      </div>
-                    </div>
-                  </div> -->
+                <div class="table-responsive">
+                  <table class="table">
+                  
+                <?php 
+                  $notifid = $_GET['notifid'];
+                  $activityid = $_GET['activity'];
+
+                  $query = "SELECT activity_info.activity_name, activity_notif.activity_notif_msg, activity_notif.activity_notif_id, activity_notif.activity_notif_date_created, activity_notif.activity_notif_activity_id FROM activity_notif inner join activity_info on activity_info.activity_id=activity_notif.activity_notif_activity_id where activity_notif.activity_notif_id=$notifid";
+                  $result = mysqli_query($db_link, $query); 
+
+                  if ($row = mysqli_fetch_array( $result)) { 
+                        
+
+                        echo " <table class='table'>";
+
+                        
+                        echo "<tr> <td class= 'text-primary'> Activity Name </td> <td >" . $row['activity_name'] . " </td><td></td> </tr>";
+                        echo "<tr> <td class= 'text-primary'> Announcement </td> <td style='text-align:justify;'>" . $row['activity_notif_msg']. "</td> <td></td></tr>";
+                        
+                        // echo "<tr>";
+                        // echo "<td><a href= 'activityInfo.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'>Modify this Activity</a></td> </td><td></td><td></td></tr>";
+                  }
+                     ?>
+                  
+                  </table>
+                </div>
+                <!-- <form id="frm_createanouns">
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity (Choose one)</label>
                         <select id="slct_activities" class="form-control"  data-live-search="true" required>
                         </select>
-                        <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
-                         -->
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="row">
-                    <div class="col-md-4 pr-1">
-                      <div class="form-group">
-                        <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" value="Mike">
-                      </div>
-                    </div>
-                    <div class="col-md-4 px-1">
-                      <div class="form-group">
-                        <label>Country</label>
-                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code">
-                      </div>
-                    </div>
-                  </div> -->
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -282,7 +270,7 @@
                   <div class="row" >
                     <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Post Announce</button>
                   </div>
-                </form>
+                </form> -->
               </div>
             </div>
           </div>
@@ -388,94 +376,132 @@
     // txtArea: id="txt_anouns_content"
     var info = "all";
     var slct = $("#slct_activities");
+
+    var activityNotifId = getQueryVariable("notifid");
+    var activityId = getQueryVariable("activity");
+    var elId = activityId;
+    function getQueryVariable(variable)
+    {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+    }
+
     //Filling in the select HTML element
       $.ajax({
         type:'POST',
-        url:'announcementFetchDB.php',
+        url:'fetchStudentActivityDB.php',
         dataType:'json',
-        data: {info,info},
-        success:function(data){
-            var toAppend_col = '<option value="0">               --- Select one activity ---          </option>';
-            $("#slct_activities").append(toAppend_col);
-            $.each(data,function(index,element){
-              var dd = '<option value="'+element.activityid+'">'+element.activityname+'</option>';
-              $("#slct_activities").append(dd);
-            });
+        data: {elId,elId},
+        success:function(data)
+        {
+          $.each(data,function(index,element){
+            //Fill in all the Labels into the info Card on the right
+            // $("#lbl_activityname").append(element.activityname);
+            $("#txt_activityname").val(element.activityname);
+            $("#txt_hostdepartment").val(element.activityhostdepto);
+            var ddd = element.activityname;
+            var completedate = element.activitydate;
+            if(typeof completedate != 'undefined')
+            {
+              var fecha = (completedate).substr(0,10);
+              var time = (completedate).substr(11,16);
+              $("#txt_date").val(fecha);
+              $("#txt_time").val(time);
+            }
+            $("#staff_input").val(element.activitystafflimit);
+            $("#txt_activityplace").val(element.activityplace);
+            $("#txt_activityinformation").val(element.activityinfo);
+          });
         }
       });
+      $("#btn_back").on('click',function(e){
+            window.location.href = "announcement.php";
+
+        });
     //Finish Filling in slc_activities
+
     //Event to submit the notification to the DB
-    $("#frm_createanouns").on('submit',function(e){
-      var anss = [];
-      anss[0] = $("#slct_activities").val();
-      anss[1] = $("#txt_anouns_content").val();
-      anss[2] = "first"; //user that will be replaced by the user in sesion
-      e.preventDefault();
-      $.ajax({
-        method:'POST',
-        dataType: 'text',
-        url:'announcementFetchDB.php',
-        data: {anss,anss},
-        success:function(data){
-          //alert("Announcement successfully posted!");
-          //window.location.href = "allevents.php";  
-          if(data=="success")
-          {
-            alert("Announcement successfully posted!");
-            window.location.href = "allevents.php";  
-          }else if(data=="failure")
-          {
-            alert("Failiure!");
-          }
+
+    // $("#frm_createanouns").on('submit',function(e){
+    //   var anss = [];
+    //   anss[0] = $("#slct_activities").val();
+    //   anss[1] = $("#txt_anouns_content").val();
+    //   anss[2] = "first"; //user that will be replaced by the user in sesion
+    //   e.preventDefault();
+    //   $.ajax({
+    //     method:'POST',
+    //     dataType: 'text',
+    //     url:'announcementFetchDB.php',
+    //     data: {anss,anss},
+    //     success:function(data){
+    //       //alert("Announcement successfully posted!");
+    //       //window.location.href = "allevents.php";  
+    //       if(data=="success")
+    //       {
+    //         alert("Announcement successfully posted!");
+    //         window.location.href = "allevents.php";  
+    //       }else if(data=="failure")
+    //       {
+    //         alert("Failiure!");
+    //       }
           
-        }
-      });
-    });
+    //     }
+    //   });
+    // });
+
     //Finishes event to submit the notification to the DB
     //When It chooses any activity in order to display all the info on the right
-    $("#slct_activities").change(function(){
-      var id = $("#slct_activities").val();
-      if(id == "0")
-      {
-        $("#txt_activityname").val('');
-        $("#txt_hostdepartment").val('0');
-        $("#txt_date").val('');
-        $("#txt_time").val('');
-        $("#staff_input").val('');
-        $("#txt_activityplace").val('');
-        $("#txt_activityinformation").val('');
-      }else
-      {
-        $.ajax({
-          url:'announcementFetchDB.php',
-          dataType: 'json',
-          method:'POST',
-          data:{id,id},
-          success: function(data)
-          {
-            $.each(data,function(index,element){
-              //Fill in all the Labels into the info Card on the right
-              // $("#lbl_activityname").append(element.activityname);
-              $("#txt_activityname").val(element.activityname);
-              $("#txt_hostdepartment").val(element.activityhostdepto);
-              var ddd = element.activityname;
-              var completedate = element.activitydate;
-              if(typeof completedate != 'undefined')
-              {
-                var fecha = (completedate).substr(0,10);
-                var time = (completedate).substr(11,16);
-                $("#txt_date").val(fecha);
-                $("#txt_time").val(time);
-              }
-              $("#staff_input").val(element.activitystafflimit);
-              $("#txt_activityplace").val(element.activityplace);
-              $("#txt_activityinformation").val(element.activityinfo);
-            });
+
+    // $("#slct_activities").change(function(){
+    //   var id = $("#slct_activities").val();
+    //   if(id == "0")
+    //   {
+    //     $("#txt_activityname").val('');
+    //     $("#txt_hostdepartment").val('0');
+    //     $("#txt_date").val('');
+    //     $("#txt_time").val('');
+    //     $("#staff_input").val('');
+    //     $("#txt_activityplace").val('');
+    //     $("#txt_activityinformation").val('');
+    //   }else
+    //   {
+    //     $.ajax({
+    //       url:'announcementFetchDB.php',
+    //       dataType: 'json',
+    //       method:'POST',
+    //       data:{id,id},
+    //       success: function(data)
+    //       {
+    //         $.each(data,function(index,element){
+    //           //Fill in all the Labels into the info Card on the right
+    //           // $("#lbl_activityname").append(element.activityname);
+    //           $("#txt_activityname").val(element.activityname);
+    //           $("#txt_hostdepartment").val(element.activityhostdepto);
+    //           var ddd = element.activityname;
+    //           var completedate = element.activitydate;
+    //           if(typeof completedate != 'undefined')
+    //           {
+    //             var fecha = (completedate).substr(0,10);
+    //             var time = (completedate).substr(11,16);
+    //             $("#txt_date").val(fecha);
+    //             $("#txt_time").val(time);
+    //           }
+    //           $("#staff_input").val(element.activitystafflimit);
+    //           $("#txt_activityplace").val(element.activityplace);
+    //           $("#txt_activityinformation").val(element.activityinfo);
+    //         });
               
-          }
-        });
-      }
-    });
+    //       }
+    //     });
+    //   }
+    // });
+
+
   });
 </script>
 </html>

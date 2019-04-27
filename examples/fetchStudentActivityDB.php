@@ -1,14 +1,14 @@
 <?php
 	header('Content-Type: application/json');
-	if(isset($_POST["datas"]))
+	if(isset($_POST["elId"]))
 	{
 		include("connectionDB.php");
-		$data = $_POST["datas"];
-		$activity_creator = $data[0];
-		$activity_id = $data[1];
+		$elId = $_POST["elId"];
+		// $activity_creator = $data[0];
+		// $activity_id = $data[1];
 		$query = "Select activity_info.activity_id, activity_info.activity_host_depto, activity_info.activity_name, activity_info.activity_created_date, activity_info.activity_date, activity_info.activity_staff_limit, activity_info.activity_staff_counter, activity_info.activity_creator, activity_info.activity_place, departments.name_department, activity_info.activity_info
 		 from activity_info inner join departments 
-		 where activity_info.activity_host_depto=departments.id_department and activity_id=".$activity_id.";";
+		 where activity_info.activity_host_depto=departments.id_department and activity_id=".$elId.";";
 		$result = mysqli_query($db_link,$query);
 		if($result)
 		{
