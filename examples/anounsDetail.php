@@ -380,6 +380,10 @@ session_start();
     var activityNotifId = getQueryVariable("notifid");
     var activityId = getQueryVariable("activity");
     var elId = activityId;
+    var rol = getQueryVariable("rol");
+
+    //IF rol es 1, the button to go back will have another address, to the actAnouns page with the respective parameters
+    //If rol es 0, the buttong to go back, will have parameters to the announcement page
     function getQueryVariable(variable)
     {
            var query = window.location.search.substring(1);
@@ -420,9 +424,17 @@ session_start();
         }
       });
       $("#btn_back").on('click',function(e){
-            window.location.href = "announcement.php";
+
+        if(rol == 0)
+        {
+          window.location.href = "announcement.php";
+        }else if(rol == 1)
+        {
+          window.location.href = "actAnouns.php?id="+activityId;
+        }
 
         });
+
     //Finish Filling in slc_activities
 
     //Event to submit the notification to the DB

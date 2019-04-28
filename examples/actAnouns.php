@@ -185,7 +185,7 @@ session_start();
                   <table class="table">
                     <thead class=" text-primary">
                       <th>
-                        Activity Name
+                        NO.
                       </th>
                       <th>
                         Announcement Date
@@ -198,35 +198,40 @@ session_start();
 
                     <?php 
                       include ('conn.php');
-                      $user = $_SESSION['userID'];
 
+                      $activityId = $_GET["id"];
+                      $counter =0;
 
-                      $query = "SELECT activity_info.activity_name, activity_notif.activity_notif_id, activity_notif.activity_notif_date_created, activity_notif.activity_notif_activity_id FROM activity_notif inner join activity_info on activity_info.activity_id=activity_notif.activity_notif_activity_id";
+                       $query = "SELECT activity_info.activity_name, activity_notif.activity_notif_id, activity_notif.activity_notif_date_created, activity_notif.activity_notif_activity_id FROM activity_notif inner join activity_info where activity_info.activity_id=activity_notif.activity_notif_activity_id and activity_notif.activity_notif_activity_id=$activityId";
                       
 
                       $result = mysqli_query($db_link, $query); 
+                      if($result)
+                      {
 
-                      while ($row = mysqli_fetch_array( $result)) 
-                      { 
-                            $id = $row['activity_notif_id'];
-                            $activity_name = $row["activity_name"];
-                            $flag = "false";
-                            echo "<tr>";
-                            echo "<td>" . $row['activity_name'] . "</td>";
-                            echo "<td>" . $row['activity_notif_date_created']. "</td>";
+                      
+                          while ($row = mysqli_fetch_array( $result)) 
+                          { 
+                                $counter++;
+                                $id = $row['activity_notif_id'];
+                                $activity_name = $row["activity_name"];
+                                $flag = "false";
+                                echo "<tr>";
+                                echo "<td>" . $counter. "</td>";
+                                echo "<td>" . $row['activity_notif_date_created']. "</td>";
 
-                             if($_SESSION["rol"] == 0)
-                            {
-                              echo "<td><a href= 'anounsDetail.php?notifid=$id&activity=".$row["activity_notif_activity_id"]."&rol=0' id=".$row['activity_notif_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                            }else if($_SESSION["rol"] == 1)
-                            {
-                              echo "<td><a href= 'anounsDetail.php?notifid=$id&activity=".$row["activity_notif_activity_id"]."' id=".$row['activity_notif_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                            }
-                            
-                            
-                            echo "</tr>";
+                                 if($_SESSION["rol"] == 0)
+                                {
+                                  echo "<td><a href= 'anounsDetail.php?notifid=$id&activity=".$row["activity_notif_activity_id"]."&rol=1' id=".$row['activity_notif_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                                }else if($_SESSION["rol"] == 1)
+                                {
+                                  echo "<td><a href= 'anounsDetail.php?notifid=$id&activity=".$row["activity_notif_activity_id"]."' id=".$row['activity_notif_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                                }
+                                
+                                
+                                echo "</tr>";
+                          }
                       }
-
                     ?>
                   
                     </tbody>

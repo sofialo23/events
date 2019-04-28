@@ -216,6 +216,16 @@ session_start();
                 <div class="card-header">
                   <h5 class="title">Activiy Information</h5>
                 </div>
+
+                <div class="col-md-4 pr-1" style="float:right;" >
+                  <div class="form-group">
+                    <div class="panel panel-default" style="text-aling:left;"> 
+                      <div class="panel-body"><button id="btn_thisAnouns" type="button" style="background-color:#006600;color:#f2f2f2;" class="btn btn-success" ><-Announcements!</button></div>
+
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
               <div class="card-body" >
@@ -528,6 +538,10 @@ session_start();
         {
             saveIntoDB(0); // 0 is value for Attending the activity
 
+        });
+        $("#btn_thisAnouns").on('click', function (e)
+        {
+            window.location.href = "actAnouns.php?id="+datas[1];
         });
         $("#btn_cancel").on('click',function(e)
         {
