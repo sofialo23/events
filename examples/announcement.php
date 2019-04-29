@@ -199,7 +199,7 @@ session_start();
                     <?php 
                       include ('conn.php');
                       $user = $_SESSION['userID'];
-
+                      
 
                       $query = "SELECT activity_info.activity_name, activity_notif.activity_notif_id, activity_notif.activity_notif_date_created, activity_notif.activity_notif_activity_id FROM activity_notif inner join activity_info on activity_info.activity_id=activity_notif.activity_notif_activity_id";
                       

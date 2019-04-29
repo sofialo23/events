@@ -64,7 +64,7 @@ if(isset($_POST['mailtoall'])) {
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
-        <ul class="nav">
+       <ul class="nav">
           <li >
             <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
@@ -96,7 +96,7 @@ if(isset($_POST['mailtoall'])) {
                       <p>Create Activity</p>
                     </a>
                   </li>
-                  <li >
+                  <li>
                     <a href='./createAnouns.php'>
                       <i class='now-ui-icons ui-1_bell-53'></i>
                       <p>Create Announcements</p>
@@ -114,7 +114,12 @@ if(isset($_POST['mailtoall'])) {
 
           ?>
 
-
+          <li  >
+            <a href="./announcement.php">
+              <i class="now-ui-icons education_atom"></i>
+              <p>Announcements</p>
+            </a>
+          </li>
           <li>
             <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>

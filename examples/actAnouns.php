@@ -177,8 +177,21 @@ session_start();
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">
-                <h4 class="card-title"> Announcements </h4>
+              <div class="row">
+
+                <div class="col-md-4 pr-1" style="float:left;" >
+                  <div class="form-group">
+                    <div class="panel panel-default" style="text-aling:left;"> 
+                      <div class="panel-body"><button id="btn_back" type="button" style="background-color:#F1EBF1;color:#4B4A4B;" class="btn btn-light" ><-Go back!</button></div>
+
+                    </div>
+                  </div>
+                </div> 
+
+                <div class="card-header">
+                  <h4 class="card-title"> Announcements for <?php echo $_GET["title"]; ?></h4>
+                </div>
+
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -281,7 +294,28 @@ session_start();
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
 </body>
+<script >
+  $(document).ready(function(){
 
+    var elId = getQueryVariable("id");
+    var flag = getQueryVariable("flag");
+    //The function below is to catch the value of the Get parameter in the URL
+    function getQueryVariable(variable)
+    {
+           var query = window.location.search.substring(1);
+           var vars = query.split("&");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+    }
+    $("#btn_back").on('click',function(e){
+            window.location.href = "studentActivity.php?id="+elId+"&flag="+flag;
+
+    });
+  });
+</script>
 </html>
 
 

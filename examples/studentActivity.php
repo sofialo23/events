@@ -77,7 +77,7 @@ session_start();
               <p>All Activities</p>
             </a>
           </li>
-          <li class="active " >
+          <li  >
             <a href="./allmyactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>My Activities</p>
@@ -412,15 +412,17 @@ session_start();
         $('.clockpicker').clockpicker();
         $("#btn_save").hide();
         var status = "none";
+        var flag = getQueryVariable("flag");
         var datas=[]; 
         datas[0]= "<?php echo $_SESSION['userID']; ?>";
         datas[1] = getQueryVariable("eventid");
+        datas[2] = "";
         var elId = datas[1];
 
         //NOW WE ARE GOING TO COMPARE THE DATE so we can hide the cancel button
         var date_flag = getQueryVariable("flag"); 
         //date_fla=1 means that the activity has not passed yet.
-        alert(date_flag);
+        // alert(date_flag);
         if(date_flag == "0")
         {
             $("#btn_cancel").attr('disabled','disabled');
@@ -462,6 +464,7 @@ session_start();
             $.each(data,function(index,element){
               // alert(element.activityhostdepto);
               $("#lbl_activityName").text(element.activityname);
+              datas[2] = element.activityname;
               $("#lbl_hostDepartment").text(element.activityhostdepto);
               var completedate = element.activitydate;
               if(typeof completedate != 'undefined')
@@ -541,7 +544,7 @@ session_start();
         });
         $("#btn_thisAnouns").on('click', function (e)
         {
-            window.location.href = "actAnouns.php?id="+datas[1];
+            window.location.href = "actAnouns.php?id="+datas[1]+"&title="+datas[2]+"&flag="+flag;
         });
         $("#btn_cancel").on('click',function(e)
         {
