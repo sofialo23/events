@@ -80,6 +80,20 @@
 			echo "popo";
 		}
 	}
+	if(isset($_POST["editV"]))
+	{
+		$editV = $_POST["editV"];
+		include("connectionDB.php");
+		$query_edit = "Update activity_notif set activity_notif_msg ='".$editV[0]."' where activity_notif_id=".$editV[2]."";
+		$result_edit = mysqli_query($db_link,$query_edit);
+		if($result_edit)
+		{
+			echo "success";
+		}else
+		{
+			echo "muchopopo";
+		}
+	}
 	function alterStaff($activityId)
 	{
 		include("connectionDB.php");

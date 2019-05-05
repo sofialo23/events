@@ -66,19 +66,19 @@ session_start();
             {
                 echo "
                   <li>
-                    <a href='./createActivity.html'>
+                    <a href='./createActivity.php'>
                       <i class='now-ui-icons location_map-big'></i>
                       <p>Create Activity</p>
                     </a>
                   </li>
                   <li>
-                    <a href='./createAnouns.html'>
+                    <a href='./createAnouns.php'>
                       <i class='now-ui-icons ui-1_bell-53'></i>
                       <p>Create Announcements</p>
                     </a>
                   </li>
                   <li>
-                    <a href='./notifications.html'>
+                    <a href='./notifications.php'>
                       <i class='now-ui-icons users_single-02'></i>
                       <p>Message to Admin</p>
                     </a>

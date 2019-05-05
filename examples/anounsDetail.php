@@ -100,7 +100,7 @@ session_start();
                       <p>Create Activity</p>
                     </a>
                   </li>
-                  <li class='active' >
+                  <li  >
                     <a href='./createAnouns.php'>
                       <i class='now-ui-icons ui-1_bell-53'></i>
                       <p>Create Announcements</p>
@@ -145,7 +145,7 @@ session_start();
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">New Announcement</a>
+            <a class="navbar-brand" href="#pablo">Announcement</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -222,8 +222,14 @@ session_start();
 
               </div>
 
+                
+              
               <div class="card-body">
                 <div class="table-responsive">
+                    <div class="custom-control custom-checkbox" style="float:left;">
+                  <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                  <label class="custom-control-label" for="defaultUnchecked">Edit</label>
+                </div>
                   <table class="table">
                   
                 <?php 
@@ -240,7 +246,7 @@ session_start();
 
                         
                         echo "<tr> <td class= 'text-primary'> Activity Name </td> <td >" . $row['activity_name'] . " </td><td></td> </tr>";
-                        echo "<tr> <td class= 'text-primary'> Announcement </td> <td style='text-align:justify;'>" . $row['activity_notif_msg']. "</td> <td></td></tr>";
+                        echo "<tr> <td class= 'text-primary'> Announcement </td> <td ><label style='text-align:justify;color:black;' id='lbl_anouns'>" . $row['activity_notif_msg']. "</label><textarea rows='4' id='txt_anouns' cols='80' class='form-control' placeholder='Here can be your Announcement Info' value='" . $row['activity_notif_msg']. "' required></textarea></td> <td></td></tr>";
                         
                         // echo "<tr>";
                         // echo "<td><a href= 'activityInfo.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'>Modify this Activity</a></td> </td><td></td><td></td></tr>";
@@ -248,29 +254,13 @@ session_start();
                      ?>
                   
                   </table>
+
+                    <div class="panel panel-default" style="text-aling:center;"> 
+                          <div class="panel-body"><button id="btn_save" type="button" class="btn btn-info btn-lg" style="width:150px;font-size:15px;text-aling:left;padding-top:25px;padding-bottom:25px;" >Save</button></div>
+                    </div>    
+                  
+
                 </div>
-                <!-- <form id="frm_createanouns">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Activity (Choose one)</label>
-                        <select id="slct_activities" class="form-control"  data-live-search="true" required>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Announcement Content</label>
-                        <textarea rows="4" id="txt_anouns_content" cols="80" class="form-control" placeholder="Here can be your Announcement Info" value="" required></textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row" >
-                    <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block">Post Announce</button>
-                  </div>
-                </form> -->
               </div>
             </div>
           </div>
@@ -334,14 +324,7 @@ session_start();
                       </div>
                     </div>
                   </div>
-
-              <!-- <div class="card-body">
-
-              </div> -->
               <hr>
-              <!-- <div class="button-container">
-                
-              </div> -->
             </div>
           </div>
         </div>
@@ -376,7 +359,8 @@ session_start();
     // txtArea: id="txt_anouns_content"
     var info = "all";
     var slct = $("#slct_activities");
-
+    $("#btn_save").hide();
+    $("#txt_anouns").hide();
     var activityNotifId = getQueryVariable("notifid");
     var activityId = getQueryVariable("activity");
     var elId = activityId;
@@ -423,6 +407,9 @@ session_start();
           });
         }
       });
+      
+      
+
       $("#btn_back").on('click',function(e){
 
         if(rol == 0)
@@ -434,85 +421,93 @@ session_start();
         }
 
         });
+      var el_text = $("#lbl_anouns").text();
 
-    //Finish Filling in slc_activities
+      $('#defaultUnchecked').click(function(){
+        
+        if($(this).is(":checked"))
+        {
+          $("#btn_save").css('display','block');
+          $("#lbl_anouns").hide();
+          $("#txt_anouns").css('display','block');
+          $("#txt_anouns").text(el_text);
+        }else if($(this).is(":not(:checked)") == true)
+        {
+          $("#btn_save").hide();
+          $("#txt_anouns").hide();
+          $("#lbl_anouns").css('display','block');
+          $("#lbl_anouns").text(el_text);
+        }
+      });
 
-    //Event to submit the notification to the DB
+      $("#btn_save").on('click', function(e){
+        var anouns = $("#txt_anouns").val();
+        el_text = anouns;
+        var editV = [];
+        editV[0] = anouns;
+        editV[1] = activityId;
+        editV[2] = activityNotifId;
+        editV[3] = rol;
+        $.ajax({
+        type:'POST',
+        url:'fetchStudentActivityDB.php',
+        dataType:'text',
+        data: {editV,editV},
+        success:function(data)
+        {
+            if(data == "success")
+            {
+              //AUN NO HE TERMINADOOOOOO DESPUES DE HACER UPDATE EN LA BASE DE DATOS
+              //first, do not mark it selected. 
+              setUp();
+            }
+        }
+      });
 
-    // $("#frm_createanouns").on('submit',function(e){
-    //   var anss = [];
-    //   anss[0] = $("#slct_activities").val();
-    //   anss[1] = $("#txt_anouns_content").val();
-    //   anss[2] = "first"; //user that will be replaced by the user in sesion
-    //   e.preventDefault();
-    //   $.ajax({
-    //     method:'POST',
-    //     dataType: 'text',
-    //     url:'announcementFetchDB.php',
-    //     data: {anss,anss},
-    //     success:function(data){
-    //       //alert("Announcement successfully posted!");
-    //       //window.location.href = "allevents.php";  
-    //       if(data=="success")
-    //       {
-    //         alert("Announcement successfully posted!");
-    //         window.location.href = "allevents.php";  
-    //       }else if(data=="failure")
-    //       {
-    //         alert("Failiure!");
-    //       }
-          
-    //     }
-    //   });
-    // });
+    });
+    function setUp()
+      {
+        alert("dentro de setUp");
+          // $("#btn_save").hide();
+          // $("#txt_anouns").hide();
+          var activityNotifId = getQueryVariable("notifid");
+          var activityId = getQueryVariable("activity");
+          var elId = activityId;
+          var rol = getQueryVariable("rol");
+          $.ajax({
+          type:'POST',
+          url:'fetchStudentActivityDB.php',
+          dataType:'json',
+          data: {elId,elId},
+          success:function(data)
+          {
+            alert("dentro de setUp success");
+            $.each(data,function(index,element){
+               $("#btn_save").hide();
+              $("#txt_anouns").hide();
+              $("#lbl_anouns").css('display','block');
+              $("#lbl_anouns").text(el_text);
+              //Fill in all the Labels into the info Card on the right
+              // $("#lbl_activityname").append(element.activityname);
+              $("#txt_activityname").val(element.activityname);
+              $("#txt_hostdepartment").val(element.activityhostdepto);
+              var ddd = element.activityname;
+              var completedate = element.activitydate;
+              if(typeof completedate != 'undefined')
+              {
+                var fecha = (completedate).substr(0,10);
+                var time = (completedate).substr(11,16);
+                $("#txt_date").val(fecha);
+                $("#txt_time").val(time);
+              }
+              $("#staff_input").val(element.activitystafflimit);
+              $("#txt_activityplace").val(element.activityplace);
+              $("#txt_activityinformation").val(element.activityinfo);
+            });
+          }
+        });
 
-    //Finishes event to submit the notification to the DB
-    //When It chooses any activity in order to display all the info on the right
-
-    // $("#slct_activities").change(function(){
-    //   var id = $("#slct_activities").val();
-    //   if(id == "0")
-    //   {
-    //     $("#txt_activityname").val('');
-    //     $("#txt_hostdepartment").val('0');
-    //     $("#txt_date").val('');
-    //     $("#txt_time").val('');
-    //     $("#staff_input").val('');
-    //     $("#txt_activityplace").val('');
-    //     $("#txt_activityinformation").val('');
-    //   }else
-    //   {
-    //     $.ajax({
-    //       url:'announcementFetchDB.php',
-    //       dataType: 'json',
-    //       method:'POST',
-    //       data:{id,id},
-    //       success: function(data)
-    //       {
-    //         $.each(data,function(index,element){
-    //           //Fill in all the Labels into the info Card on the right
-    //           // $("#lbl_activityname").append(element.activityname);
-    //           $("#txt_activityname").val(element.activityname);
-    //           $("#txt_hostdepartment").val(element.activityhostdepto);
-    //           var ddd = element.activityname;
-    //           var completedate = element.activitydate;
-    //           if(typeof completedate != 'undefined')
-    //           {
-    //             var fecha = (completedate).substr(0,10);
-    //             var time = (completedate).substr(11,16);
-    //             $("#txt_date").val(fecha);
-    //             $("#txt_time").val(time);
-    //           }
-    //           $("#staff_input").val(element.activitystafflimit);
-    //           $("#txt_activityplace").val(element.activityplace);
-    //           $("#txt_activityinformation").val(element.activityinfo);
-    //         });
-              
-    //       }
-    //     });
-    //   }
-    // });
-
+      }
 
   });
 </script>

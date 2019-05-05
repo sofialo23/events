@@ -1,3 +1,9 @@
+<?php
+include ('conn.php');
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,7 +93,7 @@
 
           <?php 
 
-            if($_SESSION["rol"] == 1)
+            if($_SESSION['rol'] == 1)
             {
                 echo "
                   <li>
@@ -96,7 +102,7 @@
                       <p>Create Activity</p>
                     </a>
                   </li>
-                  <li class="active ">
+                  <li class='active' >
                     <a href='./createAnouns.php'>
                       <i class='now-ui-icons ui-1_bell-53'></i>
                       <p>Create Announcements</p>
@@ -251,26 +257,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="row">
-                    <div class="col-md-4 pr-1">
-                      <div class="form-group">
-                        <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" value="Mike">
-                      </div>
-                    </div>
-                    <div class="col-md-4 px-1">
-                      <div class="form-group">
-                        <label>Country</label>
-                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code">
-                      </div>
-                    </div>
-                  </div> -->
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -422,7 +408,7 @@
           if(data=="success")
           {
             alert("Announcement successfully posted!");
-            window.location.href = "allevents.php";  
+            window.location.href = "allactivities.php";  
           }else if(data=="failure")
           {
             alert("Failiure!");

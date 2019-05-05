@@ -1,5 +1,7 @@
 <?php
+include ('conn.php');
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -90,25 +92,25 @@ session_start();
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
-            <a href="./dashboard.html">
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li>
-            <a href="./allactivities.html">
+            <a href="./allactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
           <li >
-            <a href="./createActivity.html">
+            <a href="./createActivity.php">
               <i class="now-ui-icons location_map-big"></i>
               <p>Create Activity</p>
             </a>
           </li>
           <li>
-            <a href="./createAnouns.html">
+            <a href="./createAnouns.php">
               <i class="now-ui-icons ui-1_bell-53"></i>
               <p>Create Announcements</p>
             </a>
