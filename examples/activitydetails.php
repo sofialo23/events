@@ -173,8 +173,21 @@ session_start();
         <div class="row">
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Activitiy Info</h4>
+              <div class="row">
+
+                 <div class="col-md-4 pr-1" style="float:left;" >
+                  <div class="form-group">
+                    <div class="panel panel-default" style="text-aling:left;"> 
+                      <div class="panel-body"><button id="btn_back" type="button" style="background-color:#F1EBF1;color:#4B4A4B;" class="btn btn-light" ><-Go back!</button></div>
+
+                    </div>
+                  </div>
+                </div>   
+
+                <div class="card-header">
+                  <h4 class="card-title">Activity Information</h4>
+                </div>
+
               </div>
               <div class="card-body">
                 <div class="table-responsive">
@@ -213,9 +226,12 @@ session_start();
                         echo "<tr> <td class= 'text-primary'> Activity Location </td> <td>" . $row['activity_place'] . "</td><td></td> </tr>";
                          echo "<tr>  <td class= 'text-primary'> Activity Total Assistance (not including staff) </td> <td>" . $attinfo['COUNT(*)'] . " </td><td></td></tr>";
                         echo "<tr>  <td class= 'text-primary'> Activity Staff Required </td> <td>" . $row['activity_staff_limit'] . " </td><td></td></tr>";
-                        echo "<tr>  <td class= 'text-primary'> Activity Staff Recruited </td> <td>" . $staffinfo['COUNT(*)'] ." <td><a href= 'contactstaff.php?eventid=$id' id=".$row['activity_id']."  class='btn btn-primary btn-lg btn-block'>See the staff list</a></td></td> </tr>";
+
+                        //LOOK IF THE 
+
+                        echo "<tr>  <td class= 'text-primary'> Activity Staff Recruited </td> <td>" . $staffinfo['COUNT(*)'] ." <td><a href= 'contactstaff.php?eventid=$id' id=".$row['activity_id']."  class='btn btn-primary btn-lg btn-block btn_stf'>See the staff list</a></td></td> </tr>";
                         echo "<tr>";
-                        echo "<td><a href= 'activityInfo.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'>Modify this Activity</a></td> </td><td></td><td></td></tr>";
+                        echo "<td><a href= 'activityInfo.php?eventid=$id' id='".$row['activity_id']."' class= 'btn btn-primary btn-lg btn-block btn_modif'>Modify this Activity</a></td> </td><td></td><td></td></tr>";
                   }
                      ?>
                   
@@ -286,6 +302,9 @@ session_start();
         }else if(data=="no suc")
         {
           //have to hide the two buttons
+          $(".btn_modif").attr('disabled','disabled');
+          $(".btn_modif").hide();
+          $(".btn_stf").hide();
         }
       }
     });
@@ -300,6 +319,11 @@ session_start();
            }
            return(false);
     }
+    $("#btn_back").on('click',function(e){
+
+          window.location.href = "allactivities.php";
+
+        });
   });
 </script>
 </html>

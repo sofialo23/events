@@ -83,8 +83,8 @@
 		include("connectionDB.php");
 		$confrm = $_POST["confrm"];
 		$query_confrm = "Select * from activity_info where activity_id=".$confrm[1]." and activity_creator='".$confrm[0]."'";
-		$resut_query = mysqli_query($db_link,$query_confrm);
-		if(mysqli_num_rows($resultSet) == 1 )
+		$result_query = mysqli_query($db_link,$query_confrm);
+		if(mysqli_num_rows($result_query) == 1 )
 		{	
 			echo "success";
 		}else
