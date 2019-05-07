@@ -208,15 +208,30 @@ session_start();
         <div class="row">
           <div class="col-md-8">
             <div class="card">
-              <div class="card-header">
-                <h5 class="title">Update Activity</h5>
+
+              <div class="row">
+
+                 <div class="col-md-4 pr-1" style="float:left;" >
+                  <div class="form-group">
+                    <div class="panel panel-default" style="text-aling:left;"> 
+                      <div class="panel-body"><button id="btn_back" type="button" style="background-color:#F1EBF1;color:#4B4A4B;" class="btn btn-light" ><-Go back!</button></div>
+
+                    </div>
+                  </div>
+                </div>   
+
+                <div class="card-header">
+                  <h4 class="card-title">Update Activity</h4>
+                </div>
+
               </div>
+
               <div class="card-body">
                 <form id="frm_createactivity">
                   <div class="row">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                        <label class="custom-control-label" for="defaultUnchecked">Modify Activity</label>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                      <label class="custom-control-label" for="defaultUnchecked">Modify Activity</label>
                     </div>
                   </div>
                   <div class="row">
@@ -491,6 +506,11 @@ session_start();
           window.location.href = "allmyactivities.php";
 
       });
+      $("#btn_back").on('click',function(e){
+
+          window.location.href = "allactivities.php?eventid="+datas[1];
+
+        });
       //This event is to save the data updated
       $("#btn_save").on('click', function(e){
           var allinfo = [];
