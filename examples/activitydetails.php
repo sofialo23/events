@@ -265,5 +265,41 @@ session_start();
   <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="../assets/demo/demo.js"></script>
 </body>
+<script>
+  $(document).ready(function(){
 
+    var userName = "<?php echo $_SESSION['userID']; ?>";
+    var eventId = getQueryVariable("eventid");
+    var confrm = [];
+    confrm[0] = userName;
+    confrm[1] = eventId;
+    $.ajax({
+      url: "fetchActivityInfoDB.php",
+      dataType: "text",
+      method: "POST",
+      data:{confrm,confrm},
+      success: function(data)
+      {
+        if(data=="success")
+        {
+          //leave it this way
+        }else if(data=="no suc")
+        {
+          //have to hide the two buttons
+        }
+      }
+    });
+
+    function getQueryVariable(variable)
+    {
+           var query = window.location.search.substring(1);
+           var vars = query.split("?");
+           for (var i=0;i<vars.length;i++) {
+                   var pair = vars[i].split("=");
+                   if(pair[0] == variable){return pair[1];}
+           }
+           return(false);
+    }
+  });
+</script>
 </html>
