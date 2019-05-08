@@ -103,7 +103,7 @@ session_start();
                     </a>
                   </li>
                   <li>
-                    <a href='./notifications.php'>
+                    <a href='./contAdmin.php'>
                       <i class='now-ui-icons users_single-02'></i>
                       <p>Message to Admin</p>
                     </a>
@@ -214,7 +214,7 @@ session_start();
               
 
                 <div class="card-header">
-                  <h5 class="title">Activiy Information</h5>
+                  <h5 class="title">Activity Information</h5>
                 </div>
 
                 <div class="col-md-4 pr-1" style="float:right;" >
@@ -349,7 +349,6 @@ session_start();
                       <div class="form-group">
                         <div class="panel panel-default" style="text-aling:left;"> 
                           <div class="panel-body"><button id="btn_attend" type="button" class="btn btn-info btn-lg" style="width:150px;font-size:15px;text-aling:left;padding-top:25px;padding-bottom:25px;">Attend</button></div>
-
                         </div>
                       </div>
                     </div>

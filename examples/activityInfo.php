@@ -122,7 +122,7 @@ session_start();
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="./contAdmin.php'">
               <i class="now-ui-icons users_single-02"></i>
               <p>Message to Admin</p>
             </a>
