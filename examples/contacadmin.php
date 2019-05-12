@@ -1,12 +1,27 @@
 <?php
-  include("conn.php");
-  session_start();
+$error = NULL;
+$msg = NULL;
+session_start();
+include ('conn.php');
+
+
+if(isset($_POST['submit'])) {
  
-  if(isset($_POST['search_btn'])) {
+    $to = $_SESSION['emailreceiver'];
+    $sender = $_SESSION['name'];
+    $sendermail = $_SESSION['email'];
+    $subject = "This is a message from $sender : ".$_POST['subject'];
+    $message = $_POST['message'] . "\n\n  <p>If you have any questions send me a message to : $sendermail</p>";
+    $headers = "From: esofia91@gmail.com \r\n";
+    $headers .= "MIME-Version:1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
+    mail($to, $subject, $message, $headers);
+          //header('location:login.php');//$msgclass = 'bg-danger';
+    $msg = 'Email sent.';  
+           
+}
 
-  }
-                
 ?>
 
 <!DOCTYPE html>
@@ -130,13 +145,10 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search..." id="keyword">
+                <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
                   <div class="input-group-text">
-                    <button class="form-control" id="search_btn" type="button"> 
-
-
-                  
+                    <button class="form-control">
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
                   </button>
                   </div>
@@ -281,25 +293,4 @@
 
 </html>
 
-<script type="text/javascript">
-  $(document).ready(function(){
 
-            $("#keyword").keyup(function(event) {
-    if (event.keyCode === 13) {
-        $("#search_btn").click();
-    }
-});
-
-    $("#search_btn").on('click',function(e){
-
-          var kw = $("#keyword").val();
-          window.location.href = "searchbyword.php?keyword="+kw;
-        });
-
-
-
-  });
-
-
-
-</script>

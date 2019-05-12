@@ -1,12 +1,18 @@
 <?php
   include("conn.php");
   session_start();
- 
-  if(isset($_POST['search_btn'])) {
+  $error = NULL;
+  $query =NULL;
 
+  $word = explode(" ", $_GET['keyword']);
 
-  }
-                
+  $query ="SELECT * FROM activity_info WHERE activity_info like '%" . $word[0] . "%' OR activity_name like '%" . $word[0] . "%'";
+   for($i = 1; $i < count($word); $i++) {
+    if(!empty($word[$i])) {
+        $query .= " OR activity_info like '%" . $word[$i] . "%' OR activity_name like '%" . $word[$i] . "%'";
+    }
+   }
+    $result = mysqli_query($db_link, $query); 
 ?>
 
 <!DOCTYPE html>
@@ -47,69 +53,48 @@
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
-            <a href="./dashboard.php">
+          <li>
+            <a href="./dashboard.html">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li >
-            <a href="./allactivities.php">
+          <li class="active ">
+            <a href="./allactivities.html">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
           </li>
-          <li >
-            <a href="./allmyactivities.php">
-              <i class="now-ui-icons education_atom"></i>
-              <p>My Activities</p>
-            </a>
-          </li>
-          <?php 
-
-            if($_SESSION["rol"] == 1)
-            {
-                echo "
-                  <li>
-                    <a href='./createActivity.php'>
-                      <i class='now-ui-icons location_map-big'></i>
-                      <p>Create Activity</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='./createAnouns.php'>
-                      <i class='now-ui-icons ui-1_bell-53'></i>
-                      <p>Create Announcements</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='./contAdmin.php'>
-                      <i class='now-ui-icons users_single-02'></i>
-                      <p>Message to Admin</p>
-                    </a>
-                  </li>
-                ";
-
-            }
-
-          ?>
-          <li  >
-            <a href="./announcement.php">
-              <i class="now-ui-icons education_atom"></i>
-              <p>Announcements</p>
+          <li>
+            <a href="./createActivity.html">
+              <i class="now-ui-icons location_map-big"></i>
+              <p>Create Activity</p>
             </a>
           </li>
           <li>
-            <a href="logout.php">
+            <a href="./createAnouns.html">
+              <i class="now-ui-icons ui-1_bell-53"></i>
+              <p>Create Announcements</p>
+            </a>
+          </li>
+          <li>
+            <a href="./notifications.html">
+              <i class="now-ui-icons users_single-02"></i>
+              <p>Message to Admin</p>
+            </a>
+          </li>
+          <li>
+            <a href="">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>
           </li>
+          
         </ul>
       </div>
     </div>
     <div class="main-panel" id="main-panel">
-      <!-- Navbar -->
+            <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -120,7 +105,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <h5 class="navbar-brand">Welcome, <?php echo  $_SESSION['name']; ?></h5>
+            <h5 class="navbar-brand" href="#pablo">Welcome, <?php echo  $_SESSION['name']; ?></h5>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -130,15 +115,10 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search..." id="keyword">
+                <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
                   <div class="input-group-text">
-                    <button class="form-control" id="search_btn" type="button"> 
-
-
-                  
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
-                  </button>
                   </div>
                 </div>
               </div>
@@ -160,9 +140,9 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="searchbydept.php"> Department</a>
-                  <a class="dropdown-item" href="searchbycat.php">Category</a>
-                  <a class="dropdown-item" href="searchbydate.php">Date</a>
+                  <a class="dropdown-item" href="searchby.php?search=Department"> Department</a>
+                  <a class="dropdown-item" href="searchby.php?search=Category">Category</a>
+                  <a class="dropdown-item" href="searchby.php?search=Dates">Date</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -185,81 +165,72 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Upcoming activities</h4>
+                <h4 class="card-title">Search Results:</h4>
               </div>
               <div class="card-body">
-
-                <?php
-
-  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
-
-    $result = mysqli_query($db_link, $query); 
-    $actname =[];
-    $actdep = [];
-    $actdate = [];
-    $actinfo = [];
-    $counter = 0;
-    while ($row = mysqli_fetch_array( $result)) { 
-      $id = $row['activity_id'];
-     //stores the d
-      $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-          $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-          $hostDept = mysqli_query($db_link, $getDept); 
-          $deprow = mysqli_fetch_array( $hostDept);
-
-          $actname[$counter] = $row['activity_name'];
-          $actdep[$counter] = $deprow['name_department'];
-          //$actinfo[$counter] = $row['activity_info'];
-          $date =$row['activity_date'];
-          $date = strtotime($date);
-          $actdate[$counter] = date('M d, Y', $date);
-          
-              echo "<div class='card'> ";
-                echo "<div class='card-header'>";
-   
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
-                  echo "</div>";
-
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
-                  echo "</div>";
-
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;</h4>";
-                  $now = date("Y-m-d H:i:s");
-                     if($_SESSION["rol"] == 0)
-                        {
-                          if($row['activity_date']< $now){
-                            echo "<td><a href= 'studentActivity.php?eventid=$id&flag=0' id=".$row['activity_id']." '> More details </a></td>";
-                          }
-                          else{
-                              echo "<td><a href= 'studentActivity.php?eventid=$id&flag=1' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                          }
-                          
-                        }else if($_SESSION["rol"] == 1)
-                        {
-                          echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                        }
-                        // echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
-                        echo "</tr>";
-                 // echo "<a class='title' href='#'> more info </a>";
-                  echo "</div>";
-                echo "</div> ";
-              echo "</div>";
-
-                        $counter++;
-       }
                 
-?>
-      
+        <?php
+          if($query!=NULL){
+          //  $word = $_GET('keyword');
+            //$result = mysqli_query($db_link, $query);
+            $actname =[];
+            $actdep = [];
+            $actdate = [];
+            $actinfo = [];
+            $counter = 0;
+
+           
+              if(mysqli_num_rows($result)==0){
+                  echo "No activities found for your search";
+              }
+
+              else{
+                  while ($row = mysqli_fetch_array( $result)) { 
+                  $id = $row['activity_id'];
+                  $depto = $row['activity_host_depto'];
+                                                  // GET THE DEPARTMENT NAME WITH THE NUMBER 
+                  $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                  $hostDept = mysqli_query($db_link, $getDept); 
+                  $deprow = mysqli_fetch_array( $hostDept);
+
+                  $actname[$counter] = $row['activity_name'];
+                  $actdep[$counter] = $deprow['name_department'];
+                //$actinfo[$counter] = $row['activity_info'];
+                  $date =$row['activity_date'];
+                  $date = strtotime($date);
+                  $actdate[$counter] = date('M d, Y', $date);
+                
+                    echo "<div class='card'> ";
+                      echo "<div class='card-header'>";
+         
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
+                        echo "</div>";
+
+                        echo "<div class='col-md-8'>";
+                        echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
+                       // echo "<a class='title' href='#'> more info </a>";
+                        echo "</div>";
+                      echo "</div> ";
+                    echo "</div>";
+                              $counter++;
+                  }
+              }
+          }
+                  ?>
+
+
               </div>     <!-- end of card body-->
             </div> <!-- End of card -->
-
+                  <?php if($error!=NULL)echo "<h5 style='color:red;'> *** $error *** </h5>";?>
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <!--   Core JS Files   -->
@@ -281,25 +252,4 @@
 
 </html>
 
-<script type="text/javascript">
-  $(document).ready(function(){
 
-            $("#keyword").keyup(function(event) {
-    if (event.keyCode === 13) {
-        $("#search_btn").click();
-    }
-});
-
-    $("#search_btn").on('click',function(e){
-
-          var kw = $("#keyword").val();
-          window.location.href = "searchbyword.php?keyword="+kw;
-        });
-
-
-
-  });
-
-
-
-</script>

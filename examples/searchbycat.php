@@ -23,7 +23,6 @@ $sql = "SELECT * FROM galleries WHERE id IN ('$ids')";
 */
   
       $query = "SELECT * FROM activity_info INNER JOIN activity_category WHERE activity_category.activity_id = activity_info.activity_id AND activity_category.category_id IN(".implode(',',$_POST['slct_category']).") GROUP BY activity_info.activity_id;";
-      echo $query;
   }
 ?>
 

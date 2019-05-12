@@ -176,7 +176,8 @@ session_start();
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> All coming activities</h4>
+                <h3 class="card-title"> All coming activities</h3> 
+                <h5 align="right" style="color: red;">***Passed activities are shown in red***</h5>
               </div>
               <div class="card-body">
                 <div class="table-responsive">

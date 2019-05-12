@@ -366,7 +366,7 @@ session_start();
                     <div class="col-md-6 pr-2">
                       <div class="form-group">
                         <div class="panel panel-default" style="text-aling:left;"> 
-                          <div class="panel-body"><button id="btn_cancel" type="button" class="btn btn-danger" style="width:150px;font-size:15px;text-aling:left;padding-top:25px;padding-bottom:25px;">Cancel</button></div>
+                          <div class="panel-body"><button id="btn_cancel" type="button" class="btn btn-danger" style="width:150px;font-size:15px;text-aling:left;padding-top:25px;padding-bottom:25px;">Cancel request</button></div>
 
                         </div>
                       </div>
@@ -380,27 +380,6 @@ session_start();
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav>
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  SA ORGANIZER APP
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy;
-            <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by
-            <a href="https://www.invisionapp.com" target="_blank">SA Dev</a>. Coded by
-            <a href="https://www.creative-tim.com" target="_blank">SA</a>.
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
 </body>
@@ -425,9 +404,13 @@ session_start();
         if(date_flag == "0")
         {
             $("#btn_cancel").attr('disabled','disabled');
+            $("#btn_attend").attr('disabled','disabled');
+            $("#btn_join").attr('disabled','disabled');
         }else if(date_flag == "1")
         {
           $("#btn_cancel").removeAttr('disabled');
+          $("#btn_attend").removeAttr('disabled');
+          $("#btn_join").removeAttr('disabled');
         }
 
 
@@ -587,7 +570,7 @@ session_start();
                     alert("You have joined this activity succesfully!");
                   }else if(rod == 0)
                   {
-                    alert("Congrats! We looking forward to have you with us little piece of shit!");
+                    alert("Congrats! We are looking forward to have you with us");
                   }
                   $("#btn_join").attr('disabled','disabled');
                   $("#btn_attend").attr('disabled','disabled');

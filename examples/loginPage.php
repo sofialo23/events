@@ -29,7 +29,7 @@
           $date = date('M d Y', $date);
           if($verified == 1){
             //KEEP PROCESSING 
-            header('location:profile.php');
+            header('location:dashboard.php');
             
           }
           else{

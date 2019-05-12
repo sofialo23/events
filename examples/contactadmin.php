@@ -1,12 +1,27 @@
 <?php
-  include("conn.php");
-  session_start();
+$error = NULL;
+$msg = NULL;
+session_start();
+include ('conn.php');
+
+
+if(isset($_POST['submit'])) {
  
-  if(isset($_POST['search_btn'])) {
+    $to = "esofia91@gmail.com";
+    $sender = $_SESSION['name'];
+    $sendermail = $_SESSION['email'];
+    $subject = "This is a message from $sender : ".$_POST['subject'];
+   $message = $_POST['message'] . "\n\n  <p>If you have any questions send me a message to : $sendermail</p>";
+    $headers = "From: esofia91@gmail.com \r\n";
+    $headers .= "MIME-Version:1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
+    mail($to, $subject, $message, $headers);
+          //header('location:login.php');//$msgclass = 'bg-danger';
+    $msg = 'Email sent.';  
+           
+}
 
-  }
-                
 ?>
 
 <!DOCTYPE html>
@@ -130,13 +145,10 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search..." id="keyword">
+                <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
                   <div class="input-group-text">
-                    <button class="form-control" id="search_btn" type="button"> 
-
-
-                  
+                    <button class="form-control">
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
                   </button>
                   </div>
@@ -185,76 +197,48 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title"> Upcoming activities</h4>
+                <h4 class="card-title">Send an email to admin</h4>
               </div>
               <div class="card-body">
+                  <form id="login_form" method="post">
+                  <div class="row">
+                    <div class="col-md-5 pr-1">
+                      <div class="form-group">
+                        <label>Subject </label>
+                        <input type="text" class="form-control" id="subject" name="subject" required = "true">
+                      </div>
+                    </div>
+                  </div>
 
-                <?php
+                   <div class="row">
+                    <div class="col-md-10 pr-1">
+                      <div class="form-group">
+                        <label>Message </label>
+                        <textarea class="form-control" id="message" name="message" required = "true" placeholder="Enter your message here"></textarea>
+                      </div>
+                    </div>
+                  </div>
 
-  $query = "SELECT * FROM activity_info WHERE activity_date >= NOW() ORDER BY activity_date ASC limit 6";
 
-    $result = mysqli_query($db_link, $query); 
-    $actname =[];
-    $actdep = [];
-    $actdate = [];
-    $actinfo = [];
-    $counter = 0;
-    while ($row = mysqli_fetch_array( $result)) { 
-      $id = $row['activity_id'];
-     //stores the d
-      $depto = $row['activity_host_depto'];
-                                            // GET THE DEPARTMENT NAME WITH THE NUMBER 
-          $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
-          $hostDept = mysqli_query($db_link, $getDept); 
-          $deprow = mysqli_fetch_array( $hostDept);
-
-          $actname[$counter] = $row['activity_name'];
-          $actdep[$counter] = $deprow['name_department'];
-          //$actinfo[$counter] = $row['activity_info'];
-          $date =$row['activity_date'];
-          $date = strtotime($date);
-          $actdate[$counter] = date('M d, Y', $date);
-          
-              echo "<div class='card'> ";
-                echo "<div class='card-header'>";
-   
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$deprow['name_department']. "</h4>";
-                  echo "</div>";
-
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class='card-title'>" .$row['activity_name']. "</h4>";
-                  echo "</div>";
-
-                  echo "<div class='col-md-8'>";
-                  echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;</h4>";
-                  $now = date("Y-m-d H:i:s");
-                     if($_SESSION["rol"] == 0)
-                        {
-                          if($row['activity_date']< $now){
-                            echo "<td><a href= 'studentActivity.php?eventid=$id&flag=0' id=".$row['activity_id']." '> More details </a></td>";
-                          }
-                          else{
-                              echo "<td><a href= 'studentActivity.php?eventid=$id&flag=1' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                          }
-                          
-                        }else if($_SESSION["rol"] == 1)
-                        {
-                          echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
-                        }
-                        // echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
-                        echo "</tr>";
-                 // echo "<a class='title' href='#'> more info </a>";
-                  echo "</div>";
-                echo "</div> ";
-              echo "</div>";
-
-                        $counter++;
-       }
-                
-?>
+                   <div class="row">
+                    <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <button type="submit" id="submit" name = "submit" class="btn btn-primary btn-lg btn-block">Send email</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
       
               </div>     <!-- end of card body-->
+
+              <?php 
+
+                if($error!=NULL)
+                 echo "<h5 style='color:red;'> *** $error *** </h5>";
+              else if($msg!=NULL)
+                 echo "<h5 style='color:green;'> *** $msg *** </h5>";
+              ?>
+
             </div> <!-- End of card -->
 
           </div>
@@ -281,25 +265,4 @@
 
 </html>
 
-<script type="text/javascript">
-  $(document).ready(function(){
 
-            $("#keyword").keyup(function(event) {
-    if (event.keyCode === 13) {
-        $("#search_btn").click();
-    }
-});
-
-    $("#search_btn").on('click',function(e){
-
-          var kw = $("#keyword").val();
-          window.location.href = "searchbyword.php?keyword="+kw;
-        });
-
-
-
-  });
-
-
-
-</script>

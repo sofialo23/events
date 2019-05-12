@@ -185,9 +185,7 @@ if(isset($_POST['submit'])) {
             <a href="contactsraff.php?"> Go back to Staff List </a>
            
           </div>
-          <div class="col-md-4">
-              
-          </div>
+
         </div>
       </div>
     </div>
