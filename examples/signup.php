@@ -3,6 +3,7 @@
   include ('conn.php');
 
   if(isset($_POST['subForm'])){
+
     $name = $_POST['name'];
     $student_id = $_POST['student_id'];
     $college = $_POST['college'];
@@ -11,7 +12,24 @@
     $p2 = $_POST['p2'];
     $date = date('Y-m-d H:i:s');
     $email = $student_id."@gms.ndhu.edu.tw";
+                              //CHECK WHETHER THE USER IS A STUDENT OR TEACHER/STAFF
+      function isNumber($s)  { 
+            for ($i = 0; $i < strlen($s); $i++) 
+                if (is_numeric($s[$i]) == false) 
+                    return false; 
+          
+            return true; 
+        } 
+          
 
+          
+        if (isNumber($student_id))   //STUDENT
+            $rol = 0;
+          
+        else
+              //TEACHER
+          $rol = 1;
+            
 
     //CHECK IF THAT STUDENT ID HAS ALREADY BEEN REGISTERED
     $query = "SELECT * FROM user_info WHERE user_name = '$student_id'";
@@ -21,7 +39,7 @@
       if(mysqli_num_rows($used) ==1 ){
          //$error = "This student id has already been registered";
     
-      $error = "This student id has already been registered! Check and try again";
+      $error = "This student id has already been registered! Check your email and try again";
       }
 
       if($college == 0){
@@ -43,7 +61,7 @@
         // INSERT ACCOUNT INTO DB
       $pw = md5($pw);
       $p2 = md5($p2);
-      $sql = "INSERT INTO user_info (name, user_name, user_email, user_depto, pw, vkey, signup_date) VALUES ('$name', '$student_id', '$email', '$department', '$pw', '$vkey', '$date');";
+      $sql = "INSERT INTO user_info (name, user_name, user_email, user_rol, user_depto, pw, vkey, signup_date) VALUES ('$name', '$student_id', '$email', '$rol', '$department', '$pw', '$vkey', '$date');";
 
         $result = mysqli_query($db_link,$sql);
         if($result){
@@ -124,56 +142,14 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">Create Activity</a>
+            
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="now-ui-icons ui-1_zoom-bold"></i>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="now-ui-icons location_world"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
-              </li>
-            </ul>
-          </div>
+       
         </div>
       </nav>
       <!-- End Navbar -->

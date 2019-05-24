@@ -255,7 +255,7 @@ $sql = "SELECT * FROM galleries WHERE id IN ('$ids')";
                     </div>
                   </div>
                   <div class="row" >
-                    <button type="submit" id="btn_submit" name = "search" class="btn btn-primary btn-lg btn-block">Search</button>
+                    <button type="submit" id="btn_submit" name = "search" class="btn btn-primary">Search</button>
                   </div>
                 </form>
           <?php

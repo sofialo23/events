@@ -60,13 +60,13 @@
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
-            <a href="./dashboard.html">
+            <a href="./dashboard.php">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li>
-            <a href="./allactivities.html">
+            <a href="./allactivities.php">
               <i class="now-ui-icons education_atom"></i>
               <p>All Activities</p>
             </a>
@@ -84,13 +84,13 @@
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="./contactadmin.php">
               <i class="now-ui-icons users_single-02"></i>
               <p>Message to Admin</p>
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="logout.php">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>

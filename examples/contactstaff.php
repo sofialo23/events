@@ -235,10 +235,14 @@ if(isset($_POST['mailtoall'])) {
                          $getvalues = "SELECT name, user_email,user_depto FROM user_info WHERE user_name = '$student_id'; ";
                         $values = mysqli_query($db_link, $getvalues); 
                         $valuesrow = mysqli_fetch_array( $values);
+                        $depto = $valuesrow['user_depto'];
+                        $getDept = "SELECT name_department FROM departments WHERE id_department = '$depto'; ";
+                        $hostDept = mysqli_query($db_link, $getDept); 
+                        $deprow = mysqli_fetch_array( $hostDept);
 
                         echo "<tr>";
                         echo "<td>" . $valuesrow['name'] . "</td>";
-                         echo "<td>" . $valuesrow['user_depto'] . "</td>";
+                         echo "<td>" . $deprow['name_department'] . "</td>";
                         echo "<td>" . $row['user_name']. "</td>";
 
                         $value = $valuesrow['user_email'];

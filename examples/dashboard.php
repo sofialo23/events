@@ -1,12 +1,7 @@
 <?php
   include("conn.php");
   session_start();
- 
-  if(isset($_POST['search_btn'])) {
-
-
-  }
-                
+  
 ?>
 
 <!DOCTYPE html>
@@ -34,17 +29,6 @@
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="orange">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          SA
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Organizer APP
-        </a>
-      </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li class="active ">
@@ -83,7 +67,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href='./contAdmin.php'>
+                    <a href='./contactadmin.php'>
                       <i class='now-ui-icons users_single-02'></i>
                       <p>Message to Admin</p>
                     </a>
@@ -93,7 +77,7 @@
             }
 
           ?>
-          <li  >
+          <li>
             <a href="./announcement.php">
               <i class="now-ui-icons education_atom"></i>
               <p>Announcements</p>
@@ -120,7 +104,10 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <h5 class="navbar-brand">Welcome, <?php echo  $_SESSION['name']; ?></h5>
+             <img src="../assets/img/LOGO_NDHU.png" style="width:80px;height:80px;" >
+
+            <h5 style="margin-left:2.5em" class="navbar-brand">Welcome, <?php echo  $_SESSION['name']; ?></h5>
+
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -135,8 +122,6 @@
                   <div class="input-group-text">
                     <button class="form-control" id="search_btn" type="button"> 
 
-
-                  
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
                   </button>
                   </div>
@@ -144,14 +129,6 @@
               </div>
             </form>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Search by
@@ -164,14 +141,6 @@
                   <a class="dropdown-item" href="searchbycat.php">Category</a>
                   <a class="dropdown-item" href="searchbydate.php">Date</a>
                 </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
               </li>
             </ul>
           </div>
@@ -232,15 +201,15 @@
                      if($_SESSION["rol"] == 0)
                         {
                           if($row['activity_date']< $now){
-                            echo "<td><a href= 'studentActivity.php?eventid=$id&flag=0' id=".$row['activity_id']." '> More details </a></td>";
+                            echo "<td><a href= 'studentActivity.php?eventid=$id&flag=0' id=".$row['activity_id']." class= 'btn btn-primary'> More details </a></td>";
                           }
                           else{
-                              echo "<td><a href= 'studentActivity.php?eventid=$id&flag=1' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                              echo "<td><a href= 'studentActivity.php?eventid=$id&flag=1' id=".$row['activity_id']." class= 'btn btn-primary'> More details </a></td>";
                           }
                           
                         }else if($_SESSION["rol"] == 1)
                         {
-                          echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block'> More details </a></td>";
+                          echo "<td><a href= 'activitydetails.php?eventid=$id' id=".$row['activity_id']." class= 'btn btn-primary'> More details </a></td>";
                         }
                         // echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
                         echo "</tr>";

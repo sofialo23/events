@@ -221,7 +221,7 @@ include ('conn.php');
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Activity Name</label>
-                        <input type="text" class="form-control" id="txt_activityname"  placeholder="Company" required>
+                        <input type="text" class="form-control" id="txt_activityname"   required>
                       </div>
                     </div>
                     <div class="col-md-6 px-1">
@@ -239,7 +239,7 @@ include ('conn.php');
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Date</label>
-                        <input type="text" class="form-control" placeholder="Date (Click on)" id="txt_date" value="" required>
+                        <input type="text" class="form-control" placeholder="(Click on)" id="txt_date" value="" required>
                       </div>
                     </div>
 
@@ -247,7 +247,7 @@ include ('conn.php');
                       <div class="form-group">
                         <label>Time</label>
                         <div class="input-grou clockpicker">
-                          <input type="text" id="txt_time" class="form-control" placeholder="Time" value="" required>
+                          <input type="text" id="txt_time" class="form-control"  value="" required>
                           <span class="input-group-addon">
                             <span class="glyphicon glyphicon-time"></span>
                           </span>
@@ -260,7 +260,7 @@ include ('conn.php');
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Activity Place</label>
-                        <input type="text" class="form-control" id="txt_activityplace" placeholder="Activity Place" value="" required>
+                        <input type="text" class="form-control" id="txt_activityplace"  value="" required>
                       </div>
                     </div>
                   </div>

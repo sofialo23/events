@@ -246,7 +246,7 @@
 
           
                   <div class="row" >
-                    <button type="submit" name = "search" id="search" class="btn btn-primary btn-lg btn-block">Search</button>
+                    <button type="submit" name = "search" id="search" class="btn btn-primary">Search</button>
                   </div>
                 </form>
 
