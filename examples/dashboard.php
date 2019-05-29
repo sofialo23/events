@@ -1,6 +1,10 @@
 <?php
   include("conn.php");
   session_start();
+    if(!isset($_SESSION['name'])){
+      echo "Please log in to see this page";
+      header("Location: ./loginpage.php");
+  }
   
 ?>
 
@@ -13,7 +17,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Activities Organizer
+    NDHU Events
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -114,7 +118,7 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">  <!-- start to copy-->
             <form>
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search..." id="keyword">
@@ -143,7 +147,7 @@
                 </div>
               </li>
             </ul>
-          </div>
+          </div>    <!-- end of copy-->
         </div>
       </nav>
       <!-- End Navbar -->
@@ -258,17 +262,10 @@
         $("#search_btn").click();
     }
 });
-
     $("#search_btn").on('click',function(e){
 
           var kw = $("#keyword").val();
           window.location.href = "searchbyword.php?keyword="+kw;
         });
-
-
-
   });
-
-
-
 </script>

@@ -1,3 +1,13 @@
+
+<?php
+  include("conn.php");
+  session_start();
+  if(!isset($_SESSION['name'])){
+      header("Location: ../examples/loginpage.php");
+  }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +35,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Activities Organizer
+    NDHU Events
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -41,28 +51,14 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   
-  <!-- NEW  -->
-  <!-- NEW  -->
-  <!-- NEW  -->
-  <!-- NEW  -->
-  <!-- Latest compiled and minified CSS -->
+
 
 </head>
 
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="orange">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          SA
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Organizer APP
-        </a>
-      </div>
+   
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
@@ -90,31 +86,18 @@
             </a>
           </li>
           <li>
-            <a href="./notifications.php">
+            <a href="./contactadmin.php">
               <i class="now-ui-icons users_single-02"></i>
               <p>Message to Admin</p>
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="logout.php">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>
           </li>
-          <!--
-          <li>
-            <a href="./typography.html">
-              <i class="now-ui-icons text_caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="./upgrade.html">
-              <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
-        -->
+   
         </ul>
       </div>
     </div>
@@ -130,56 +113,44 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="#pablo">New Announcement</a>
+            <img src="../assets/img/LOGO_NDHU.png" style="width:80px;height:80px;" > &nbsp; &nbsp; &nbsp;
+            <a class="navbar-brand" href="#pablo">Announcement Details</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <div class="collapse navbar-collapse justify-content-end" id="navigation"> 
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
+                <input type="text" value="" class="form-control" placeholder="Search..." id="keyword">
                 <div class="input-group-append">
                   <div class="input-group-text">
+                    <button class="form-control" id="search_btn" type="button"> 
+
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
+                  </button>
                   </div>
                 </div>
               </div>
             </form>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="now-ui-icons location_world"></i>
+                  Search by
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="searchbydept.php"> Department</a>
+                  <a class="dropdown-item" href="searchbycat.php">Category</a>
+                  <a class="dropdown-item" href="searchbydate.php">Date</a>
                 </div>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
-              </li>
             </ul>
-          </div>
+          </div> 
         </div>
       </nav>
       <!-- End Navbar -->
@@ -195,40 +166,7 @@
               </div>
               <div class="card-body">
                 <form id="frm_createanouns">
-                  <!-- <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Company (disabled)</label>
-                        <input type="text" class="form-control"  placeholder="Company" value="Creative Code Inc.">
-                      </div>
-                    </div>
-                    <div class="col-md-3 px-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" value="michael23">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email">
-                      </div>
-                    </div>
-                  </div> -->
-                  <!-- <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Mike">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-1">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
-                      </div>
-                    </div>
-                  </div> -->
+                 
                   <div class="row">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
@@ -246,26 +184,7 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="row">
-                    <div class="col-md-4 pr-1">
-                      <div class="form-group">
-                        <label>City</label>
-                        <input type="text" class="form-control" placeholder="City" value="Mike">
-                      </div>
-                    </div>
-                    <div class="col-md-4 px-1">
-                      <div class="form-group">
-                        <label>Country</label>
-                        <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <label>Postal Code</label>
-                        <input type="number" class="form-control" placeholder="ZIP Code">
-                      </div>
-                    </div>
-                  </div> -->
+              
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -356,27 +275,7 @@
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav>
-            <ul>
-              <li>
-                  <a href="https://www.creative-tim.com">
-                  SA ORGANIZER APP
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy;
-            <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by
-            <a href="https://www.invisionapp.com" target="_blank">SA Dev</a>. Coded by
-            <a href="https://www.creative-tim.com" target="_blank">SA</a>.
-          </div>
-        </div>
-      </footer>
+
     </div>
   </div>
 </body>
@@ -588,4 +487,21 @@
 
   });
 </script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+            $("#keyword").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#search_btn").click();
+    }
+});
+    $("#search_btn").on('click',function(e){
+
+          var kw = $("#keyword").val();
+          window.location.href = "searchbyword.php?keyword="+kw;
+        });
+  });
+</script>
+
 </html>

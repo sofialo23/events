@@ -1,7 +1,10 @@
 <?php
 include ('conn.php');
 session_start();
-
+ if(!isset($_SESSION['name'])){
+      echo "Please log in to see this page";
+      header("Location: ./loginpage.php");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +16,7 @@ session_start();
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Activities Organizer
+    NDHU Events
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -22,24 +25,14 @@ session_start();
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../assets/css/now-ui-dashboard.css?v=1.3.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
+  
   <link href="../assets/demo/demo.css" rel="stylesheet" />
 </head>
 
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="orange">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          SA
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Organizer APP
-        </a>
-      </div>
+  
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
           <li >
@@ -80,7 +73,7 @@ session_start();
                     </a>
                   </li>
                   <li>
-                    <a href='./contAdmin.php'>
+                    <a href='./contactadmin.php'>
                       <i class='now-ui-icons users_single-02'></i>
                       <p>Message to Admin</p>
                     </a>
@@ -98,7 +91,7 @@ session_start();
           </li>
 
           <li>
-            <a href="">
+            <a href="logout.php">
               <i class="now-ui-icons design_bullet-list-67"></i>
               <p>Sign out</p>
             </a>
@@ -118,6 +111,7 @@ session_start();
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
+            <img src="../assets/img/LOGO_NDHU.png" style="width:80px;height:80px;" > &nbsp; &nbsp; &nbsp;
             <h5 class="navbar-brand" href="#pablo">Welcome, <?php echo  $_SESSION['name']; ?></h5>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,49 +119,36 @@ session_start();
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <div class="collapse navbar-collapse justify-content-end" id="navigation"> 
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
+                <input type="text" value="" class="form-control" placeholder="Search..." id="keyword">
                 <div class="input-group-append">
                   <div class="input-group-text">
+                    <button class="form-control" id="search_btn" type="button"> 
+
                     <i class="now-ui-icons ui-1_zoom-bold"></i>
+                  </button>
                   </div>
                 </div>
               </div>
             </form>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons media-2_sound-wave"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Stats</span>
-                  </p>
-                </a>
-              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="now-ui-icons location_world"></i>
+                  Search by
                   <p>
                     <span class="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="searchbydept.php"> Department</a>
+                  <a class="dropdown-item" href="searchbycat.php">Category</a>
+                  <a class="dropdown-item" href="searchbydate.php">Date</a>
                 </div>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="now-ui-icons users_single-02"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
-              </li>
             </ul>
-          </div>
+          </div>  
         </div>
       </nav>
       <!-- End Navbar -->
@@ -255,27 +236,7 @@ session_start();
           </div>
         </div>
       </div>
-      <footer class="footer">
-        <div class="container-fluid">
-          <nav>
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  SA ORGANIZER APP
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright" id="copyright">
-            &copy;
-            <script>
-              document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
-            </script>, Designed by
-            <a href="https://www.invisionapp.com" target="_blank">SA Dev</a>. Coded by
-            <a href="https://www.creative-tim.com" target="_blank">SA</a>.
-          </div>
-        </div>
-      </footer>
+ 
     </div>
   </div>
   <!--   Core JS Files   -->
@@ -316,6 +277,22 @@ session_start();
     });
   });
 </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+            $("#keyword").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#search_btn").click();
+    }
+});
+    $("#search_btn").on('click',function(e){
+
+          var kw = $("#keyword").val();
+          window.location.href = "searchbyword.php?keyword="+kw;
+        });
+  });
+</script>
+
 </html>
 
 
