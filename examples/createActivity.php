@@ -415,7 +415,7 @@ include ('conn.php');
           alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
           alldate[8] = "<?php echo $_SESSION['userID']; ?>";
           alldate[9] = $("#slct_category").val();
-          alldate[10] = categg.length();
+          alldate[10] = categg.length;
           e.preventDefault();
           $.ajax({
             dataType:'text',
@@ -442,24 +442,17 @@ include ('conn.php');
           }
         });
 
-
-    });
-      
+		$("#keyword").keyup(function(event) {
+			    if (event.keyCode === 13) {
+			        $("#search_btn").click();
+			    }
+		});
+		$("#search_btn").on('click',function(e){
+			    var kw = $("#keyword").val();
+			    window.location.href = "searchbyword.php?keyword="+kw;
+		});
+   });
 </script>
-<script type="text/javascript">
-  $(document).ready(function(){
 
-            $("#keyword").keyup(function(event) {
-    if (event.keyCode === 13) {
-        $("#search_btn").click();
-    }
-});
-    $("#search_btn").on('click',function(e){
-
-          var kw = $("#keyword").val();
-          window.location.href = "searchbyword.php?keyword="+kw;
-        });
-  });
-</script>
 
 </html>
