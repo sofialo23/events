@@ -2,6 +2,9 @@
 $error = NULL;
 $msg = NULL;
 session_start();
+ if(!isset($_SESSION['name'])){
+      header("Location: ./loginpage.php");
+  }
 include ('conn.php');
 
 

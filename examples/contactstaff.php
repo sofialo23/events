@@ -1,6 +1,9 @@
 <?php
 include ('conn.php');
 session_start();
+ if(!isset($_SESSION['name'])){
+      header("Location: ./loginpage.php");
+  }
 
 if(isset($_POST['singlemail'])) {
     $_SESSION['emailreceiver'] = $_POST['sendto'];

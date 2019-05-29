@@ -1,7 +1,10 @@
 <?php
 include ('conn.php');
 session_start();
-
+if(!isset($_SESSION['name'])){
+      echo "Please log in to see this page";
+      header("Location: ./loginpage.php");
+  }
 ?>
 
 <!DOCTYPE html>
