@@ -365,7 +365,13 @@ if(!isset($_SESSION['name'])){
   </div>
 </body>
 <script >
-    $(document).ready(function(){
+    $(document).ready(function(){ 
+/*
+            if(  "#lbl_activityStaffLimit".val()==0  ||  "#lbl_activityStaffCounter".val() == "#lbl_activityStaffLimit".val()){
+
+              $("#btn_join").attr('disabled','disabled');
+
+            }*/ 
 
         $('#txt_date').datepicker();
         $('.clockpicker').clockpicker();
@@ -446,7 +452,7 @@ if(!isset($_SESSION['name'])){
               $("#lbl_activityInformation").text(element.activityinfo);
               $("#lbl_activityPlace").text(element.activityplace);
 
-              if(element.activitystafflimit == element.activitystaffcounter)
+              if(element.activitystafflimit == element.activitystaffcounter || element.activitystafflimit==0 ) // either staff is full or no staff is required
               {
                   $("#btn_join").attr('disabled','disabled');
               }
@@ -524,8 +530,12 @@ if(!isset($_SESSION['name'])){
                 if(data == "success")
                 {
                   $("#btn_cancel").attr('disabled','disabled');
-                  $("#btn_join").removeAttr('disabled');
                   $("#btn_attend").removeAttr('disabled');
+
+                  // this should only work when staff required is >0 $("#lbl_activityStaffCounter").text(element.activitystaffcounter);
+
+                  if( $("#lbl_activityStaffLimit").text()!='0' &&  $("#lbl_activityStaffCounter").text()-'0' < $("#lbl_activityStaffLimit").text()-'0')
+                  $("#btn_join").removeAttr('disabled');
                 }
               }
             });

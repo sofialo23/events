@@ -42,8 +42,11 @@
 		$query_activity_atst = "Insert into activity_atst (user_name,activity_id,rol) VALUES('".$go[0]."',".$go[1].",".$go[2].")";
 		$result = mysqli_query($db_link,$query_activity_atst);
 		if($result)
-		{
-			alterStaff($go[1]);
+		{	
+			if($go[2]==1)
+				alterStaff($go[1], 1);
+			else
+				echo "success";
 		}else
 		{
 			echo "caca2";
@@ -70,6 +73,24 @@
 		//Process to join as a staff
 		include("connectionDB.php");
 		$del = $_POST["del"];
+
+
+		// first find whether student is attending or is staff 
+
+		$rol = mysqli_query($db_link,"SELECT rol FROM activity_atst WHERE user_name ='".$del[0]."'"); 
+		$rol_value = mysqli_fetch_assoc($rol);
+		$userol = $rol_value['rol'];
+		
+		if($userol == 1){
+			alterStaff($del[1], 0);
+
+		}
+
+		//query to substract 1 from the staff column in activity info table
+
+		
+
+
 		$query_del = "Delete from activity_atst where user_name='".$del[0]."' and activity_id=".$del[1]."";
 		$result_del = mysqli_query($db_link,$query_del);
 		if($result_del)
@@ -94,14 +115,22 @@
 			echo "muchopopo";
 		}
 	}
-	function alterStaff($activityId)
-	{
+	function alterStaff($activityId, $action)
+	{ // 1 adds 0 substracts in $action
 		include("connectionDB.php");
-		$query_alter = "update activity_info set activity_staff_counter = activity_staff_counter + 1 where activity_id =".$activityId."";
+		if($action==1){
+			$query_alter = "update activity_info set activity_staff_counter = activity_staff_counter + 1 where activity_id =".$activityId."";
+		}
+		else
+		{
+			$query_alter = "update activity_info set activity_staff_counter = activity_staff_counter - 1 where activity_id =".$activityId."";
+		}
+		
 		$result_alter = mysqli_query($db_link,$query_alter);
 		if($result_alter)
 		{
-			echo "success";
+			if($action==1)
+				echo "success";
 		}else
 		{
 			echo "cacaAlter";

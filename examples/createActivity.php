@@ -415,7 +415,7 @@ include ('conn.php');
           alldate[7] = year+"-"+month+"-"+day + " " + alldate[3];
           alldate[8] = "<?php echo $_SESSION['userID']; ?>";
           alldate[9] = $("#slct_category").val();
-          alldate[10] = categg.length;
+          alldate[10] = categg.length();
           e.preventDefault();
           $.ajax({
             dataType:'text',
