@@ -27,7 +27,7 @@ if(!isset($_SESSION['name'])){;
       if(mysqli_query($db_link, $query))  
       {  
        //    echo '<script>alert("Image updated successfully")</script>';  
-           header("Location: ./activityinfo.php?eventid=".$act_id);
+           header("Location: ./activityInfo.php?eventid=".$act_id);
       }  
       
  } 
@@ -39,7 +39,7 @@ if(!isset($_SESSION['name'])){;
       $query = "DELETE FROM tbl_images WHERE act_id = '$act_id'"; 
       if(mysqli_query($db_link, $query))  
       {  
-           header("Location: ./activityinfo.php?eventid=".$act_id);
+           header("Location: ./activityInfo.php?eventid=".$act_id);
       } 
   }  
 
