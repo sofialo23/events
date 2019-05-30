@@ -26,6 +26,11 @@
       while($row_col = mysqli_fetch_assoc($result_query_insert))
       {
           $nuevoId = $row_col["outId"];
+          
+          $isTouch = empty($alldate[10]);
+          if($isTouch==true);
+            $alldate[10] = 0;
+
           categoriesAct($nuevoId, $alldate[9], $alldate[10]);
           echo $row_col["outId"];
           break;
@@ -44,7 +49,7 @@
         $result = mysqli_query($db_link,$query);
         if($result)
         {
-            echo "success on ".$i."!";
+           //echo "success on ".$i."!";
         }
     }
   }

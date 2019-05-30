@@ -58,13 +58,13 @@ session_start();
             {
                 echo "
                   <li>
-                    <a href='./createActivity.html'>
+                    <a href='./createActivity.php'>
                       <i class='now-ui-icons location_map-big'></i>
                       <p>Create Activity</p>
                     </a>
                   </li>
                   <li>
-                    <a href='./createAnouns.html'>
+                    <a href='./createAnouns.php'>
                       <i class='now-ui-icons ui-1_bell-53'></i>
                       <p>Create Announcements</p>
                     </a>
@@ -205,6 +205,26 @@ session_start();
                         echo "<tr> <td class= 'text-primary'> Activity Date </td> <td>" . $row['activity_date'] . " </td><td></td> </tr>";
                         echo "<tr> <td class= 'text-primary'> Activity Information </td> <td>" . $row['activity_info'] . "</td><td></td> </tr>";
                         echo "<tr> <td class= 'text-primary'> Activity Location </td> <td>" . $row['activity_place'] . "</td><td></td> </tr>";
+
+
+
+                $queryim = "SELECT * FROM tbl_images WHERE act_id = '$id' limit 1";  
+                $result = mysqli_query($db_link, $queryim);  
+                while($row = mysqli_fetch_array($result))  
+                {  
+                     echo '  
+                          <tr>  
+                               <td>  
+                                    <img src="data:image/jpeg;base64,'.base64_encode($row['name'] ).'" height="200" width="200" class="img-thumnail" align="center" />  
+                               </td>  
+                          </tr>  
+                     ';  
+                }  
+                
+       
+
+
+
                          echo "<tr>  <td class= 'text-primary'> Activity Total Assistance (not including staff) </td> <td>" . $attinfo['COUNT(*)'] . " </td><td></td></tr>";
                         echo "<tr>  <td class= 'text-primary'> Activity Staff Required </td> <td>" . $row['activity_staff_limit'] . " </td><td></td></tr>";
 

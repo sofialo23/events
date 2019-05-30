@@ -5,6 +5,45 @@ if(!isset($_SESSION['name'])){;
       header("Location: ./loginpage.php");
   }
 
+     if(isset($_POST["insert"]))  
+ {  
+    $act_id = $_GET['eventid'];
+      $file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));  
+
+      //if no image yet
+      $searchimage = "SELECT * FROM tbl_images WHERE act_id = '$act_id'";
+      if($result = mysqli_query($db_link, $searchimage)){
+          $rowcount = mysqli_num_rows($result);
+      }
+      else{
+        $rowcount = 0;
+      }
+
+      if($rowcount>0)
+        $query = "UPDATE tbl_images SET name='$file' WHERE act_id = '$act_id'";  
+      else 
+        $query="INSERT INTO tbl_images(name, act_id) VALUES ('$file', '$act_id')"; 
+
+      if(mysqli_query($db_link, $query))  
+      {  
+       //    echo '<script>alert("Image updated successfully")</script>';  
+           header("Location: ./activityinfo.php?eventid=".$act_id);
+      }  
+      
+ } 
+
+    if(isset($_POST["delete"]))  
+ {  
+    $act_id = $_GET['eventid'];
+      //$file = addslashes(file_get_contents($_FILES["image"]["tmp_name"]));  
+      $query = "DELETE FROM tbl_images WHERE act_id = '$act_id'"; 
+      if(mysqli_query($db_link, $query))  
+      {  
+           header("Location: ./activityinfo.php?eventid=".$act_id);
+      } 
+  }  
+
+
 ?>
 
 <!DOCTYPE html>
@@ -321,6 +360,52 @@ if(!isset($_SESSION['name'])){;
             </div>
           </div>
           <div class="col-md-4">
+            <div class="card card-user">
+                <div class="card-header">
+                  <h5 class="title">Image</h5>
+                </div>
+              
+           
+                 
+                  <div class="row">
+                    <div class="col-md-10">
+                      <div class="form-group"><?php
+                      $id = $_GET['eventid'];
+                     $queryim = "SELECT * FROM tbl_images WHERE act_id = '$id' limit 1";  
+                $result = mysqli_query($db_link, $queryim);  
+                while($row = mysqli_fetch_array($result))  
+                {  
+                     echo '  
+                          <tr>  
+                               <td>  
+                                    <img src="data:image/jpeg;base64,'.base64_encode($row['name'] ).'" height="200" width="200" class="img-thumnail" align="center" />  
+                               </td>  
+                          </tr>  
+                     ';  
+                } ?>
+                      </div>
+                      <form id="searchform" method="post" enctype="multipart/form-data"> <!-- start of form body for search by department-->
+                  <input type="file" name="image" id="image" />  
+                     <br />  
+                     <input type="submit" name="insert" id="insert" value="Change Image" class="btn btn-primary" />
+                     <?php
+                     $act_id = $_GET['eventid'];
+                      $searchimage = "SELECT * FROM tbl_images WHERE act_id = '$act_id'";
+                      if($result = mysqli_query($db_link, $searchimage)){
+                          $rowcount = mysqli_num_rows($result);
+                      }
+                      else{
+                        $rowcount = 0;
+                      }
+                      if($rowcount>0)
+                        ?><input type="submit" name="delete" id="delete" value="Delete Image" class="btn btn-primary" />
+                     
+
+                </form>
+                    </div>
+                  </div>
+              <hr>
+            </div>
           </div>
         </div>
       </div>
@@ -633,7 +718,30 @@ if(!isset($_SESSION['name'])){;
           var kw = $("#keyword").val();
           window.location.href = "searchbyword.php?keyword="+kw;
         });
+
+
+     $('#insert').click(function(){  
+           var image_name = $('#image').val();  
+           if(image_name == '')  
+           {  
+                alert("Please Select Image");  
+                return false;  
+           }  
+           else  
+           {  
+                var extension = $('#image').val().split('.').pop().toLowerCase();  
+                if(jQuery.inArray(extension, ['gif','png','jpg','jpeg']) == -1)  
+                {  
+                     alert('Invalid Image File');  
+                     $('#image').val('');  
+                     return false;  
+                }  
+           }  
+      }); 
   });
+
+
+
 </script>
 
 </html>

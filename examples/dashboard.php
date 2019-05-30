@@ -216,12 +216,15 @@
                         }
                         // echo "<td><button id=".$row['activity_id']." class= 'btn btn-primary btn-lg btn-block' type = 'submit' > More Details </button></td>";
                         echo "</tr>";
-                 // echo "<a class='title' href='#'> more info </a>";
+
+
+                 // echo "<a class='title' href='#'> more info </a>"; END
                   echo "</div>";
                 echo "</div> ";
               echo "</div>";
 
                         $counter++;
+
        }
                 
 ?>

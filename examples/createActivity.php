@@ -1,5 +1,5 @@
 <?php
-include ('conn.php');
+include ('connect.php');
   session_start();
   if(!isset($_SESSION['name'])){
       header("Location: ./loginpage.php");
@@ -416,6 +416,8 @@ include ('conn.php');
           alldate[8] = "<?php echo $_SESSION['userID']; ?>";
           alldate[9] = $("#slct_category").val();
           alldate[10] = categg.length;
+        //  if(!alldate[10]) alldate[10] = 0;
+
           e.preventDefault();
           $.ajax({
             dataType:'text',
@@ -423,7 +425,7 @@ include ('conn.php');
             url: 'fetchCreateActivity.php',
             data: {alldate,alldate},
             success:function(data){
-              window.location.href = "allmyactivities.php";
+              window.location.href = "upimage.php" + "?id=" + data;
               
             }
           });

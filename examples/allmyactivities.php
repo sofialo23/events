@@ -192,7 +192,7 @@ if(!isset($_SESSION['name'])){
                       $user = $_SESSION['userID'];
 
 
-                      $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_created_date ASC";
+                      $query = "SELECT * FROM activity_info WHERE activity_creator = '$user' ORDER BY activity_date ASC";
                       if($_SESSION["rol"] == 0)
                       {
                         $query = "SELECT * FROM activity_info INNER JOIN activity_atst where activity_atst.activity_id= activity_info.activity_id and activity_atst.user_name='$user'";

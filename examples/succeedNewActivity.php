@@ -177,7 +177,8 @@
           <div class="col-md-8">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Create Activity</h5>
+                <h5 class="title">Your new Activity has been created successfully</h5>
+                <a href="allmyactivities.php">Go to my activities</a>
               </div>
               
             </div>
