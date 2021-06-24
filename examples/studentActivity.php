@@ -212,8 +212,29 @@ if(!isset($_SESSION['name'])){
               <div class="card-body" >
                 <form id="frm_createactivity" style="display: block; margin-left: auto; margin-right: auto;">
 
+                <div class="row">
+      
+                		<div class="form-group"><?php
+                      $id = $_GET['eventid'];
+                     $queryim = "SELECT * FROM tbl_images WHERE act_id = '$id' limit 1";  
+                $result = mysqli_query($db_link, $queryim);  
+                while($row = mysqli_fetch_array($result))  
+                {  
+                     echo '  
+                          <tr>  
+                               <td>  
+                                    <img src="data:image/jpeg;base64,'.base64_encode($row['name'] ).'" height="200" width="200" class="img-thumnail" align="center" />  
+                               </td>  
+                          </tr>  
+                     ';  
+                } ?>
+                      </div>
+                
+                </div>
+
                   <div class="row">
                     <div class="col-md-6 pr-3">
+                    	 
                       <div class="form-group">
                         <div class="panel panel-default"> 
                           <div class="panel-heading" style="background-color:#f1f1f1;border-radius: 25px; text-align: center;">

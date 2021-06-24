@@ -5,11 +5,11 @@ $hostname = "localhost";
   $password = "";
   $db = "events";
 */
-  $hostname = "localhost";
-  $username = "codeandwine";
-  $password = "hzD-Ht2-TQe-3h8";
-  $db = "codeandw_events";
 
+  $hostname = "localhost";
+  $username = "u655508457_sofialo23";
+  $password = "U655508457_events";
+  $db = "u655508457_events";
 
   $db_link = mysqli_connect($hostname, $username, $password, $db);
   if(!$db_link){

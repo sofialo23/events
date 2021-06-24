@@ -68,7 +68,7 @@
                 //SEND EMAIL
           $to = $email;
           $subject = "Email Verification";
-          $message ="<a href='http://localhost/Events/examples/verify.php?vkey=$vkey'> Click Here to register your account</a>";
+          $message ="<a href='http://ndhue.codeandwine.com/examples/verify.php?vkey=$vkey'> Click Here to register your account</a>";
           $headers = "From: esofia91@gmail.com \r\n";
           $headers .= "MIME-Version:1.0" . "\r\n";
           $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";

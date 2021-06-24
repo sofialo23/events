@@ -1,3 +1,0 @@
-*Add search by bar to all pages
-*add session start or error in pages
-*add welcome username on the <a class="navbar-brand" >

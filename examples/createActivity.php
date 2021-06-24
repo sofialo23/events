@@ -1,5 +1,5 @@
 <?php
-include ('connect.php');
+include ('conn.php');
   session_start();
   if(!isset($_SESSION['name'])){
       header("Location: ./loginpage.php");
@@ -319,6 +319,7 @@ include ('connect.php');
             data: {info,info},
             success:function(data)
             {
+
                 var toAppend_col = '<option value="0"> ------------------- </option>';
                 $("#slct_departments").append(toAppend_col);
                 $.each(data,function(index,element){
@@ -407,7 +408,7 @@ include ('connect.php');
           // alert(categg.length);
           alldate[0] = $('#txt_activityname').val();
           alldate[1] = $('#slct_departments').val();
-          alldate[2] = year+"-"+month+"-"+day;
+          alldate[2] = year+"-"+month+"-"+day; 
           alldate[3] = $('#txt_time').val() + ":00";
           alldate[4] = $('#txt_activityplace').val();
           alldate[5] = chckbx;
@@ -424,7 +425,11 @@ include ('connect.php');
             method:'POST',
             url: 'fetchCreateActivity.php',
             data: {alldate,alldate},
+
             success:function(data){
+              console.log("Entered THE function");
+              console.log(data);
+              debugger;
               window.location.href = "upimage.php" + "?id=" + data;
               
             }

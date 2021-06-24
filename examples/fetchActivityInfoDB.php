@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	if(isset($_POST["datas"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$data = $_POST["datas"];
 		$activity_creator = $data[0];
 		$activity_id = $data[1];
@@ -37,7 +37,7 @@
 	}
 	if(isset($_POST["allinfo"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 
 		/*
 		 alldata[0] = ("#txt_activityname").val();
@@ -65,7 +65,7 @@
 	}
 	if(isset($_POST["status"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$status = $_POST["status"];
 		$query_status = "Select * from activity_atst where user_name='".$status[0]."' and activity_id=".$status[1]."";
 		$result_status =  mysqli_query($db_link, $query_status);
@@ -80,7 +80,7 @@
 	}
 	if(isset($_POST["confrm"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$confrm = $_POST["confrm"];
 		$query_confrm = "Select * from activity_info where activity_id=".$confrm[1]." and activity_creator='".$confrm[0]."'";
 		$result_query = mysqli_query($db_link,$query_confrm);

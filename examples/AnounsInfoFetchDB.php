@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	if(isset($_POST["anounsId"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$anounsId = $_POST["anounsId"];
 		$query_activities = "Select * from `activity_notif` where activity_notif_id=".$anounsId."";
 		$result = mysqli_query($db_link,$query_activities);
@@ -24,7 +24,7 @@
 	}
 	if(isset($_POST["allinfo"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$allinfo = $_POST["allinfo"];
 		// $allinfo[0] -> activityId
 		// $allinfo[1] -> anounsmsg
@@ -41,7 +41,7 @@
 	}
 	if(isset($_POST["info"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$query_activities = "Select * from `activity_info` where 1;";
 		$result = mysqli_query($db_link,$query_activities);
 		if($result)

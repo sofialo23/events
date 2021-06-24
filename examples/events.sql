@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertGetActivity` (IN `activityName` VARCHAR(100), IN `hostDepto` INT(11), IN `dateAc` TIMESTAMP, IN `info` VARCHAR(250), IN `staffLimit` INT(11), IN `staffCounter` INT(11), IN `creator` VARCHAR(50), IN `place` VARCHAR(100))  BEGIN
+CREATE DEFINER=`codeandwine`@`localhost` PROCEDURE `InsertGetActivity` (IN `activityName` VARCHAR(100), IN `hostDepto` INT(11), IN `dateAc` TIMESTAMP, IN `info` VARCHAR(250), IN `staffLimit` INT(11), IN `staffCounter` INT(11), IN `creator` VARCHAR(50), IN `place` VARCHAR(100))  BEGIN
 Insert into activity_info (activity_name,activity_host_depto, activity_date, activity_info , activity_staff_limit, activity_staff_counter, activity_creator, activity_place) VALUES (activityName,hostDepto, dateAc, info, staffLimit, staffCounter, creator, place);
     
     select LAST_INSERT_ID() AS 'outId';

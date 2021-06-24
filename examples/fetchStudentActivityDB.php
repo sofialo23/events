@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	if(isset($_POST["elId"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$elId = $_POST["elId"];
 		// $activity_creator = $data[0];
 		// $activity_id = $data[1];
@@ -37,7 +37,7 @@
 	if(isset($_POST["go"]))
 	{	
 		//Process to join as a staff
-		include("connectionDB.php");
+		include("conn.php");
 		$go = $_POST["go"];
 		$query_activity_atst = "Insert into activity_atst (user_name,activity_id,rol) VALUES('".$go[0]."',".$go[1].",".$go[2].")";
 		$result = mysqli_query($db_link,$query_activity_atst);
@@ -56,7 +56,7 @@
 	if(isset($_POST["chck"]))
 	{	
 		//Process to join as a staff
-		include("connectionDB.php");
+		include("conn.php");
 		$go = $_POST["chck"];
 		$query_chck = "Select * from activity_atst where activity_atst.user_name='".$go[0]."' and activity_atst.activity_id=".$go[1]."";
 		$result = mysqli_query($db_link,$query_chck);
@@ -71,7 +71,7 @@
 	if(isset($_POST["del"]))
 	{	
 		//Process to join as a staff
-		include("connectionDB.php");
+		include("conn.php");
 		$del = $_POST["del"];
 
 
@@ -104,7 +104,7 @@
 	if(isset($_POST["editV"]))
 	{
 		$editV = $_POST["editV"];
-		include("connectionDB.php");
+		include("conn.php");
 		$query_edit = "Update activity_notif set activity_notif_msg ='".$editV[0]."' where activity_notif_id=".$editV[2]."";
 		$result_edit = mysqli_query($db_link,$query_edit);
 		if($result_edit)
@@ -117,7 +117,7 @@
 	}
 	function alterStaff($activityId, $action)
 	{ // 1 adds 0 substracts in $action
-		include("connectionDB.php");
+		include("conn.php");
 		if($action==1){
 			$query_alter = "update activity_info set activity_staff_counter = activity_staff_counter + 1 where activity_id =".$activityId."";
 		}

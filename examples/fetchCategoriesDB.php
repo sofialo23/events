@@ -4,7 +4,7 @@
 
 	if(isset($_POST["loadThem"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$query_categories = "Select * from categories;";
 		$result_categories = mysqli_query($db_link,$query_categories);
 		if($result_categories)
@@ -22,7 +22,7 @@
 	}
 	if(isset($_POST["actId"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$actId = $_POST["actId"];
 		$query_cat = "Select * from activity_category where activity_id=".$actId.";";
 		$result_cat = mysqli_query($db_link,$query_cat);
@@ -43,7 +43,7 @@
 	//THIS FOLLOWING IF IS TO DELETE ALL THE DATA WITH THE ID AS 'delet'
 	if(isset($_POST["delet"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$actId = $_POST["delet"];
 		$query_delete = "Delete from activity_category where activity_id=".$actId[0].";";
 		$result_delete = mysqli_query($db_link,$query_delete);
@@ -57,7 +57,7 @@
 		//INSERTING DATA IN category_activity and
 		for($i=0; $i<$length; $i++)
 	    {
-	        include("connectionDB.php");
+	        include("conn.php");
 	        $query = "Insert into activity_category (activity_id,category_id)Values(".$idActivity.",".$listCat[$i].")";
 	        $result = mysqli_query($db_link,$query);
 	        if($result)

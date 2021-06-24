@@ -2,7 +2,7 @@
 	header('Content-Type: application/json');
 	if(isset($_POST["info"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$query_activities = "Select * from `activity_info` where 1;";
 		$result = mysqli_query($db_link,$query_activities);
 		if($result)
@@ -20,7 +20,7 @@
 	}
 	if(isset($_POST["id"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$id = $_POST["id"];
 		$query = "Select * from activity_info where activity_id=".$id.";"; 
 		$result = mysqli_query($db_link,$query);
@@ -48,7 +48,7 @@
 	}
 	if(isset($_POST["anss"]))
 	{
-		include("connectionDB.php");
+		include("conn.php");
 		$var = $_POST["anss"];
 		//$var[0] -> activityid
 		//$var[1] -> anouns

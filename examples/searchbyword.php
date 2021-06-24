@@ -5,9 +5,10 @@
       header("Location: ./loginpage.php");
   }
   $error = NULL;
-  $query =NULL;
+  $query = NULL;
 
-  $word = explode(" ", $_GET['keyword']);
+  $word = $_GET['keyword'];
+  //$word = explode(" ", $_GET['keyword']);
 
   $query ="SELECT * FROM activity_info WHERE activity_info like '%" . $word[0] . "%' OR activity_name like '%" . $word[0] . "%'";
    for($i = 1; $i < count($word); $i++) {
@@ -213,7 +214,7 @@
                         echo "</div>";
 
                         echo "<div class='col-md-8'>";
-                        echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='title' href='#'> more info </a></h4>";
+                        echo "<h4 class=card-category>" .$actdate[$counter]. "  &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;<a class='btn btn-primary' href='activitydetails.php?eventid=$id' id='".$row['activity_id']." '> more info </a></h4>";
                        // echo "<a class='title' href='#'> more info </a>";
                         echo "</div>";
                       echo "</div> ";

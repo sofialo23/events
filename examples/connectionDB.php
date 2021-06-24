@@ -2,13 +2,13 @@
 
 
 
-
+/*
 
   $hostname = "localhost";
   $username = "codeandwine";
   $password = "hzD-Ht2-TQe-3h8";
   $db = "codeandw_events";
-/*
+*/
   $hostname = "localhost";
   $username = "root";
   $password = "";
