@@ -251,3 +251,19 @@ session_start();
 </body>
 
 </html>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+            $("#keyword").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#search_btn").click();
+    }
+});
+    $("#search_btn").on('click',function(e){
+
+          var kw = $("#keyword").val();
+          window.location.href = "searchbyword.php?keyword="+kw;
+        });
+  });
+</script>

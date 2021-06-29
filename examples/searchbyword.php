@@ -10,9 +10,10 @@
   $word = $_GET['keyword'];
   //$word = explode(" ", $_GET['keyword']);
 
-  $query ="SELECT * FROM activity_info WHERE activity_info like '%" . $word[0] . "%' OR activity_name like '%" . $word[0] . "%'";
+  $query ="SELECT * FROM activity_info WHERE activity_info like '%" .$word. "%' OR activity_name like '%" .$word. "%'";
    for($i = 1; $i < count($word); $i++) {
-    if(!empty($word[$i])) {
+      
+       if(!empty($word[$i])) {
         $query .= " OR activity_info like '%" . $word[$i] . "%' OR activity_name like '%" . $word[$i] . "%'";
     }
    }
